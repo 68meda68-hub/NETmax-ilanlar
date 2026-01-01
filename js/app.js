@@ -8,9 +8,9 @@ const listingsData = [
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/205889/107/1/1767092602095",
     images: [
-      "images/yasin_akturk/1.JPEG",
-	  "images/yasin_akturk/3.JPEG",
-	  "images/yasin_akturk/5.JPEG"
+      "images/yasin_akturk/1.jpeg",
+	  "images/yasin_akturk/3.jpeg",
+	  "images/yasin_akturk/5.jpeg"
     ],
     rooms: "-",
     size: "106 m²",
@@ -322,4 +322,5 @@ nextBtn.addEventListener("click", (e) => {
   currentIndex = currentIndex === currentImages.length - 1 ? 0 : currentIndex + 1;
   showImage(currentIndex);
 });
+
 
