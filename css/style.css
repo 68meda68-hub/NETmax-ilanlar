@@ -233,9 +233,9 @@ body {
 .modal-actions a {
   flex: 1;
   text-align: center;
-  padding: 3px 0;
+  padding: 6px 0;
   border-radius: 1px;
-  font-size: 11px;
+  font-size: 12px;
   text-decoration: none;
   color: #fff;
   cursor: pointer;
@@ -343,4 +343,5 @@ body {
     max-width: 280px;
   }
 }
+
 
