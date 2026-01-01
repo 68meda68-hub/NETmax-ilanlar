@@ -177,7 +177,7 @@ body {
 
 .modal img {
   width: 100%;
-  aspect-ratio: 4 / 3;   /* 🔥 yüksekliği artırır */
+  aspect-ratio: 4 / 4;   /* 🔥 DİKEY – telefonda uzun */
   object-fit: cover;
   border-radius: 4px;
   display: block;
@@ -343,5 +343,6 @@ body {
     max-width: 280px;
   }
 }
+
 
 
