@@ -26,17 +26,17 @@ const listingsData = [
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126925/8244/1/1767093819711",
     images: [
-      "images/kadir_tekin/1.JPG",
-	  "images/kadir_tekin/2.JPG",
-	  "images/kadir_tekin/3.JPG",
-	  "images/kadir_tekin/4.JPG",
-	  "images/kadir_tekin/5.JPG",
-	  "images/kadir_tekin/6.JPG",
-	  "images/kadir_tekin/7.JPG",
-	  "images/kadir_tekin/8.JPG",
-	  "images/kadir_tekin/9.JPG",
-	  "images/kadir_tekin/10.JPG",
-	  "images/kadir_tekin/11.JPG"
+      "images/kadir_tekin/1.jpg",
+	  "images/kadir_tekin/2.jpg",
+	  "images/kadir_tekin/3.jpg",
+	  "images/kadir_tekin/4.jpg",
+	  "images/kadir_tekin/5.jpg",
+	  "images/kadir_tekin/6.jpg",
+	  "images/kadir_tekin/7.jpg",
+	  "images/kadir_tekin/8.jpg",
+	  "images/kadir_tekin/9.jpg",
+	  "images/kadir_tekin/10.jpg",
+	  "images/kadir_tekin/11.jpg"
     ],
     rooms: "3+1",
     size: "120 m²",
@@ -52,7 +52,7 @@ const listingsData = [
     zoning: "Konut Alanı E=0.90",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126920/3895/17/1767094781910",
     images: [
-      "images/satilik-arsa.JPG"
+      "images/satilik-arsa.jpg"
     ],
     rooms: "-",
     size: "816.15 m²",
@@ -68,7 +68,7 @@ const listingsData = [
     zoning: "Konut Alanı A-3",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/6920/5/1767095636317",
     images: [
-      "images/satilik-arsa.JPG"
+      "images/satilik-arsa.jpg"
     ],
     rooms: "-",
     size: "2168.48 m²",
@@ -84,7 +84,7 @@ const listingsData = [
     zoning: "Ticaret-Konut Alanı E=2.40",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126925/4553/1/1767096011253",
     images: [
-      "images/arazi-gelistirme.JPG"
+      "images/arazi-gelistirme.jpg"
     ],
     rooms: "-",
     size: "1230.00 m²",
@@ -100,7 +100,7 @@ const listingsData = [
     zoning: "Konut Alanı A-3",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4304/8/1767096659685",
     images: [
-      "images/satilik-arsa.JPG"
+      "images/satilik-arsa.jpg"
     ],
     rooms: "-",
     size: "426.32 m²",
@@ -116,13 +116,13 @@ const listingsData = [
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126926/901/10/1767096913469",
     images: [
-      "images/cengiz_iz/1.JPEG",
-	  "images/cengiz_iz/2.JPEG",
-	  "images/cengiz_iz/3.JPEG",
-	  "images/cengiz_iz/4.JPEG",
-	  "images/cengiz_iz/5.JPEG",
-	  "images/cengiz_iz/6.JPEG",
-	  "images/cengiz_iz/7.JPEG"
+      "images/cengiz_iz/1.jpeg",
+	  "images/cengiz_iz/2.jpeg",
+	  "images/cengiz_iz/3.jpeg",
+	  "images/cengiz_iz/4.jpeg",
+	  "images/cengiz_iz/5.jpeg",
+	  "images/cengiz_iz/6.jpeg",
+	  "images/cengiz_iz/7.jpeg"
     ],
     rooms: "3+1",
     size: "150 m²",
@@ -138,7 +138,7 @@ const listingsData = [
     zoning: "Konut Alanı A-3",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4301/8/1767098064916",
     images: [
-      "images/satilik-arsa.JPG"
+      "images/satilik-arsa.jpg"
     ],
     rooms: "-",
     size: "557.89 m²",
@@ -154,7 +154,7 @@ const listingsData = [
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126959/2320/18/1767098938147",
     images: [
-      "images/sammaz_ozmel/1.JPG"
+      "images/sammaz_ozmel/1.jpg"
     ],
     rooms: "-",
     size: "500 m²",
@@ -170,7 +170,7 @@ const listingsData = [
     zoning: "Konut Alanı E=0.90",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/3833/13/1767099705379",
     images: [
-      "images/satilik-arsa.JPG"
+      "images/satilik-arsa.jpg"
     ],
     rooms: "-",
     size: "1003.91 m²",
@@ -322,5 +322,6 @@ nextBtn.addEventListener("click", (e) => {
   currentIndex = currentIndex === currentImages.length - 1 ? 0 : currentIndex + 1;
   showImage(currentIndex);
 });
+
 
 
