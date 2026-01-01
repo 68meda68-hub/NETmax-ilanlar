@@ -154,7 +154,7 @@ const listingsData = [
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126959/2320/18/1767098938147",
     images: [
-      "images/sammaz_ozmel/1.jpg"
+      "images/sammaz_ozmel/1.JPG"
     ],
     rooms: "-",
     size: "500 m²",
@@ -322,6 +322,7 @@ nextBtn.addEventListener("click", (e) => {
   currentIndex = currentIndex === currentImages.length - 1 ? 0 : currentIndex + 1;
   showImage(currentIndex);
 });
+
 
 
 
