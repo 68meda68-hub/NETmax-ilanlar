@@ -53,7 +53,7 @@ const listingsData = [
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126920/3895/17/1767094781910",
 	cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
     images: [
-      "images/logo_2.PNG"                   // 🔥 MODAL
+      "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
     size: "816.15 m²",
@@ -70,7 +70,7 @@ const listingsData = [
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/6920/5/1767095636317",
     cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
     images: [
-      "images/logo_2.PNG"                   // 🔥 MODAL
+      "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
     size: "2168.48 m²",
@@ -103,7 +103,7 @@ const listingsData = [
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4304/8/1767096659685",
     cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
     images: [
-      "images/logo_2.PNG"                   // 🔥 MODAL
+      "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
     size: "426.32 m²",
@@ -142,7 +142,7 @@ const listingsData = [
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4301/8/1767098064916",
     cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
     images: [
-      "images/logo_2.PNG"                   // 🔥 MODAL
+      "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
     size: "557.89 m²",
@@ -175,7 +175,7 @@ const listingsData = [
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/3833/13/1767099705379",
     cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
     images: [
-      "images/logo_2.PNG"                   // 🔥 MODAL
+      "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
     size: "1003.91 m²",
@@ -333,4 +333,5 @@ nextBtn.addEventListener("click", (e) => {
   currentIndex = currentIndex === currentImages.length - 1 ? 0 : currentIndex + 1;
   showImage(currentIndex);
 });
+
 
