@@ -51,8 +51,9 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı E=0.90",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126920/3895/17/1767094781910",
+	cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
     images: [
-      "images/satilik-arsa.jpg"
+      "images/logo_2.PNG"                   // 🔥 MODAL
     ],
     rooms: "-",
     size: "816.15 m²",
@@ -67,8 +68,9 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı A-3",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/6920/5/1767095636317",
+    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
     images: [
-      "images/satilik-arsa.jpg"
+      "images/logo_2.PNG"                   // 🔥 MODAL
     ],
     rooms: "-",
     size: "2168.48 m²",
@@ -99,8 +101,9 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı A-3",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4304/8/1767096659685",
+    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
     images: [
-      "images/satilik-arsa.jpg"
+      "images/logo_2.PNG"                   // 🔥 MODAL
     ],
     rooms: "-",
     size: "426.32 m²",
@@ -137,8 +140,9 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı A-3",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4301/8/1767098064916",
+    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
     images: [
-      "images/satilik-arsa.jpg"
+      "images/logo_2.PNG"                   // 🔥 MODAL
     ],
     rooms: "-",
     size: "557.89 m²",
@@ -169,8 +173,9 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı E=0.90",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/3833/13/1767099705379",
+    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
     images: [
-      "images/satilik-arsa.jpg"
+      "images/logo_2.PNG"                   // 🔥 MODAL
     ],
     rooms: "-",
     size: "1003.91 m²",
@@ -213,8 +218,13 @@ function renderListings() {
     const card = document.createElement("article");
     card.className = "card";
 
+    // 🔥 LİSTE RESMİ MANTIĞI
+    const cardImg = item.cardImage 
+      ? item.cardImage 
+      : item.images[0]; // fallback
+
     card.innerHTML = `
-      <img src="${item.images[0]}" alt="İlan">
+      <img src="${cardImg}" alt="İlan">
       <div class="card-body">
         <h3>${item.title}</h3>
         <p class="location">${item.location}</p>
@@ -226,6 +236,7 @@ function renderListings() {
     listingsContainer.appendChild(card);
   });
 }
+
 
 renderListings();
 
@@ -322,7 +333,4 @@ nextBtn.addEventListener("click", (e) => {
   currentIndex = currentIndex === currentImages.length - 1 ? 0 : currentIndex + 1;
   showImage(currentIndex);
 });
-
-
-
 
