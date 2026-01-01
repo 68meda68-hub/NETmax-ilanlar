@@ -229,7 +229,7 @@ function renderListings() {
         <h3>${item.title}</h3>
         <p class="location">${item.location}</p>
         <div class="price">${formatPrice(item.price, item.currency)}</div>
-        <button class="detail-btn" data-id="${item.id}">Detay 🔍</button>
+        <button class="detail-btn" data-id="${item.id}">Detay&nbsp;&nbsp; 🔍</button>
       </div>
     `;
 
@@ -333,5 +333,6 @@ nextBtn.addEventListener("click", (e) => {
   currentIndex = currentIndex === currentImages.length - 1 ? 0 : currentIndex + 1;
   showImage(currentIndex);
 });
+
 
 
