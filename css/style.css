@@ -177,13 +177,19 @@ body {
 
 .modal img {
   width: 100%;
-  aspect-ratio: 4 / 4;   /* 🔥 DİKEY – telefonda uzun */
+  height: 120px;
   object-fit: cover;
   border-radius: 4px;
   display: block;
   margin-bottom: 10px;
 }
 
+.modal .slider #sliderImage {
+  width: 100%;
+  height: 260px;        /* 🔥 telefonda uzun */
+  object-fit: cover;
+  display: block;
+}
 
 .modal-body {
   padding: 8px;
@@ -343,6 +349,7 @@ body {
     max-width: 280px;
   }
 }
+
 
 
 
