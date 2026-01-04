@@ -9,11 +9,29 @@
 }
 
 body {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  background-color: #f0f0f0;
-  /* body padding kaldırıldı, boşluklar .app ve modal üzerinden kontrol edilecek */
+  padding: 48px 16px;
+
+  background:
+    /* soft ışık */
+    radial-gradient(circle at 20% 15%, rgba(255,215,0,0.10), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgba(0,0,0,0.08), transparent 40%),
+
+    /* noise / doku */
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,0,0,0.015) 0,
+      rgba(0,0,0,0.015) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+
+    /* ana zemin */
+    linear-gradient(180deg, #f1f1f1, #e6e6e6);
 }
+
 
 /* ============================= */
 /* TELEFON KONTEYNERİ */
@@ -485,6 +503,7 @@ body {
   color: blue;   /* senin istediğin renk */
   font-weight: 600;  /* opsiyonel */
 }
+
 
 
 
