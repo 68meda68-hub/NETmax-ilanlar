@@ -13,23 +13,7 @@ body {
   display: flex;
   justify-content: center;
   padding: 48px 16px;
-
-  background:
-    /* soft ışık */
-    radial-gradient(circle at 20% 15%, rgba(255,215,0,0.10), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(0,0,0,0.08), transparent 40%),
-
-    /* noise / doku */
-    repeating-linear-gradient(
-      45deg,
-      rgba(0,0,0,0.015) 0,
-      rgba(0,0,0,0.015) 1px,
-      transparent 1px,
-      transparent 3px
-    ),
-
-    /* ana zemin */
-    linear-gradient(180deg, #f1f1f1, #e6e6e6);
+  background-color: #c8ced6;
 }
 
 
@@ -455,6 +439,28 @@ body {
     0 0 10px rgba(255, 215, 0, 0.45);
 }
 
+/* 🔽 DENİZ MAVİSİ – ŞIK CHEVRON */
+.category-card {
+  padding-right: 56px; /* sayı + chevron */
+}
+
+.category-card::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+
+  border-right: 2px solid #2f7f8f;  /* deniz mavisi */
+  border-bottom: 2px solid #2f7f8f;
+
+  transform: translateY(-50%) rotate(45deg);
+  pointer-events: none;
+
+  /* hafif gölge / glow */
+  filter: drop-shadow(0 1px 2px rgba(47,127,143,0.5));
+}
 
 .back-btn {
   font-size: 13px;          /* biraz küçük */
@@ -503,6 +509,7 @@ body {
   color: blue;   /* senin istediğin renk */
   font-weight: 600;  /* opsiyonel */
 }
+
 
 
 
