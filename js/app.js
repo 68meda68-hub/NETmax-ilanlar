@@ -54,7 +54,7 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı , E=0.90",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126920/3895/17/1767094781910",
-	cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
+	cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -71,7 +71,7 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı , A-3",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/6920/5/1767095636317",
-    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -88,6 +88,7 @@ const listingsData = [
     currency: "-",
     zoning: "Ticaret-Konut Alanı,E=2.40",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126925/4553/1/1767096011253",
+	cardImage: "images/kat_karsiligi.png",   // 🔥 SADECE LİSTE
     images: [
       "images/arazi-gelistirme.jpg"
     ],
@@ -104,7 +105,7 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı , A-3",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4304/8/1767096659685",
-    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -143,7 +144,7 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı , A-3",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4301/8/1767098064916",
-    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -176,7 +177,7 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı , E=0.90",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/3833/13/1767099705379",
-    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -193,7 +194,7 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı , E=0.20",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/7280/5/1767371807761",
-    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -210,7 +211,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/204852/390/155/1767523900903",
-    cardImage: "images/satilik-tarla.jpeg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_tarla_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -227,7 +228,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/204852/390/145/1767524079126",
-    cardImage: "images/satilik-tarla.jpeg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_tarla_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -244,7 +245,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/0/365/1767524226417",
-    cardImage: "images/satilik-tarla.jpeg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_tarla_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -261,7 +262,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/0/326/1767524380516",
-    cardImage: "images/satilik-tarla.jpeg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_tarla_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -278,7 +279,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/0/2347/1767524459483",
-    cardImage: "images/satilik-tarla.jpeg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_tarla_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -295,7 +296,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/6/1767525549081",
-    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -312,7 +313,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/5/1767525843966",
-    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -329,7 +330,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/4/1767525967125",
-    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -346,7 +347,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/3/1767526106535",
-    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
@@ -363,17 +364,76 @@ const listingsData = [
     currency: "TRY",
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/2/1767526168481",
-    cardImage: "images/satilik-arsa.jpg",   // 🔥 SADECE LİSTE
+    cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
     size: "987 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	features: "-"
+  }, 		// ← Yeni ilanlar
+  {
+    id: 22,
+    title: "3+1 Daire",
+    location: "Hassas Mah / Aksaray",
+    price: 6000000,
+    currency: "TRY",
+    zoning: "-",
+	parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/2962/16/1767696591901",
+    cardImage: "images/emin_acar/1.jpeg",   // 🔥 SADECE LİSTE
+    images: [
+      "images/emin_acar/1.jpeg",                  // 🔥 MODAL
+	  "images/emin_acar/2.jpeg",
+	  "images/emin_acar/3.jpeg",
+	  "images/emin_acar/4.jpeg",
+	  "images/emin_acar/5.jpeg",
+	  "images/emin_acar/6.jpeg",
+	  "images/emin_acar/7.jpeg",
+	  "images/emin_acar/8.jpeg"
+    ],
+    rooms: "3+1",
+    size: "155 m²",
+    floor: "3",
+    age: "1",
+	features: "Kombili,Cam Balkonlu",
+	swap: "Araç Takaslı"
+  },
+  {
+    id: 23,
+    title: "Dükkan",
+    location: "B.Bölcek Mah / Aksaray",
+    price: "2000 / m²",
+    currency: "EUR",
+    zoning: "-",
+    parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126914/4466/6/1767641262460",
+    cardImage: "images/satilik_dukkan_2.png",   // 🔥 SADECE LİSTE
+    images: [
+      "images/logo_2.png"                   // 🔥 MODAL
+    ],
+    rooms: "-",
+    size: "450 m²",
+    floor: "-",
+    age: "-",
+	features: "-"
   }
   
 ];
+
+/* =========================
+title:        "Başlık",
+location:     "Konum",
+price:        "Fiyat",
+currency:     "Para Birimi",
+rooms:        "Oda",
+size:         "Alan",
+floor:        "Kat",
+age:          "Bina Yaşı",
+zoning:       "İmar Durumu",
+features:     "Özellikler",
+swap:         "Takas"
+========================= */
 
 /* =========================
    ELEMENT
@@ -418,43 +478,48 @@ function getCategories() {
 /* ----------------------------
    KATEGORİLER
 ---------------------------- */
+
 function getCategories() {
   // 🔥 istediğin sırada kategoriler
   return ["Arsa", "Dükkan", "3+1 Daire", "Kat Karşılığı Arsa", "Tarla"];
 }
 
-/* ----------------------------
+/* =========================
    RENDER KATEGORİLER
----------------------------- */
-function renderCategories() {
+========================= */
+function renderCategories(lastUpdate = "05.01.2026") {
   listingsContainer.innerHTML = "";
 
+  // --- ÜST BAŞLIK ---
+	const titleBar = document.createElement("div");
+	titleBar.className = "category-title-bar";
+	titleBar.innerHTML = "🏷️&nbsp;&nbsp;İlan Kategorileri";
+	listingsContainer.appendChild(titleBar);
+
+  // --- Kategori Listesi ---
   const wrapper = document.createElement("div");
   wrapper.className = "category-grid";
 
   getCategories().forEach(title => {
-    // 👉 kategoriye ait ilan sayısı
-    const count = listingsData.filter(
-      item => item.title === title
-    ).length;
+    const count = listingsData.filter(item => item.title === title).length;
 
     const card = document.createElement("div");
     card.className = "category-card";
-
-    // 👉 başlık + sayı
     card.innerHTML = `${title}<span class="count">(${count})</span>`;
 
-
-    card.addEventListener("click", () => {
-      renderCategoryListings(title);
-    });
+    card.onclick = () => renderCategoryListings(title);
 
     wrapper.appendChild(card);
   });
 
   listingsContainer.appendChild(wrapper);
-}
 
+  // --- ALTTA SON GÜNCELLEME ---
+	const updateBar = document.createElement("div");
+	updateBar.className = "update-date";
+	updateBar.textContent = `Son Güncelleme: ${lastUpdate}`;
+	listingsContainer.appendChild(updateBar);
+}
 
 /* =========================
    KATEGORİ İLANLARI
@@ -469,7 +534,10 @@ function renderCategoryListings(title) {
     <span class="back-btn">← Kategorilere Dön</span>
     <span class="category-title">${title}</span>
   `;
-  categoryBar.querySelector(".back-btn").onclick = renderCategories;
+
+  categoryBar.querySelector(".back-btn").onclick =
+    () => renderCategories("05.01.2026");
+
   categoryBar.querySelector(".category-title").classList.add("active");
   listingsContainer.appendChild(categoryBar);
 
@@ -499,7 +567,6 @@ function renderCategoryListings(title) {
         </div>
       `;
 
-      // Başlangıçta opaklığı sıfır yapıyoruz (fade-in için)
       card.style.opacity = 0;
       card.style.transform = "translateY(10px)";
       card.style.transition = "all 0.25s ease";
@@ -509,37 +576,43 @@ function renderCategoryListings(title) {
 
   listingsContainer.appendChild(fragment);
 
-  // --- Fade-in Animasyonu (Lazy image ile uyumlu) ---
+  // --- Fade-in Animasyonu ---
   const cards = listingsContainer.querySelectorAll(".card");
   cards.forEach(card => {
     const img = card.querySelector(".card-img");
 
-    // Resim yüklendiğinde animasyonu başlat
     if (img.complete) {
-      // Zaten yüklüyse hemen göster
       requestAnimationFrame(() => {
         card.style.opacity = 1;
         card.style.transform = "translateY(0)";
       });
     } else {
-      img.onload = () => {
+      img.addEventListener("load", () => {
         requestAnimationFrame(() => {
           card.style.opacity = 1;
           card.style.transform = "translateY(0)";
         });
-      };
+      });
     }
   });
 
-  // Scroll başa al
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
 
 
 /* =========================
    MODAL (AYNI – BOZULMAZ)
 ========================= */
+function setField(el, label, value) {
+  if (value && value !== "-") {
+    el.innerHTML = `${label}: <span class="value-colored">${value}</span>`;
+    el.style.display = "";
+  } else {
+    el.style.display = "none";
+  }
+}
+
+
 document.addEventListener("click", e => {
   if (!e.target.classList.contains("detail-btn")) return;
 
@@ -553,12 +626,14 @@ document.addEventListener("click", e => {
   modalTitle.textContent = item.title;
   modalLocation.textContent = item.location;
   modalPrice.textContent = formatPrice(item.price, item.currency);
-  modalRooms.innerHTML   = `Oda: <span class="value-colored">${item.rooms !== "-" ? item.rooms : ""}</span>`;
-  modalSize.innerHTML    = `Alan: <span class="value-colored">${item.size !== "-" ? item.size : ""}</span>`;
-  modalFloor.innerHTML   = `Kat: <span class="value-colored">${item.floor !== "-" ? item.floor : ""}</span>`;
-  modalAge.innerHTML     = `Yaş: <span class="value-colored">${item.age !== "-" ? item.age : ""}</span>`;
-  modalZoning.innerHTML  = `İmar: <span class="value-colored">${item.zoning !== "-" ? item.zoning : ""}</span>`;
 
+  setField(modalRooms,    "Oda",      item.rooms);
+  setField(modalSize,     "Alan",     item.size);
+  setField(modalFloor,    "Kat",      item.floor);
+  setField(modalAge,      "Yaş",      item.age);
+  setField(modalZoning,   "İmar",     item.zoning);
+  setField(modalFeatures, "Özellik",  item.features);
+  setField(modalSwap,     "Takas",    item.swap);
 
   if (item.parcelUrl) {
     parcelBtn.style.display = "inline-block";
@@ -569,6 +644,7 @@ document.addEventListener("click", e => {
 
   modalOverlay.style.display = "flex";
 });
+
 
 /* =========================
    SLIDER
