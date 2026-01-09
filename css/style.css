@@ -57,43 +57,6 @@ body {
   object-fit: contain;
 }
 
-/* 🧭 Yol Tarifi Butonu */
-.map-marker {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  font-size: 12px;
-  font-weight: 600;
-  text-decoration: none;
-  color: #1a73e8;                 /* Google Maps mavisi */
-  background: #f1f3f4;
-  border-radius: 999px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-  transition: all .2s ease;
-}
-
-/* İkon */
-.map-icon {
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
-}
-
-/* Hover */
-.map-marker:hover {
-  background: #e8f0fe;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-/* Mobil dokunma */
-.map-marker:active {
-  transform: scale(0.95);
-}
-
 .filter-btn {
   background: #000;
   color: #fff;
@@ -576,6 +539,7 @@ body {
   color: blue;   /* senin istediğin renk */
   font-weight: 600;  /* opsiyonel */
 }
+
 
 
 
