@@ -57,6 +57,32 @@ body {
   object-fit: contain;
 }
 
+.map-marker {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #1a73e8;
+  background: #f1f3f4;
+  border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: all .2s ease;
+}
+
+/* 🔥 SVG ikon boyutu – HER CİHAZDA AYNI */
+.map-icon {
+  width: 14px;      /* burayı büyütüp küçültebilirsin */
+  height: 14px;
+  min-width: 14px; /* flex içinde ezilmesin */
+  fill: currentColor;
+}
+
 .filter-btn {
   background: #000;
   color: #fff;
@@ -539,6 +565,7 @@ body {
   color: blue;   /* senin istediğin renk */
   font-weight: 600;  /* opsiyonel */
 }
+
 
 
 
