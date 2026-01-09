@@ -64,24 +64,40 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 10px;
+  padding: 6px 12px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
-  color: #1a73e8;
-  background: #f1f3f4;
+  color: #b88b29;
+
+  /* ✅ KART ZEMİNİ İLE AYNI */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.08),
+    rgba(255, 215, 0, 0.02)
+  );
+
   border-radius: 999px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 10px rgba(0,0,0,.14);
   transition: all .2s ease;
 }
 
-/* 🔥 SVG ikon boyutu – HER CİHAZDA AYNI */
 .map-icon {
-  width: 14px;      /* burayı büyütüp küçültebilirsin */
+  width: 14px;
   height: 14px;
-  min-width: 14px; /* flex içinde ezilmesin */
   fill: currentColor;
 }
+
+.map-marker:hover {
+  color: #b88b29;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.18);
+}
+
+.map-marker:active {
+  transform: scale(0.96);
+}
+
 
 .filter-btn {
   background: #000;
@@ -565,6 +581,7 @@ body {
   color: blue;   /* senin istediğin renk */
   font-weight: 600;  /* opsiyonel */
 }
+
 
 
 
