@@ -68,7 +68,7 @@ body {
   font-size: 12px;
   font-weight: 500;
   text-decoration: none;
-  color: #b88b29;
+  color: #8b5c18;
 
   /* ✅ KART ZEMİNİ İLE AYNI */
   background: linear-gradient(
@@ -581,6 +581,7 @@ body {
   color: blue;   /* senin istediğin renk */
   font-weight: 600;  /* opsiyonel */
 }
+
 
 
 
