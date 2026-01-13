@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İmar Eğitimi: TAKS & KAKS</title>
+<style>
+:root{
+  --gold:#b88b29;
+  --bg:#111;
+  --plot:#222;
+  --line:#555;
+  --road:#666;
+  --inner:#2a2a2a;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--bg); color:#fff; font-family:system-ui, Arial, sans-serif;
+  min-height:100vh; display:flex; justify-content:center; align-items:center;
+}
+.app{
+  width:min(95vw,420px); text-align:center; user-select:none; cursor:pointer;
+}
+h1{font-size:18px; color:var(--gold); margin:6px 0;}
+.subtitle{font-size:13px; opacity:.8; margin-bottom:10px;}
+.plot{
+  position:relative; width:100%; aspect-ratio:1/1; margin:0 auto;
+  background:var(--plot); border:2px solid var(--line); border-radius:12px; overflow:hidden;
+}
+.label{
+  position:absolute; left:50px; top:30px; font-size:12px; opacity:.8;
+}
+.road {
+  position: absolute;
+  top: 10px;             
+  right: 100px;         /* parselin sağının dışına taşı */
+  width: 50px;           
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  line-height: 18px;
+  transform: translateY(-50%);
+  z-index: 10;          
+  opacity: 0;           /* BAŞLANGIÇTA GİZLİ */
+  transition: opacity 1s ease;
+}
+
+.inner-area{
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  border:2px dashed var(--gold); background:transparent; z-index:1;
+  transition: all 1s ease; opacity: 0;  
+}
+.taks-area{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:0%; height:0%; background:var(--gold); z-index:2;
+  transition: width 1s ease, height 1s ease;
+}
+.building-svg{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:0; height:0; opacity:0; z-index:3;
+  transition: width 1s ease, height 1s ease, opacity 0.5s ease;
+}
+.stats{margin-top:10px; font-size:13px;}
+.hl{color:var(--gold); font-weight:700;}
+.card{
+  margin-top:10px; padding:10px; border:1px dashed var(--line); border-radius:10px; font-size:12px; line-height:1.4;
+}
+.hint{margin-top:8px; font-size:12px; opacity:.7;}
+
+.building-svg{
+  position:absolute;
+  top:50%; left:50%; transform:translate(-50%,-50%);
+  width:0; height:0; opacity:0;
+  z-index:3;
+  overflow:hidden; /* yükseklik animasyonu için */
+  transition: height 2s ease, opacity 1.5s ease;
+}
+
+.setback-label{
+  position: absolute;
+  font-size: 11px;
+  color: var(--gold);
+  background: #222a; /* hafif şeffaf koyu arka plan */
+  padding: 2px 4px;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;           /* başlangıçta görünmez */
+  transition: opacity 1.5s ease;
+}
+
+/* Konumlandırma */
+#setbackTop{
+  top: 0; left: 50%; transform: translateX(-50%);
+}
+
+#setbackBottom{
+  bottom: 5%; left: 50%; transform: translateX(-50%);
+}
+
+/* Sol kenar: yatay, içe kaymış */
+#setbackLeft{
+  top: 50%; left: 5%; /* biraz içe kaydırdık */
+  transform: translateY(-50%);
+  white-space: nowrap; /* satır kırılmasın */
+}
+
+/* Sağ kenar: yatay, biraz içe kaydır */
+#setbackRight{
+  top: 50%; right: 5%; /* biraz içe kaydırdık */
+  transform: translateY(-50%);
+  white-space: nowrap;
+}
+
+
+
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <h1>İmar Eğitimi</h1>
+  <div class="subtitle" id="info">Tıklayın ve adım adım öğrenin</div>
+
+  <div class="plot">
+    <div class="label" id="label">Arsa: 1000 m²</div>
+    <div class="road" id="road">Yol </div>
+    <div class="inner-area" id="inner"></div>
+    <div class="taks-area" id="taksArea"></div>
+	
+	<!-- Çekme mesafeleri etiketleri -->
+   <!-- Çekme mesafeleri etiketleri -->
+  <div class="setback-label" id="setbackTop">5 m</div>
+  <div class="setback-label" id="setbackRight">3 m</div>
+  <div class="setback-label" id="setbackBottom">3 m</div>
+  <div class="setback-label" id="setbackLeft">3 m</div>
+
+    <!-- Bina SVG -->
+    <svg class="building-svg" id="buildingSVG" viewBox="0 0 900 760" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="900" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#c02a12"/>
+      <stop offset="50%" stop-color="#f4d98a"/>
+      <stop offset="100%" stop-color="#b88b29"/>
+    </linearGradient>
+
+    <linearGradient id="windowGlow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdf6d5"/>
+      <stop offset="100%" stop-color="#e8c56a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ALT ÇİZGİ -->
+  <line x1="170" y1="670" x2="730" y2="670"
+        stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Sol dik kolon -->
+  <line x1="170" y1="670" x2="170" y2="180"
+        stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Sağ dik kolon -->
+  <line x1="730" y1="670" x2="730" y2="180"
+        stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- ÇATI (30px uzatılmış) -->
+  <polyline points="140,180 450,65 760,180"
+    stroke="url(#gold)" stroke-width="12" fill="none" stroke-linecap="round"/>
+
+  <!-- BİNA İÇİ ARKA PLAN (içine pencereler eklenecek alan) -->
+  <rect x="170" y="180" width="560" height="490" fill="#1a1a1a" opacity="0.55"/>
+
+  <!-- PENCERE GRUPLARI -->
+  <g fill="url(#windowGlow)" stroke="#000" stroke-width="1" opacity="0.85">
+
+    <!-- satır 1 -->
+    <rect x="210" y="220" width="60" height="40" rx="4"/>
+    <rect x="310" y="220" width="60" height="40" rx="4"/>
+    <rect x="410" y="220" width="60" height="40" rx="4"/>
+    <rect x="510" y="220" width="60" height="40" rx="4"/>
+    <rect x="610" y="220" width="60" height="40" rx="4"/>
+
+    <!-- satır 2 -->
+    <rect x="210" y="300" width="60" height="40" rx="4"/>
+    <rect x="310" y="300" width="60" height="40" rx="4"/>
+    <rect x="410" y="300" width="60" height="40" rx="4"/>
+    <rect x="510" y="300" width="60" height="40" rx="4"/>
+    <rect x="610" y="300" width="60" height="40" rx="4"/>
+
+    <!-- satır 3 -->
+    <rect x="210" y="380" width="60" height="40" rx="4"/>
+    <rect x="310" y="380" width="60" height="40" rx="4"/>
+    <rect x="410" y="380" width="60" height="40" rx="4"/>
+    <rect x="510" y="380" width="60" height="40" rx="4"/>
+    <rect x="610" y="380" width="60" height="40" rx="4"/>
+
+    <!-- satır 4 -->
+    <rect x="210" y="460" width="60" height="40" rx="4"/>
+    <rect x="310" y="460" width="60" height="40" rx="4"/>
+    <rect x="410" y="460" width="60" height="40" rx="4"/>
+    <rect x="510" y="460" width="60" height="40" rx="4"/>
+    <rect x="610" y="460" width="60" height="40" rx="4"/>
+  </g>
+
+  <!-- BALKON (ortada bir şerit çıkıntı) -->
+  <rect x="170" y="520" width="560" height="18" fill="#00000080"/>
+  <line x1="170" y1="538" x2="730" y2="538" stroke="#c9c9c9" stroke-width="2"/>
+
+  <!-- KAPI -->
+  <rect x="395" y="538" width="110" height="130" rx="8" fill="#252525" stroke="url(#gold)" stroke-width="4"/>
+    </svg>
+
+  </div>
+
+  <div class="stats" id="stats">
+    TAKS: <span class="hl">—</span> | KAKS: <span class="hl">—</span>
+  </div>
+
+  <div class="card" id="card">Tıklayın, adım adım öğrenin.</div>
+  <div class="hint">👆 Ekrana tıkla</div>
+</div>
+
+<script>
+const ARSA=1000, TAKS=0.3, KAKS=1.2, YUKSEKLIK=12;
+const CEKME_YOL=5, CEKME_DIGER=3;
+
+const inner=document.getElementById("inner");
+const taksArea=document.getElementById("taksArea");
+const buildingSVG=document.getElementById("buildingSVG");
+const info=document.getElementById("info");
+const stats=document.getElementById("stats");
+const card=document.getElementById("card");
+const road=document.getElementById("road");
+
+let step=0;
+
+const tabanM2=Math.round(ARSA*TAKS);
+const toplamM2=Math.round(ARSA*KAKS);
+
+function resetAll(){
+  inner.style.width="0"; inner.style.height="0";
+  taksArea.style.width="0"; taksArea.style.height="0"; taksArea.style.opacity=0;
+  buildingSVG.style.width="0"; buildingSVG.style.height="0"; buildingSVG.style.opacity=0;
+
+  // çekme etiketleri
+  document.getElementById("setbackTop").style.opacity = 0;
+  document.getElementById("setbackRight").style.opacity = 0;
+  document.getElementById("setbackBottom").style.opacity = 0;
+  document.getElementById("setbackLeft").style.opacity = 0;
+  document.getElementById("road").style.opacity = 1;
+
+  // yol yazısı
+  road.style.opacity = 0;
+
+  stats.innerHTML=`TAKS: <span class="hl">—</span> | KAKS: <span class="hl">—</span>`;
+  stats.style.opacity = 1;
+  card.innerHTML="Tıklayın, adım adım öğrenin.";
+  card.style.opacity = 1;
+  info.textContent="Tıklayın ve adım adım öğrenin";
+
+  step=0;
+}
+
+
+
+document.getElementById("app").addEventListener("click", () => {
+  step++;
+
+  if(step === 1){
+  info.textContent = "Yol ve diğer kenar çekmeleri gösteriliyor";
+
+  // Yol yazısı yavaşça görünür
+  road.style.opacity = 1;
+
+  // Inner area yavaşça açılır
+  inner.style.transition = "width 1s ease, height 1s ease, opacity 1s ease";
+  inner.style.width = "94%";
+  inner.style.height = "92%";
+  inner.style.top = "5%";
+  inner.style.left = "3%";
+  inner.style.opacity = 1;
+
+  card.innerHTML = "İç alan hazırlandı.";
+
+  // Çekme etiketleri yavaşça görünür
+  document.getElementById("setbackTop").style.transition = "opacity 1s ease";
+  document.getElementById("setbackRight").style.transition = "opacity 1s ease";
+  document.getElementById("setbackBottom").style.transition = "opacity 1s ease";
+  document.getElementById("setbackLeft").style.transition = "opacity 1s ease";
+
+  document.getElementById("setbackTop").style.opacity = 1;
+  document.getElementById("setbackRight").style.opacity = 1;
+  document.getElementById("setbackBottom").style.opacity = 1;
+  document.getElementById("setbackLeft").style.opacity = 1;
+}
+
+
+
+
+  if(step === 2){
+    info.textContent = "TAKS alanı parselin içinde ortada";
+    taksArea.style.transition = "width 1.5s ease, height 1.5s ease, opacity 1.5s ease";
+    taksArea.style.width = (TAKS*94) + "%";
+    taksArea.style.height = "35%";
+    taksArea.style.opacity = 1;
+    stats.innerHTML = `TAKS: <span class="hl">${TAKS}</span> | KAKS: <span class="hl">—</span>`;
+    card.innerHTML = `Taban alan: ${tabanM2} m²`;
+  }
+
+  if(step === 3){
+    info.textContent = "KAKS hesabı gösteriliyor";
+    // Bina henüz gelmeyecek
+    // KAKS değeri göster
+    stats.innerHTML = `TAKS: <span class="hl">${TAKS}</span> | KAKS: <span class="hl">${KAKS}</span>`;
+    card.innerHTML = `KAKS hesaplandı: ${toplamM2} m²`;
+  }
+
+  if(step === 4){
+    info.textContent = "KAKS alanı kayboluyor, bina ve sonuçlar geliyor";
+
+    // KAKS alanı yavaşça kaybolsun
+    taksArea.style.transition = "opacity 2s ease";
+    taksArea.style.opacity = 0;
+
+    // Bina yavaşça yükselecek
+    buildingSVG.style.transition = "height 2s ease, opacity 2s ease, width 2s ease";
+    buildingSVG.style.width = "90%";
+    buildingSVG.style.opacity = 1;
+    let h = 0;
+    const targetH = 90;
+    const interval = setInterval(() => {
+      h += 2;
+      buildingSVG.style.height = h + "%";
+      if(h >= targetH){
+        clearInterval(interval);
+
+        // Hesaplar yavaşça gelsin
+        stats.style.opacity = 0;
+        card.style.opacity = 0;
+
+        setTimeout(() => {
+          stats.innerHTML = `TAKS: <span class="hl">${TAKS}</span> | KAKS: <span class="hl">${KAKS}</span>`;
+          card.innerHTML = `<b>Bu imarla ne yapılabilir?</b><br>
+                            Taban: ${tabanM2} m²<br>
+                            KAKS toplam: ${toplamM2} m²<br>
+                            Yükseklik: ${YUKSEKLIK} m<br>
+                            Çekme: Yol 5 m, diğer 3 m<br>
+                            → Apartman / Ofis uygundur`;
+
+          stats.style.transition = "opacity 2s ease";
+          card.style.transition = "opacity 2s ease";
+
+          stats.style.opacity = 1;
+          card.style.opacity = 1;
+        }, 500); // 0.5s gecikme
+      }
+    }, 50);
+  }
+
+  if(step > 4){
+    resetAll();
+  }
+});
+
+</script>
+
+</body>
+</html>
