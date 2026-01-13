@@ -381,7 +381,6 @@ const listingsData = [
     price: 6000000,
     currency: "TRY",
     zoning: "-",
-	parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/2962/16/1767696591901",
     cardImage: "images/emin_acar/1.jpeg",   // 🔥 SADECE LİSTE
     images: [
       "images/emin_acar/1.jpeg",                  // 🔥 MODAL
@@ -394,7 +393,7 @@ const listingsData = [
 	  "images/emin_acar/8.jpeg"
     ],
     rooms: "3+1",
-    size: "155 m²",
+    size: "150 m²",
     floor: "3",
     age: "1",
 	features: "Kombili,Cam Balkonlu",
@@ -413,7 +412,7 @@ const listingsData = [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "450 m²",
+    size: "400 m²",
     floor: "-",
     age: "-",
 	features: "-"
@@ -491,10 +490,10 @@ function renderCategories(lastUpdate = "05.01.2026") {
   listingsContainer.innerHTML = "";
 
   // --- ÜST BAŞLIK ---
-	const titleBar = document.createElement("div");
-	titleBar.className = "category-title-bar";
-	titleBar.innerHTML = "🏷️&nbsp;&nbsp;İlan Kategorileri";
-	listingsContainer.appendChild(titleBar);
+  const titleBar = document.createElement("div");
+  titleBar.className = "category-title-bar";
+  titleBar.innerHTML = "🏷️&nbsp;&nbsp;İlan Kategorileri";
+  listingsContainer.appendChild(titleBar);
 
   // --- Kategori Listesi ---
   const wrapper = document.createElement("div");
@@ -506,7 +505,6 @@ function renderCategories(lastUpdate = "05.01.2026") {
     const card = document.createElement("div");
     card.className = "category-card";
     card.innerHTML = `${title}<span class="count">(${count})</span>`;
-
     card.onclick = () => renderCategoryListings(title);
 
     wrapper.appendChild(card);
@@ -515,11 +513,39 @@ function renderCategories(lastUpdate = "05.01.2026") {
   listingsContainer.appendChild(wrapper);
 
   // --- ALTTA SON GÜNCELLEME ---
-	const updateBar = document.createElement("div");
-	updateBar.className = "update-date";
-	updateBar.textContent = `Son Güncelleme: ${lastUpdate}`;
-	listingsContainer.appendChild(updateBar);
+  const updateBar = document.createElement("div");
+  updateBar.className = "update-date";
+  updateBar.textContent = `Son Güncelleme: ${lastUpdate}`;
+  listingsContainer.appendChild(updateBar);
+
+  // =========================
+  //  ALTTA GERİ İKONU
+  // =========================
+  const backWrap = document.createElement("div");
+  backWrap.className = "back-wrap";
+
+  const backBtn = document.createElement("button");
+	backBtn.className = "enter-btn back-btn";   // 👈 enter-btn stili
+	backBtn.innerHTML = "👈 Geri";
+
+	backBtn.onclick = () => {
+	  const intro = document.getElementById("introScreen");
+	  if (!intro) return;
+
+	  intro.style.display = "flex";
+	  intro.style.opacity = "0";
+
+	  setTimeout(() => {
+		intro.style.transition = "opacity .3s ease";
+		intro.style.opacity = "1";
+	  }, 10);
+	};
+
+
+  backWrap.appendChild(backBtn);
+  listingsContainer.appendChild(backWrap);
 }
+
 
 /* =========================
    KATEGORİ İLANLARI
@@ -688,3 +714,17 @@ modalOverlay.addEventListener("click", (e) => {
   }
 });
 
+
+document.addEventListener("DOMContentLoaded", () => {
+      const intro = document.getElementById("introScreen");
+      const btn = document.getElementById("enterBtn");
+
+      btn.addEventListener("click", () => {
+        intro.style.opacity = "0";
+        intro.style.transition = "opacity .4s ease";
+
+        setTimeout(() => {
+          intro.style.display = "none";
+        }, 400);
+      });
+    });
