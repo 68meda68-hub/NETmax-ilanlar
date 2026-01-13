@@ -621,27 +621,29 @@ body {
       display: block;
     }
 
-    .enter-btn {
-      padding: 6px 16px;
-      border: none;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      color: #111;
-      background: linear-gradient(135deg, #d4af37, #fff1a8);
-      box-shadow: 0 4px 12px rgba(212,175,55,0.45);
-      transition: all .2s ease;
-    }
+  .enter-btn {
+	  padding: 6px 16px;
+	  border: none;
+	  border-radius: 999px;
+	  font-size: 14px;
+	  font-weight: 700;
+	  cursor: pointer;
+	  color: #111;
+	  background: linear-gradient(135deg, #d4af37, #fff1a8);
+	  box-shadow: 0 4px 12px rgba(212,175,55,0.45);
+	  transition: all .2s ease;
+	  display: block;
+	  margin: 10px auto 0 auto; /* Alt boşluk + ortalama */
+	}
 
-    .enter-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(212,175,55,0.65);
-    }
+	.enter-btn:hover {
+	  transform: translateY(-2px);
+	  box-shadow: 0 6px 16px rgba(212,175,55,0.65);
+	}
 
-    .enter-btn:active {
-      transform: scale(0.96);
-    }
+	.enter-btn:active {
+	  transform: scale(0.96);
+	}
 
     @keyframes glow {
       0%   { filter: drop-shadow(0 0 4px rgba(184,139,41,0.4)); }
@@ -666,6 +668,175 @@ body {
 .back-btn::after {
   content: none !important;
 }
+
+
+
+#introSlogan {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  max-width: 90vw;
+  overflow: hidden;
+  white-space: nowrap;
+
+  font-size: clamp(13px, 4vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: #b88b29;
+  text-align: center;
+
+  opacity: 0;
+  filter: blur(3px);
+  will-change: opacity, filter, transform;
+  backface-visibility: hidden;
+
+  /* ⚠️ transform artık ANİMASYONDA yönetilecek */
+}
+
+
+/* NORMAL SLOGAN */
+#introSlogan {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+
+  max-width: 90vw;
+  white-space: nowrap;
+  text-align: center;
+
+  font-size: clamp(13px, 4vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: #b88b29;
+
+  opacity: 0;
+  filter: blur(0);
+  will-change: opacity, filter, transform;
+}
+
+/* NORMAL */
+#introSlogan.animate {
+  animation: sloganNormal 7s ease-in-out forwards;
+}
+
+@keyframes sloganNormal {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ÖZEL: büyüyerek gelir → sonda küçülerek kaybolur */
+#introSlogan.animate.special {
+  animation: sloganSpecial 7s ease-in-out forwards;
+}
+
+@keyframes sloganSpecial {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.10); /* 👈 biraz daha büyüdü */
+  }
+
+  70% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.10);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);  /* küçülerek kaybolur */
+  }
+}
+
+
+/* Vurgu */
+#introSlogan .slogan-highlight {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Dropdown kapsayıcı */
+/* Container relative olmalı */
+.container {
+  position: relative;
+  display: inline-block;
+  margin: 30px auto; /* ekrana ortalamak için */
+}
+
+/* Dropdown kutusu */
+.dropdown {
+  display: none; /* başta gizli */
+  position: absolute;
+  top: 105%;     /* butonun biraz altında açılır */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.75); /* yarı saydam beyaz zemin */
+  border-radius: 5px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  min-width: 130px;
+  overflow: hidden;
+  z-index: 1000;
+  transition: all 0.2s ease;
+}
+
+/* Açıldığında animasyon */
+.dropdown.show {
+  display: block;
+  animation: dropdownFade 0.2s ease;
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Dropdown öğeleri */
+.dropdown-item {
+  padding: 8px 12px;  /* padding azaltıldı */
+  cursor: pointer;
+  font-size: 14px;
+  color: #111;
+  transition: background 0.2s, color 0.2s;
+  text-align: center;
+}
+
+/* Hover efekti */
+.dropdown-item:hover {
+  background: linear-gradient(135deg, #d4af37, #fff1a8);
+  color: #111;
+  transform: scale(1.02);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
