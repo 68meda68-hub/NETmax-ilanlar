@@ -51,12 +51,15 @@ body {
 
 /* Logo */
 .site-logo {
+  position: fixed;
+  left: 80px;
   max-height: 72px;
   width: auto;
   height: auto;
   object-fit: contain;
 }
 
+/* 🧭 Yol Tarifi Butonu */
 .map-marker {
   position: absolute;
   right: 8px;
@@ -97,6 +100,8 @@ body {
 .map-marker:active {
   transform: scale(0.96);
 }
+
+
 
 
 .filter-btn {
@@ -582,14 +587,85 @@ body {
   font-weight: 600;  /* opsiyonel */
 }
 
+/* =========================
+       INTRO / GİRİŞ EKRANI
+    ========================= */
+    .intro-screen {
+      position: fixed;
+      inset: 0;
+      background: #22262c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .intro-content {
+      text-align: center;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .intro-logo {
+		width: 300px;          /* 🔥 Burayı büyüttük */
+		max-width: 90vw;      /* Mobilde taşmasın */
+		margin: 0 auto 24px;
+		animation: glow 2.5s ease-in-out infinite;
+		
+		transform: translateY(-40px);   /* 🔼 KESİN yukarı alır */
+	}
 
 
+    .intro-logo svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .enter-btn {
+      padding: 6px 16px;
+      border: none;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #111;
+      background: linear-gradient(135deg, #d4af37, #fff1a8);
+      box-shadow: 0 4px 12px rgba(212,175,55,0.45);
+      transition: all .2s ease;
+    }
+
+    .enter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(212,175,55,0.65);
+    }
+
+    .enter-btn:active {
+      transform: scale(0.96);
+    }
+
+    @keyframes glow {
+      0%   { filter: drop-shadow(0 0 4px rgba(184,139,41,0.4)); }
+      50%  { filter: drop-shadow(0 0 14px rgba(212,175,55,0.9)); }
+      100% { filter: drop-shadow(0 0 4px rgba(184,139,41,0.4)); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(.96); }
+      to   { opacity: 1; transform: scale(1); }
+    }
 
 
+.back-wrap{
+  display: flex;
+  justify-content: center;
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
 
-
-
-
+.back-btn::before,
+.back-btn::after {
+  content: none !important;
+}
 
 
 
