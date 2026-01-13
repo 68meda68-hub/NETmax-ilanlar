@@ -6,14 +6,75 @@
 	<!-- 📌 Instagram / Social Preview -->
 	<meta property="og:title" content="NETmax | Satılık Daire, Arsa ve Dükkanlar">
 	<meta property="og:description" content="Aksaray satılık emlak ilanları. Daire, arsa ve ticari mülkler. Güncel ve detaylı ilanlar.">
-	<meta property="og:image" content="https://68meda68-hub.github.io/NETmax-ilanlar/images/og-cover.jpg">
-	<meta property="og:url" content="https://68meda68-hub.github.io/NETmax-ilanlar/">
+	<meta property="og:image" content="https://bit.ly/NETmaxilanlar/images/og-cover.jpg">
+	<meta property="og:url" content="https://bit.ly/NETmaxilanlar">
 	<meta property="og:type" content="website">
   
 	<title>NETmax İlanlar</title>
 	<link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+
+<!-- =========================
+       INTRO / GİRİŞ EKRANI
+  ========================= -->
+  <div id="introScreen" class="intro-screen">
+    <div class="intro-content">
+
+      <div class="intro-logo">
+        <!-- SVG LOGO -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900">
+          <defs>
+            <linearGradient id="goldHybrid" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%" stop-color="#c02a12"/>
+              <stop offset="50%" stop-color="#b88b29"/>
+              <stop offset="100%" stop-color="#8b5c18"/>
+            </linearGradient>
+
+            <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+              <feDropShadow dx="0" dy="7" stdDeviation="10" flood-color="#000" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+
+          <g transform="translate(0, 260)">
+            <rect width="1000" height="380" fill="transparent"/>
+
+            <g stroke="url(#goldHybrid)" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(335, 10)">
+              <polyline points="0,60 85,10 170,60"/>
+              <polyline points="40,60 85,35 130,60"/>
+            </g>
+
+            <text x="170" y="125" font-family="Georgia" font-size="35" font-style="italic"
+                  fill="url(#goldHybrid)">en</text>
+
+            <circle cx="190" cy="115" r="28" fill="none" stroke="url(#goldHybrid)" stroke-width="2"/>
+
+            <text x="230" y="225" font-family="Arial Black, Impact" font-size="185" font-weight="900"
+                  fill="url(#goldHybrid)" letter-spacing="2" filter="url(#softShadow)">NET</text>
+
+            <text x="620" y="225" font-family="Georgia" font-size="100" font-style="italic" font-weight="700"
+                  fill="url(#goldHybrid)" letter-spacing="3">max</text>
+
+            <line x1="150" y1="245" x2="860" y2="245"
+                  stroke="url(#goldHybrid)" stroke-width="6" stroke-linecap="round"/>
+
+            <text x="430" y="320" text-anchor="middle" font-size="48" font-family="Arial" font-weight="800"
+                  letter-spacing="2" fill="url(#goldHybrid)">GAYRİMENKUL</text>
+          </g>
+        </svg>
+      </div>
+
+      <button id="enterBtn" class="enter-btn">
+        Devam Et  👉 İlanlarımız
+      </button>
+
+    </div>
+  </div>
+
+
+
+
+
 
   <!-- TELEFON CONTAINER -->
   <div class="app">
@@ -36,6 +97,7 @@
 		<span>Yol Tarifi</span>
 	  </a>
 	</header>
+
 
     <!-- İLAN LİSTESİ -->
     <main class="listings"></main>
@@ -80,6 +142,3 @@
   <script src="js/app.js"></script>
 </body>
 </html>
-
-
-
