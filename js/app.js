@@ -728,3 +728,74 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 400);
       });
     });
+	
+const slogans = [
+  "Aksaray’da Güvenilir Gayrimenkul",
+  "Doğru Yatırım, Doğru Adres",
+  "Hayalinizdeki Mülk Bir Adım Uzakta",
+  "NETmax’ta Güvenle Al, Güvenle Sat"
+];
+
+let sloganIndex = 0;
+const sloganEl = document.getElementById("introSlogan");
+
+const NORMAL_DURATION = 7000;   // normal slogan süresi
+const SPECIAL_DURATION = 10000; // 👈 özel slogan (küçülerek çıkması için UZUN)
+
+function playSlogan() {
+  const text = slogans[sloganIndex];
+
+  // classları temizle
+  sloganEl.classList.remove("special");
+
+  let duration = NORMAL_DURATION;
+
+  if (text === "NETmax’ta Güvenle Al, Güvenle Sat") {
+    // 👉 ÖZEL SLOGAN
+    sloganEl.innerHTML = `" <span class="slogan-highlight">${text}</span> "`;
+    sloganEl.classList.add("special");
+    duration = SPECIAL_DURATION;   // 👈 ANİMASYON TAM BİTSİN
+  } else {
+    sloganEl.textContent = `"${text}"`;
+  }
+
+  // animasyonu sıfırla
+  sloganEl.classList.remove("animate");
+  void sloganEl.offsetWidth;
+  sloganEl.classList.add("animate");
+
+  sloganIndex = (sloganIndex + 1) % slogans.length;
+  setTimeout(playSlogan, duration);
+}
+
+playSlogan();
+
+
+const eduBtn = document.getElementById("eduBtn");
+const eduDropdown = document.getElementById("eduDropdown");
+
+eduBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  eduDropdown.classList.toggle("show"); // dropdown aç/kapa
+});
+
+// Liste öğelerine tıklandığında sayfaya git
+eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
+  item.addEventListener("click", () => {
+    window.location.href = item.getAttribute("data-page");
+  });
+});
+
+// Sayfa başka yere tıklayınca dropdown kapanır
+document.addEventListener("click", () => {
+  eduDropdown.classList.remove("show");
+});
+
+
+
+
+
+
+
+
+
