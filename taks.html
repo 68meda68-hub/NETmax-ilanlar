@@ -28,12 +28,12 @@ h1{font-size:18px; color:var(--gold); margin:6px 0;}
   background:var(--plot); border:2px solid var(--line); border-radius:12px; overflow:hidden;
 }
 .label{
-  position:absolute; left:50px; top:30px; font-size:12px; opacity:.8;
+  position:absolute; left:50px; top:50px; font-size:12px; opacity:.8;
 }
 .road {
   position: absolute;
-  top: 10px;             
-  right: 100px;         /* parselin sağının dışına taşı */
+  top: 15px;             
+  right: 50px;         /* parselin sağının dışına taşı */
   width: 50px;           
   text-align: center;
   font-size: 14px;
@@ -46,26 +46,29 @@ h1{font-size:18px; color:var(--gold); margin:6px 0;}
 }
 
 .inner-area{
-  position:absolute; top:0; left:0; width:100%; height:100%;
-  border:2px dashed var(--gold); background:transparent; z-index:1;
-  transition: all 1s ease; opacity: 0;  
+  position:absolute;
+  top:0; left:0;
+  width:0;
+  height:0;
+  border:2px dashed var(--gold);
+  background:transparent;
+  z-index:1;
+  opacity:0;
+  transition: all 1s ease;
 }
+
 .taks-area{
   position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
   width:0%; height:0%; background:var(--gold); z-index:2;
   transition: width 1s ease, height 1s ease;
 }
-.building-svg{
-  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-  width:0; height:0; opacity:0; z-index:3;
-  transition: width 1s ease, height 1s ease, opacity 0.5s ease;
-}
+
 .stats{margin-top:10px; font-size:13px;}
 .hl{color:var(--gold); font-weight:700;}
 .card{
   margin-top:10px; padding:10px; border:1px dashed var(--line); border-radius:10px; font-size:12px; line-height:1.4;
 }
-.hint{margin-top:8px; font-size:12px; opacity:.7;}
+.hint{margin-top:8px; font-size:12px; opacity:.7; text-align: left; /* Yazıyı sola hizala */}
 
 .building-svg{
   position:absolute;
@@ -90,27 +93,85 @@ h1{font-size:18px; color:var(--gold); margin:6px 0;}
 
 /* Konumlandırma */
 #setbackTop{
-  top: 0; left: 50%; transform: translateX(-50%);
+  top: 2%; 
+  left: 50%; 
+  transform: translateX(-50%);
 }
 
 #setbackBottom{
-  bottom: 5%; left: 50%; transform: translateX(-50%);
+  bottom: 0.25%; 
+  left: 50%; 
+  transform: translateX(-50%);
 }
 
-/* Sol kenar: yatay, içe kaymış */
+/* Sol kenar: 90° dikey */
 #setbackLeft{
-  top: 50%; left: 5%; /* biraz içe kaydırdık */
-  transform: translateY(-50%);
-  white-space: nowrap; /* satır kırılmasın */
-}
-
-/* Sağ kenar: yatay, biraz içe kaydır */
-#setbackRight{
-  top: 50%; right: 5%; /* biraz içe kaydırdık */
-  transform: translateY(-50%);
+  top: 50%; 
+  left: 0.25%;
+  transform: translateY(-50%) rotate(-90deg);
   white-space: nowrap;
 }
 
+/* Sağ kenar: 90° dikey */
+#setbackRight{
+  top: 50%; 
+  right: 0.25%;
+  transform: translateY(-50%) rotate(270deg);
+  white-space: nowrap;
+}
+
+#setbackTop,
+#setbackRight,
+#setbackBottom,
+#setbackLeft{
+  color: #fff;
+}
+
+
+
+/* Ortak enter-btn stili */
+.enter-btn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #111;
+  background: linear-gradient(135deg, #d4af37, #fff1a8);
+  box-shadow: 0 4px 12px rgba(212,175,55,0.45);
+  transition: all .2s ease;
+  display: block;
+  margin: 10px auto 0 auto; /* Alt boşluk + ortalama */
+  animation: fadeIn 0.3s ease forwards; /* Açılırken efekt */
+}
+
+/* Hover ve active efektleri */
+.enter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(212,175,55,0.65);
+}
+
+.enter-btn:active {
+  transform: scale(0.96);
+}
+
+/* Animasyonlar */
+@keyframes glow {
+  0%   { filter: drop-shadow(0 0 4px rgba(184,139,41,0.4)); }
+  50%  { filter: drop-shadow(0 0 14px rgba(212,175,55,0.9)); }
+  100% { filter: drop-shadow(0 0 4px rgba(184,139,41,0.4)); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Opsiyonel: Geri butonuna ekstra margin istersen */
+.back-btn {
+  margin-top: 15px; /* Hint div ile daha rahat boşluk */
+}
 
 
 </style>
@@ -127,12 +188,11 @@ h1{font-size:18px; color:var(--gold); margin:6px 0;}
     <div class="inner-area" id="inner"></div>
     <div class="taks-area" id="taksArea"></div>
 	
-	<!-- Çekme mesafeleri etiketleri -->
    <!-- Çekme mesafeleri etiketleri -->
-  <div class="setback-label" id="setbackTop">5 m</div>
-  <div class="setback-label" id="setbackRight">3 m</div>
-  <div class="setback-label" id="setbackBottom">3 m</div>
-  <div class="setback-label" id="setbackLeft">3 m</div>
+    <div class="setback-label" id="setbackTop">5 m</div>
+    <div class="setback-label" id="setbackRight">3 m</div>
+    <div class="setback-label" id="setbackBottom">3 m</div>
+    <div class="setback-label" id="setbackLeft">3 m</div>
 
     <!-- Bina SVG -->
     <svg class="building-svg" id="buildingSVG" viewBox="0 0 900 760" xmlns="http://www.w3.org/2000/svg">
@@ -166,7 +226,7 @@ h1{font-size:18px; color:var(--gold); margin:6px 0;}
     stroke="url(#gold)" stroke-width="12" fill="none" stroke-linecap="round"/>
 
   <!-- BİNA İÇİ ARKA PLAN (içine pencereler eklenecek alan) -->
-  <rect x="170" y="180" width="560" height="490" fill="#1a1a1a" opacity="0.55"/>
+  <rect x="170" y="180" width="560" height="490" fill="#ffdead" opacity="0.55"/>
 
   <!-- PENCERE GRUPLARI -->
   <g fill="url(#windowGlow)" stroke="#000" stroke-width="1" opacity="0.85">
@@ -205,7 +265,7 @@ h1{font-size:18px; color:var(--gold); margin:6px 0;}
   <line x1="170" y1="538" x2="730" y2="538" stroke="#c9c9c9" stroke-width="2"/>
 
   <!-- KAPI -->
-  <rect x="395" y="538" width="110" height="130" rx="8" fill="#252525" stroke="url(#gold)" stroke-width="4"/>
+  <rect x="395" y="538" width="110" height="130" rx="8" fill="#f4a460" stroke="url(#gold)" stroke-width="4"/>
     </svg>
 
   </div>
@@ -259,23 +319,21 @@ function resetAll(){
   step=0;
 }
 
-
-
 document.getElementById("app").addEventListener("click", () => {
   step++;
 
   if(step === 1){
   info.textContent = "Yol ve diğer kenar çekmeleri gösteriliyor";
 
-  // Yol yazısı yavaşça görünür
+  // Yol yazısı
   road.style.opacity = 1;
 
-  // Inner area yavaşça açılır
-  inner.style.transition = "width 1s ease, height 1s ease, opacity 1s ease";
-  inner.style.width = "94%";
-  inner.style.height = "92%";
-  inner.style.top = "5%";
-  inner.style.left = "3%";
+  // Inner area (üst daha fazla, diğerleri eşit ve daha içerde)
+  inner.style.transition = "all 1s ease";
+  inner.style.top = "10%";     // üst daha fazla
+  inner.style.left = "7%";     // sol
+  inner.style.width = "86%";   // sağ = %7
+  inner.style.height = "83%";  // alt = %7
   inner.style.opacity = 1;
 
   card.innerHTML = "İç alan hazırlandı.";
@@ -291,9 +349,6 @@ document.getElementById("app").addEventListener("click", () => {
   document.getElementById("setbackBottom").style.opacity = 1;
   document.getElementById("setbackLeft").style.opacity = 1;
 }
-
-
-
 
   if(step === 2){
     info.textContent = "TAKS alanı parselin içinde ortada";
@@ -314,7 +369,7 @@ document.getElementById("app").addEventListener("click", () => {
   }
 
   if(step === 4){
-    info.textContent = "KAKS alanı kayboluyor, bina ve sonuçlar geliyor";
+    info.textContent = "Bina ve sonuçlar geliyor";
 
     // KAKS alanı yavaşça kaybolsun
     taksArea.style.transition = "opacity 2s ease";
@@ -359,6 +414,22 @@ document.getElementById("app").addEventListener("click", () => {
     resetAll();
   }
 });
+
+const hintDiv = document.querySelector(".hint");
+
+  const backBtn = document.createElement("button");
+  backBtn.className = "enter-btn back-btn"; // enter-btn stilini kullan
+  backBtn.innerHTML = "👈 Geri";
+
+  backBtn.addEventListener("click", () => {
+    if (document.referrer) {
+      window.history.back();       // geçmiş varsa geri git
+    } else {
+      window.location.href = "index.html"; // yoksa ana sayfaya
+    }
+  });
+
+  hintDiv.parentNode.insertBefore(backBtn, hintDiv.nextSibling);
 
 </script>
 
