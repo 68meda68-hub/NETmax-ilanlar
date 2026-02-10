@@ -858,6 +858,9 @@ document.addEventListener("click", () => {
   eduDropdown.classList.remove("show");
 });
 
+document.getElementById("eduClose").onclick = function () {
+  document.getElementById("eduDropdown").style.display = "none";
+};
 
 
 
