@@ -865,14 +865,17 @@ body {
 }
 @media (max-width: 768px) {
   .dropdown {
-    max-height: 160px; /* parmak için biraz daha alan */
+    max-height: 160px;
+    padding-bottom: 6px; /* 👈 SON ITEM NEFES ALSIN */
   }
 
   .dropdown-item {
-    padding: 12px 14px 12px 22px;
+    padding: 10px 14px 10px 22px; /* 12 → 10 */
     font-size: 13px;
+    line-height: 1.2; /* 👈 DİKEY SIKIŞTIRMA */
   }
 }
+
 
 .card-title {
   display: flex;
@@ -900,6 +903,7 @@ body {
 .street-btn:hover {
   background: #000;
 }
+
 
 
 
