@@ -2,24 +2,6 @@
    DATA
 ========================= */
 const listingsData = [
-	{
-    id: 1,
-    title: "Dükkan",
-    location: "Aratol İstiklal Mah / Aksaray",
-    price: 9000000,
-    currency: "TRY",
-    zoning: "-",
-    parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/205889/107/1/1767092602095",
-    images: [
-      "images/yasin_akturk/1.jpeg",
-	  "images/yasin_akturk/3.jpeg",
-	  "images/yasin_akturk/5.jpeg"
-    ],
-    rooms: "-",
-    size: "106 m²",
-    floor: "Zemin",
-    age: "1"
-  },
   {
     id: 2,
     title: "3+1 Daire",
@@ -54,6 +36,7 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı , E=0.90",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126920/3895/17/1767094781910",
+	coord:[33.992319, 38.390511],
 	cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
@@ -105,6 +88,7 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı , A-3",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4304/8/1767096659685",
+	coord:[34.025409, 38.38774],
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
@@ -144,6 +128,7 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı , A-3",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4301/8/1767098064916",
+	coord:[34.023949, 38.38894],
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
@@ -161,6 +146,7 @@ const listingsData = [
     currency: "EUR",
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126959/2320/18/1767098938147",
+	coord:[34.035905, 38.362865],
     images: [
       "images/sammaz_ozmel/1.JPG"
     ],
@@ -177,6 +163,7 @@ const listingsData = [
     currency: "EUR",
     zoning: "Konut Alanı , E=0.90",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/3833/13/1767099705379",
+	coord:[33.999574, 38.393924],
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
@@ -296,6 +283,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/6/1767525549081",
+	coord:[34.058325, 38.314204],
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
@@ -313,6 +301,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/5/1767525843966",
+	coord:[34.058325, 38.314204],
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
@@ -330,6 +319,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/4/1767525967125",
+	coord:[34.058325, 38.314204],
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
@@ -347,6 +337,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/3/1767526106535",
+	coord:[34.058021, 38.314425],
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
@@ -364,6 +355,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/2/1767526168481",
+	coord:[34.058021, 38.314425],
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
@@ -416,6 +408,41 @@ const listingsData = [
     floor: "-",
     age: "-",
 	features: "-"
+  },
+  {
+    id: 24,
+    title: "3+1 Daire",
+    location: "Şifahane Mah / Aksaray",
+    price: 5800000,
+    currency: "TRY",
+    zoning: "-",
+    parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/cografi/38.39538642485814/34.0180116891861",
+	coord:[34.017955,38.39559],
+    images: [
+      "images/yon_grup/1.jpeg",
+	  "images/yon_grup/2.jpeg",
+	  "images/yon_grup/3.jpeg",
+	  "images/yon_grup/4.jpeg",
+	  "images/yon_grup/5.jpeg",
+	  "images/yon_grup/6.jpeg",
+	  "images/yon_grup/7.jpeg",
+	  "images/yon_grup/8.jpeg",
+	  "images/yon_grup/9.jpeg",
+	  "images/yon_grup/10.jpeg",
+	  "images/yon_grup/11.jpeg",
+	  "images/yon_grup/12.jpeg",
+	  "images/yon_grup/13.jpeg",
+	  "images/yon_grup/14.jpeg",
+	  "images/yon_grup/15.jpeg",
+	  "images/yon_grup/16.jpeg",
+	  "images/yon_grup/17.jpeg"
+    ],
+    rooms: "3+1",
+    size: "140 m²",
+    floor: "4",
+    age: "6-10",
+	heating: "Merkezi",
+	features: "Kapalı otopark,site güvenliği,havuz,hamam,sauna"
   }
   
 ];
@@ -431,13 +458,17 @@ floor:        "Kat",
 age:          "Bina Yaşı",
 zoning:       "İmar Durumu",
 features:     "Özellikler",
-swap:         "Takas"
+swap:         "Takas",
+indoorsize:   "Kapalı Alan",
+heating:      "Isıtma"
 ========================= */
 
 /* =========================
    ELEMENT
 ========================= */
 const listingsContainer = document.querySelector(".listings");
+const streetBtn = document.getElementById("streetBtn");
+
 
 /* =========================
    FİYAT FORMAT
@@ -486,7 +517,7 @@ function getCategories() {
 /* =========================
    RENDER KATEGORİLER
 ========================= */
-function renderCategories(lastUpdate = "05.01.2026") {
+function renderCategories(lastUpdate = "02.02.2026") {
   listingsContainer.innerHTML = "";
 
   // --- ÜST BAŞLIK ---
@@ -517,6 +548,19 @@ function renderCategories(lastUpdate = "05.01.2026") {
   updateBar.className = "update-date";
   updateBar.textContent = `Son Güncelleme: ${lastUpdate}`;
   listingsContainer.appendChild(updateBar);
+  
+  // --- HARİTA BUTONU ---
+	const mapBtn = document.createElement("button");
+	mapBtn.className = "enter-btn";
+	mapBtn.innerHTML = `<span style="font-size:20px; line-height:1; margin-right:6px;">🌍</span>İlanlar - Harita`;
+
+	// ayrı sayfada aç
+	mapBtn.onclick = () => {
+	  // "_blank" yerine "_self" kullanırsan aynı sekmede açar
+	  window.open("tum-ilanlar.html", "_blank");
+	}
+
+	listingsContainer.appendChild(mapBtn);
 
   // =========================
   //  ALTTA GERİ İKONU
@@ -562,7 +606,7 @@ function renderCategoryListings(title) {
   `;
 
   categoryBar.querySelector(".back-btn").onclick =
-    () => renderCategories("05.01.2026");
+    () => renderCategories("02.02.2026");
 
   categoryBar.querySelector(".category-title").classList.add("active");
   listingsContainer.appendChild(categoryBar);
@@ -586,7 +630,11 @@ function renderCategoryListings(title) {
       card.innerHTML = `
         <img src="${img}" loading="lazy" alt="İlan" class="card-img">
         <div class="card-body">
-          <h3>${item.title}</h3>
+			<h3 class="card-title">
+				${item.title}
+				<span class="card-id">İlan Id: ${item.id}</span>
+			</h3>
+
           <p class="location">${item.location}</p>
           <div class="price">${formatPrice(item.price, item.currency)}</div>
           <button class="detail-btn" data-id="${item.id}">Detay 🔍</button>
@@ -640,10 +688,13 @@ function setField(el, label, value) {
 
 
 document.addEventListener("click", e => {
-  if (!e.target.classList.contains("detail-btn")) return;
 
-  const id = Number(e.target.dataset.id);
+  const btn = e.target.closest(".detail-btn");
+  if (!btn) return;
+
+  const id = Number(btn.dataset.id);
   const item = listingsData.find(i => i.id === id);
+  if (!item) return;
 
   currentImages = item.images;
   currentIndex = 0;
@@ -660,6 +711,8 @@ document.addEventListener("click", e => {
   setField(modalZoning,   "İmar",     item.zoning);
   setField(modalFeatures, "Özellik",  item.features);
   setField(modalSwap,     "Takas",    item.swap);
+  setField(modalIndoorSize,"Kapalı Alan", item.indoorsize);
+  setField(modalHeating,"Isıtma", item.heating);
 
   if (item.parcelUrl) {
     parcelBtn.style.display = "inline-block";
@@ -668,8 +721,21 @@ document.addEventListener("click", e => {
     parcelBtn.style.display = "none";
   }
 
+  // 👁️ Street View
+  if (item.coord && item.coord.length === 2) {
+    const lng = item.coord[0];
+    const lat = item.coord[1];
+
+    streetBtn.style.display = "inline-block";
+    streetBtn.href =
+      `https://www.google.com/maps?q=&layer=c&cbll=${lat},${lng}&cbp=11,0,0,0,0`;
+  } else {
+    streetBtn.style.display = "none";
+  }
+
   modalOverlay.style.display = "flex";
 });
+
 
 
 /* =========================
