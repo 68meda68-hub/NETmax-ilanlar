@@ -373,6 +373,7 @@ const listingsData = [
     price: 6000000,
     currency: "TRY",
     zoning: "-",
+    parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/2962/16/1770720594916",
     cardImage: "images/emin_acar/1.jpeg",   // 🔥 SADECE LİSTE
     images: [
       "images/emin_acar/1.jpeg",                  // 🔥 MODAL
@@ -856,6 +857,7 @@ eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
 document.addEventListener("click", () => {
   eduDropdown.classList.remove("show");
 });
+
 
 
 
