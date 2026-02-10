@@ -917,10 +917,6 @@ body {
   background: #000;
 }
 
-#eduDropdown {
-  position: relative;
-}
-
 .dropdown-close {
   position: absolute;
   top: 6px;
@@ -935,6 +931,7 @@ body {
 .dropdown-close:hover {
   color: #ff4d4d;
 }
+
 
 
 
