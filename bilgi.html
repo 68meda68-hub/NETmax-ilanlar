@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Gayrimenkul ve İmar Bilgilendirme</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+  /* Genel */
+body {
+	font-family: Tahoma, sans-serif;
+    background: linear-gradient(120deg, #f0f4f8, #d9e2ec);
+    color: #2c3e50;
+    padding: 20px;
+    margin: 0;
+    line-height: 1.5;
+}
+h1 {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+
+	text-align: center;
+	color: #b8860b;
+	margin: 0 0 18px;
+	padding: 14px 10px;
+
+	font-size: 1.7rem;
+	line-height: 1.3;
+
+	background: #fff;
+	box-shadow:
+		0 6px 14px rgba(0,0,0,0.18),
+		0 12px 30px rgba(0,0,0,0.12);
+
+	text-shadow:
+	1px 2px 3px rgba(0,0,0,0.18);
+	border-radius: 15px;
+}
+
+/* 📱 Mobil optimizasyon */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.4rem;
+    padding: 12px 8px;
+  }
+}
+
+/* 📱 Çok küçük ekran */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.25rem;
+    padding: 10px 6px;
+  }
+}
+
+/* Kartlar */
+.card {
+	background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.card-header {
+    font-size: 1.15rem;
+    font-weight: bold;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    color: #e67e22;
+    cursor: pointer;
+    user-select: none;
+}
+.card-header .icon {
+    font-size: 1.6rem;
+    margin-right: 14px;
+}
+.fa-chevron-down {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+.active .fa-chevron-down {
+    transform: rotate(180deg);
+}
+.card-body {
+    padding: 0 18px 14px 18px;
+    display: none;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+.card-body ul {
+    margin-left: 20px;
+    padding-left: 0;
+}
+.card-body li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+.card-body li i.icon {
+    margin-right: 10px;
+}
+
+/* CTA Butonu (WhatsApp) */
+.cta {
+    text-align: center;
+    margin-top: 30px;
+}
+.cta a {
+    display: inline-block;
+    background-color: #25D366; /* WhatsApp yeşili */
+    color: white;
+    font-weight: bold;
+    padding: 14px 28px;
+    font-size: 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.cta a:hover {
+    background-color: #1ebe5d; /* hover koyulaşma */
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+.cta a i.icon {
+    margin-right: 6px;
+    font-size: 1.2rem;
+}
+
+/* Duyurular Accordion Kartları */
+.duyurular {
+    margin-top: 40px;
+}
+.duyurular h2 {
+    font-size: 1.5rem;
+    color: #e67e22;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.duyuru-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    margin-bottom: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.duyuru-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.duyuru-header {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #e67e22;
+    user-select: none;
+}
+.duyuru-header .icon {
+    font-size: 1.4rem;
+    margin-right: 12px;
+}
+.duyuru-header .fa-chevron-down {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+.duyuru-header.active .fa-chevron-down {
+    transform: rotate(180deg);
+}
+.duyuru-body {
+    display: none;
+    padding: 0 18px 12px 18px;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+/* Mobil uyumlu */
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .card-header {
+      font-size: 1.05rem;
+      padding: 12px 15px;
+    }
+    .card-header .icon {
+      font-size: 1.4rem;
+      margin-right: 10px;
+    }
+    .card-body {
+      padding: 0 15px 12px 15px;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+    .card-body li {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+    .card-body li i.icon {
+      margin-right: 8px;
+    }
+    .cta a {
+      font-size: 0.85rem;
+      padding: 10px 15px;
+    }
+    .cta a i.icon {
+      font-size: 1rem;
+    }
+    .duyurular h2 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
+    .duyuru-header {
+      font-size: 0.95rem;
+      padding: 10px 15px;
+    }
+    .duyuru-header .icon {
+      font-size: 1.2rem;
+      margin-right: 8px;
+    }
+    .duyuru-body {
+      font-size: 0.9rem;
+      padding: 0 15px 10px 15px;
+    }
+  }
+  
+/* Alt geri butonu */
+.back-wrap {
+  text-align: center;
+  margin: 40px 0 10px;
+}
+.back-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg,#e67e22,#f3a45c);
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: .3s;
+}
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.2);
+}
+
+.icon-hilal{
+  color:#e74c3c;
+  font-size:18px;
+  margin-right:8px;
+}
+
+</style>
+</head>
+<body>
+
+<h1> İmar ve Gayrimenkul Bilgilendirme</h1>
+
+<!-- ✅ YENİ EKLENEN KART : SINIRLAR -->
+<div class="card">
+	<div class="card-header">
+		<i class="fa-solid fa-building-columns icon"></i>
+		Belediye ve Görevleri
+		<i class="fa-solid fa-chevron-down"></i>
+	</div>
+
+	<div class="card-body">
+		<p>
+		  <strong>Belediye;</strong> 5393 sayılı Belediye Kanunu’nun 14. maddesi gereğince,
+		  belde sakinlerinin mahallî müşterek nitelikteki ihtiyaçlarını karşılamak üzere
+		  kurulan, idarî ve malî özerkliğe sahip kamu tüzel kişisidir.
+		</p>
+
+    <h4>Belediyenin Temel Görev ve Yetkileri:</h4>
+    <ul>
+		<li>
+			<i class="fa-solid fa-city icon" style="color:#3498db;"></i>
+			İmar, şehircilik ve kent bilgi sistemlerini oluşturmak ve uygulamak.
+		</li>
+		<li>
+			<i class="fa-solid fa-road icon" style="color:#2ecc71;"></i>
+			Ulaşım, yol, kaldırım, altyapı ve çevre düzenlemelerini yapmak.
+		</li>
+		<li>
+			<i class="fa-solid fa-droplet icon" style="color:#1abc9c;"></i>
+			Su ve kanalizasyon hizmetlerini yürütmek.
+		</li>
+		<li>
+			<i class="fa-solid fa-tree icon" style="color:#27ae60;"></i>
+			Park, yeşil alan, çevre ve temizlik hizmetlerini sağlamak.
+		</li>
+		<li>
+			<i class="fa-solid fa-house-circle-check icon" style="color:#e67e22;"></i>
+			Konut, kentsel dönüşüm ve yapılaşmaya ilişkin hizmetleri yürütmek.
+		</li>
+		<li>
+			<i class="fa-solid fa-hand-holding-heart icon" style="color:#e74c3c;"></i>
+			Sosyal yardım, kültür, sanat ve spor faaliyetlerini desteklemek.
+		</li>
+		<li>
+			<span class="icon-hilal">☾</span>
+			Sağlıkla ilgili her türlü tesis açmak, işletmek veya işlettirmek; halk sağlığını koruyucu hizmetler yürütmek.
+		</li>
+		<li>
+			<i class="fa-solid fa-hand-holding-medical icon" style="color:#e84393;"></i>
+			Sosyal hizmet ve yardım faaliyetleri yürütmek; ihtiyaç sahiplerine destek sağlamak.
+		</li>
+		<li>
+			<i class="fa-solid fa-shield-halved icon" style="color:#9b59b6;"></i>
+			Zabıta, itfaiye ve afetlere yönelik hizmetleri yürütmek.
+		</li>
+		<li>
+			<span class="icon-tarim">🌾</span>
+			Tarım ve hayvancılığı desteklemek, üreticiyi teşvik etmek, tarımsal altyapıyı geliştirmek.
+		</li>
+		<li>
+			<span class="icon-ekonomi">💼</span>
+			Ticaretin ve ekonominin geliştirilmesi, yerel ekonomik faaliyetlerin desteklenmesi ve istihdamın artırılmasına yönelik çalışmalar yapmak.
+		</li>
+    </ul>
+
+    <h4>Genel Amaç:</h4>
+    <ul>
+		<li>
+			<i class="fa-solid fa-star icon" style="color:#f1c40f;"></i>
+			Yaşanabilir, planlı ve sürdürülebilir kentler oluşturmak.
+		</li>
+		<li>
+			<i class="fa-solid fa-star icon" style="color:#f1c40f;"></i>
+			Halkın yaşam kalitesini artırmak ve kamu yararını sağlamak.
+		</li>
+    </ul>
+	</div>
+</div>
+
+
+
+<div class="card">
+  <div class="card-header">
+  <i class="fa-solid fa-border-all icon"></i>
+  İdari ve İmar Yetki Sınırları
+  <i class="fa-solid fa-chevron-down"></i>
+</div>
+
+  <div class="card-body">
+    <p>
+      Bir taşınmazın hangi idari sınırlar içinde kaldığı; imar planı,
+      ruhsat yetkisi ve uygulanacak mevzuatı doğrudan belirler.
+    </p>
+
+    <h4>Belediye Sınırı:</h4>
+    <ul>
+      <li>
+        <i class="fa-solid fa-city icon" style="color:#e67e22;"></i>
+        Belediyenin yetki ve sorumluluk alanı içinde kalan, yerleşimin
+        esas olarak yapılaştığı alanlardır.
+      </li>
+      <li>
+        <i class="fa-solid fa-check icon" style="color:#27ae60;"></i>
+        İmar planı, ruhsat ve yapı denetim yetkisi belediyeye aittir.
+      </li>
+      <li>
+        <i class="fa-solid fa-check icon" style="color:#27ae60;"></i>
+        Altyapı, yol, su, kanalizasyon ve belediye hizmetleri doğrudan sağlanır.
+      </li>
+    </ul>
+
+    <h4>Belediye Mücavir Alan Sınırı:</h4>
+    <ul>
+      <li>
+        <i class="fa-solid fa-building icon" style="color:#3498db;"></i>
+        Belediye sınırları dışında kalan ancak gelecekte belediye
+        gelişim alanı olarak planlanan bölgelerdir.
+      </li>
+      <li>
+        <i class="fa-solid fa-check icon" style="color:#27ae60;"></i>
+        İmar planı yapma ve yapılaşmayı denetleme yetkisi belediyededir.
+      </li>
+      <li>
+        <i class="fa-solid fa-check icon" style="color:#27ae60;"></i>
+        Belediye hizmetleri kademeli veya sınırlı şekilde götürülür.
+      </li>
+    </ul>
+
+    <h4>İl Özel İdaresi Sınırı:</h4>
+    <ul>
+      <li>
+        <i class="fa-solid fa-map-location-dot icon" style="color:#8e44ad;"></i>
+        Belediye ve mücavir alan sınırları dışında kalan kırsal alanlardır.
+      </li>
+      <li>
+        <i class="fa-solid fa-check icon" style="color:#27ae60;"></i>
+        İmar, ruhsat ve yapı denetim yetkisi İl Özel İdaresine aittir.
+      </li>
+      <li>
+        <i class="fa-solid fa-check icon" style="color:#27ae60;"></i>
+        Plansız Alanlar İmar Yönetmeliği hükümleri uygulanır.
+      </li>
+    </ul>
+
+    <h4>Neden Önemlidir?</h4>
+    <ul>
+      <li><i class="fa-solid fa-star icon" style="color:#f1c40f;"></i>Yetkili kurum doğru belirlenir.</li>
+      <li><i class="fa-solid fa-star icon" style="color:#f1c40f;"></i>İnşaat hakkı ve imar durumu netleşir.</li>
+      <li><i class="fa-solid fa-star icon" style="color:#f1c40f;"></i>Yanlış yatırım ve ruhsatsız yapı riski azalır.</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- Mevcut kartlar -->
+<div class="card">
+  <div class="card-header">
+    <i class="fa-solid fa-city icon"></i>
+    İmar Planı
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+
+  <div class="card-body">
+    <p>
+      İmar planı, bir yerleşim alanında yapılaşma koşullarını, kullanım kararlarını
+      ve gelişme yönlerini belirleyen, 3194 sayılı İmar Kanunu’na göre hazırlanan
+      resmi planlardır. Şehirleşmenin düzenli, sağlıklı ve sürdürülebilir olmasını sağlar.
+    </p>
+
+    <h4>Uygulama Esasları:</h4>
+    <ul>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Planlı alanlarda yapı ruhsatı zorunludur.</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Parselasyon ve altyapı çalışmaları plana uygun yapılır.</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Plan değişiklikleri belediye veya ilgili idare onayıyla yapılır.</li>
+    </ul>
+
+    <h4>İmar Kanununa Göre Plan Türleri:</h4>
+    <ul>
+      <li>
+        <i class="fa-solid fa-layer-group icon"></i>
+        <strong>Çevre Düzeni Planı: (1/25.000 – 1/100.000):</strong>
+        Yerleşmelerin gelişme yönlerini ve arazi kullanım kararlarını üst ölçekte belirler.
+      </li>
+      <li>
+        <i class="fa-solid fa-map icon"></i>
+        <strong>Nazım İmar Planı (1/5000):</strong>
+        Konut, ticaret, sanayi, yeşil alan gibi genel kullanım kararlarını gösterir.
+      </li>
+      <li>
+        <i class="fa-solid fa-ruler-combined icon"></i>
+        <strong>Uygulama İmar Planı (1/1000):</strong>
+        Parsel bazında yapılaşma şartlarını (TAKS, KAKS, yükseklik) belirler.
+      </li>
+      <li>
+        <i class="fa-solid fa-pen-to-square icon"></i>
+        <strong>Revizyon İmar Planı:</strong>
+        Mevcut planın tamamının veya büyük kısmının yenilenmesidir.
+      </li>
+      <li>
+        <i class="fa-solid fa-plus icon"></i>
+        <strong>İlave İmar Planı:</strong>
+        Planlı alana bitişik yeni alanların planlanmasıdır.
+      </li>
+      <li>
+        <i class="fa-solid fa-location-dot icon"></i>
+        <strong>Mevzi İmar Planı:</strong>
+        Plan bütünlüğü olmayan, istisnai durumlarda yapılan planlardır.
+      </li>
+    </ul>
+
+    <h4>Yararları:</h4>
+    <ul>
+      <li><i class="fa-solid fa-star icon" style="color:#f1c40f;"></i>Şehir planlamasında düzen ve denetim sağlar.</li>
+      <li><i class="fa-solid fa-star icon" style="color:#f1c40f;"></i>Hukuki ve mali riskleri azaltır.</li>
+      <li><i class="fa-solid fa-star icon" style="color:#f1c40f;"></i>Altyapı, ulaşım ve yeşil alan dengesini kurar.</li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+    <i class="fa-solid fa-map-location-dot icon"></i>
+    Parselasyon İşlemleri
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+
+  <div class="card-body">
+    <p>
+      Parselasyon işlemleri; imar planına uygun olarak,
+      3194 sayılı İmar Kanunu’nun 15, 16, 17 ve 18. maddelerine dayanılarak yapılan,
+      ifraz, tevhit, terk, ihdas ve arazi–arsa düzenleme uygulamalarının
+      genel adıdır. Bu işlemler, kadastro parsellerinin
+      imar planına uygun hale getirilerek imar parsellerinin oluşturulmasını sağlar.
+    </p>
+
+    <h4>Faydaları:</h4>
+    <ul>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Parsel sınırlarını imar planına uygun hale getirir.</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Yol, yeşil alan ve sosyal donatı alanlarının düzenli oluşmasını sağlar.</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Mülkiyet yapısını netleştirerek hukuki güven sağlar.</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Yapılaşmayı planlı ve sürdürülebilir hale getirir.</li>
+    </ul>
+
+    <h4>
+      <i class="fa-solid fa-building icon" style="color:#3498db;"></i>
+      İmar Parseli Nedir?
+    </h4>
+    <p>
+      İmar parseli; parselasyon işlemleri (15, 16, 17 ve özellikle 18. madde uygulamaları)
+      sonucunda, yapı yapılmasına hukuken ve teknik olarak uygun hale getirilmiş,
+      sınırları belirlenmiş arsa parçasıdır. İmar parselleri,
+      yol, yeşil alan ve sosyal donatı gibi kamu alanları ayrıldıktan sonra
+      düzenlenir ve tapu kütüğüne tescil edilerek yasal geçerlilik kazanır.
+    </p>
+
+    <h4>
+      <i class="fa-solid fa-draw-polygon icon" style="color:#e67e22;"></i>
+      Kadastro Parseli Nedir?
+    </h4>
+    <p>
+      Kadastro parseli; kadastro çalışmaları sırasında,
+      mülkiyet durumunu belirlemek amacıyla oluşturulan,
+      sınırları kadastro paftalarında gösterilen,
+      imar planı kararı içermeyen taşınmaz parçasıdır.
+      Kadastro parselleri yapılaşma hakkı vermez;
+      imar uygulaması yapılmadıkça imar parseline dönüşmez.
+    </p>
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+    <i class="fa-solid fa-file-lines icon"></i>
+    Tapu ve Mülkiyet Bilgileri
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+
+  <div class="card-body">
+    <p>
+      Tapu, bir taşınmazın mülkiyetini ve hukuki durumunu gösteren resmi belgedir.
+      Gayrimenkul alım-satımında bağlayıcı ve temel kaynaktır.
+    </p>
+
+    <h4>Tapuda Bulunan Temel Bilgiler:</h4>
+    <ul>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>İl, ilçe, mahalle / köy</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Ada, parsel, bağımsız bölüm</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Niteliği (arsa, tarla, mesken vb.)</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Yüzölçümü ve hisse oranı</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Şerhler, beyanlar, ipotekler</li>
+    </ul>
+
+    <h4>Mülkiyet Türleri:</h4>
+    <ul>
+      <li>
+        <i class="fa-solid fa-building icon"></i>
+        <strong>Kat Mülkiyeti:</strong>
+        İskanı alınmış, bağımsız bölümü ayrı tapuya sahip yapılardır.
+      </li>
+      <li>
+        <i class="fa-solid fa-layer-group icon"></i>
+        <strong>Kat İrtifakı:</strong>
+        İskanı olmayan, yapım aşamasındaki yapılar için kurulan geçici mülkiyet türüdür.
+      </li>
+      <li>
+        <i class="fa-solid fa-map icon"></i>
+        <strong>Arsa / Tarla:</strong>
+        Yapılaşma hakkı plan ve mevzuata göre belirlenen taşınmazlardır.
+      </li>
+    </ul>
+
+    <h4>⚠️ Tapuda Dikkat Edilmesi Gereken Riskli Kayıtlar:</h4>
+    <ul>
+      <li><i class="fa-solid fa-triangle-exclamation icon" style="color:#e74c3c;"></i>İpotek (kredi borcu)</li>
+      <li><i class="fa-solid fa-triangle-exclamation icon" style="color:#e74c3c;"></i>Haciz veya tedbir şerhi</li>
+      <li><i class="fa-solid fa-triangle-exclamation icon" style="color:#e74c3c;"></i>Geçit, irtifak, intifa hakkı</li>
+      <li><i class="fa-solid fa-triangle-exclamation icon" style="color:#e74c3c;"></i>Satışa kısıtlayıcı beyanlar</li>
+    </ul>
+
+    <h4>🏦 Krediye Uygunluk:</h4>
+    <ul>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Kat mülkiyetli tapular genellikle krediye uygundur.</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Kat irtifaklı tapular banka şartlarına bağlıdır.</li>
+      <li><i class="fa-solid fa-xmark icon" style="color:#c0392b;"></i>Şerhli, hisseli veya sorunlu tapular krediye kapalı olabilir.</li>
+    </ul>
+
+    <h4>📌 Hangi Tapu Daha Güvenlidir?</h4>
+    <ul>
+      <li><i class="fa-solid fa-star icon" style="color:#f1c40f;"></i>Kat mülkiyetli</li>
+      <li><i class="fa-solid fa-star icon" style="color:#f1c40f;"></i>Şerhsiz ve ipoteksiz</li>
+      <li><i class="fa-solid fa-star icon" style="color:#f1c40f;"></i>Tek kişiye ait (hisseli olmayan)</li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+    <i class="fa-solid fa-file-signature icon"></i>
+    Tapu Devir İşlemleri (Güncel Uygulama)
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+
+  <div class="card-body">
+    <p>
+      Tapu devir işlemi; bir taşınmazın mülkiyetinin,
+      Tapu ve Kadastro Genel Müdürlüğü nezdinde,
+      yasal olarak alıcıya geçirilmesi sürecidir.
+      Günümüzde işlemler randevu ve elektronik sistemler üzerinden yürütülmektedir.
+    </p>
+
+    <h4>Aşamalar:</h4>
+    <ul>
+      <li>
+        <i class="fa-solid fa-calendar-check icon" style="color:#3498db;"></i>
+        Tapu müdürlüğünden randevu alınır (web veya e-Devlet).
+      </li>
+      <li>
+        <i class="fa-solid fa-file-lines icon" style="color:#e67e22;"></i>
+        Taşınmaza ait tapu bilgileri ve kimlik belgeleri sisteme girilir.
+      </li>
+      <li>
+        <i class="fa-solid fa-money-bill-wave icon" style="color:#27ae60;"></i>
+        Tapu harcı ve döner sermaye bedeli hesaplanır ve ödenir.
+      </li>
+      <li>
+        <i class="fa-solid fa-bell icon" style="color:#f1c40f;"></i>
+        Taraflara SMS ile işlem günü ve saati bildirilir.
+      </li>
+      <li>
+        <i class="fa-solid fa-building-user icon" style="color:#9b59b6;"></i>
+        Alıcı ve satıcı tapu müdürlüğünde hazır bulunur.
+      </li>
+      <li>
+        <i class="fa-solid fa-pen-nib icon" style="color:#34495e;"></i>
+        Resmî senet imzalanır ve mülkiyet devri gerçekleştirilir.
+      </li>
+      <li>
+        <i class="fa-solid fa-certificate icon" style="color:#2ecc71;"></i>
+        Yeni tapu senedi alıcı adına düzenlenir ve teslim edilir.
+      </li>
+    </ul>
+
+    <h4>
+	  <i class="fa-solid fa-triangle-exclamation icon" style="color:#e74c3c;"></i>
+	  Önemli Güncel Notlar
+	</h4>
+
+	<ul>
+	  <li>
+		<i class="fa-solid fa-circle-exclamation icon" style="color:#e74c3c;"></i>
+		Satış bedelinin düşük gösterilmesi cezaya tabidir.
+	  </li>
+	  <li>
+		<i class="fa-solid fa-circle-exclamation icon" style="color:#e74c3c;"></i>
+		Konut kredili satışlarda banka bloke süreci ayrıca işler.
+	  </li>
+	  <li>
+		<i class="fa-solid fa-circle-exclamation icon" style="color:#e74c3c;"></i>
+		Yabancı satışlarında ek izin ve değerlendirme süreçleri bulunmaktadır.
+	  </li>
+	  <li>
+		<i class="fa-solid fa-circle-exclamation icon" style="color:#e74c3c;"></i>
+		Kat irtifakı veya kat mülkiyeti durumu işlem öncesinde mutlaka kontrol edilmelidir.
+	  </li>
+	</ul>
+	  </div>
+</div>
+
+
+
+<div class="card">
+  <div class="card-header"><i class="fa-solid fa-house-chimney icon"></i>Gayrimenkul Alırken Dikkat <i class="fa-solid fa-chevron-down"></i></div>
+  <div class="card-body">
+    <p>Doğru yatırım için dikkat edilmesi gereken kriterler:</p>
+    <ul>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Tapu ve mülkiyet bilgilerini kontrol etmek.</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>İmar durumu ve planına uygunluğu incelemek.</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Lokasyon, altyapı ve sosyal imkanları değerlendirmek.</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Fiyat karşılaştırması ve piyasa araştırması yapmak.</li>
+      <li><i class="fa-solid fa-check icon" style="color:#27ae60;"></i>Gerekirse ekspertiz veya profesyonel danışmanlık almak.</li>
+    </ul>
+    <p>Gayrimenkul alımı hayatınızın önemli kararlarından biridir. Bu nedenle güvenilir bir emlak danışmanından destek almak her zaman avantaj sağlar.</p>
+  </div>
+</div>
+
+<!-- WhatsApp CTA Butonu -->
+<div class="cta">
+  <a href="https://wa.me/905322000401" target="_blank">
+    <i class="fa-brands fa-whatsapp icon"></i>NETmax GAYRİMENKUL
+  </a>
+</div>
+
+<div class="back-wrap">
+  <a href="index.html" class="back-btn">
+    👈 Geri
+  </a>
+</div>
+
+
+<!-- Duyurular Accordion Kartları -->
+
+
+<script>
+  // Mevcut kartlar için accordion
+  const headers = document.querySelectorAll('.card-header');
+  headers.forEach(header => {
+    header.addEventListener('click', () => {
+      const body = header.nextElementSibling;
+      body.style.display = body.style.display === 'block' ? 'none' : 'block';
+      header.classList.toggle('active');
+    });
+  });
+
+  // Duyuru kartları için accordion
+  
+</script>
+
+</body>
+</html>

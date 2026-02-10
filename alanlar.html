@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İmar Alanı Eğitimi</title>
+<style>
+/* ===== GENEL SAYFA STİLİ ===== */
+body{
+  margin:0;
+  background:#0b0b0b;
+  font-family:system-ui;
+  color:#ddd;
+
+  display:flex;
+  justify-content:center;     /* yatay ortalı */
+  align-items:flex-start;     /* üste yakın */
+
+  height:100vh;               /* 👈 scroll engeli */
+  overflow:hidden;            /* 👈 kesin scroll kapalı */
+
+  padding-top:12px;           /* 👈 üste yakın ama yapışık değil */
+}
+
+
+/* ===== KONTEYNER / SCENE ===== */
+.scene {
+  width: 440px; /* Sabit genişlik */
+  background: #111; /* Koyu kutu rengi */
+  border-radius: 14px; /* Köşeleri yuvarlak */
+  padding: 16px; /* İç boşluk */
+  box-shadow: 0 10px 30px rgba(0,0,0,.6); /* Gölge */
+}
+
+/* Başlık */
+.title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #f2c94c;
+  margin-bottom: 6px;
+}
+
+/* Açıklama metni */
+.desc {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 12px;
+  min-height: 100px; /* Açıklama uzunluğu için yeterli alan */
+}
+
+/* ===== HARİTA KUTUSU ===== */
+.map {
+  position: relative; /* İçerik pozisyonu için relative */
+  width: 100%;
+  height: 240px;
+  background: #2b2b2b; /* Harita arka plan rengi */
+  border-radius: 10px; /* Köşeleri yuvarlak */
+  overflow: hidden; /* Taşmaları gizle */
+}
+/* SVG overlay */
+.intro-logo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent; /* koyuluk EKLEMEZ */
+  z-index: 10;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+
+.intro-logo.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-logo svg {
+  width: 60%;
+  max-width: 600px;
+}
+
+/* Alan zemini */
+.area-bg {
+  position: absolute;
+  inset: 0; /* Tüm kutuyu kapla */
+  opacity: 0; /* Başlangıçta görünmez */
+  transition: .6s; /* Geçiş animasyonu */
+}
+
+/* Alan etiketi (yazı) */
+.area-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  opacity: 0; /* Başlangıçta görünmez */
+  transition: .6s;
+  color: #fff;
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.9);
+
+}
+
+/* ===== PARSELLER ===== */
+.parcels {
+  position: absolute;
+  inset: 0;
+  display: grid; /* Grid ile parselleri düzenle */
+  gap: 25px; /* Parseller arası boşluk */
+  padding: 25px; /* Parcellerin kenarlardan boşluğu */
+  opacity: 0;
+  transition: .6s;
+}
+
+/* Parsel kutuları */
+.parcel {
+  position: relative;
+  border: 2px dashed rgba(0,0,200,1.0); /* Çizgili sınır */
+  background: rgba(255,255,255,.08); /* Hafif şeffaf dolgu */
+  border-radius: 0px; /* Hafif yuvarlatılmış köşeler */
+}
+
+/* Grid şablonları */
+.map.konut .parcels { grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(2,1fr); }
+.map.ticaret .parcels { grid-template-columns: repeat(2,1fr); grid-template-rows: repeat(2,1fr); }
+.map.konutTicaret .parcels { grid-template-columns: repeat(2,1fr); grid-template-rows: repeat(2,1fr); }
+.map.sanayi .parcels { grid-template-columns: repeat(2,1fr); }
+.map.yesil .parcels { grid-template-columns: 1fr; }
+.map.egitim .parcels { grid-template-columns: 1fr; }
+.map.akaryakit .parcels { grid-template-columns: 1fr; }
+.map.tarimsal .parcels { grid-template-columns: 1fr; }
+.map.depolama .parcels { grid-template-columns: repeat(3,1fr); }
+.map.tarimHayvancilik .parcels{ display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 18px; }
+.map.cami .parcels{ grid-template-columns: 1fr; }
+.map.acikSpor .parcels{ grid-template-columns: 1fr; }
+.map.belediye .parcels{ grid-template-columns: 1fr; grid-template-rows: 1fr; }
+.map.saglik .parcels{ grid-template-columns: 1fr; grid-template-rows: 1fr; }
+.map.sosyal .parcels{ grid-template-columns: 1fr; grid-template-rows: 1fr; }
+.map.teknik .parcels{ grid-template-columns: 1fr; grid-template-rows: 1fr; }
+
+
+/* Yeşil alanda parsel görünmez */
+.map.yesil .parcel { border: none; background: transparent; }
+
+/* ===== YAPILAR ===== */
+.parcel-building {
+  position: absolute;
+  inset: 18%;
+  opacity: 0;
+  transform: scale(.6); /* Küçük başla */
+  transition: .6s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+  font-family: Tahoma;
+}
+
+/* Alanlara özel yapı renkleri */
+.map.konut .parcel-building { background: #8d6e63; }
+.map.ticaret .parcel-building { background: #90caf9; }
+.map.konutTicaret .parcel-building { background: #ffff00; }
+.map.akaryakit .parcel-building { background: transparent; font-size: 32px; display: flex; align-items: center; justify-content: center; color: #000; }
+.map.sanayi .parcel-building { background: #9e9e9e; }
+.map.tarimsal .parcel-building { position: absolute; width: 20%; height: 20%; background: transparent; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.map.yesil .parcel-building { position: absolute; width: 20%; height: 20%; display: flex; align-items: center; justify-content: center; font-size: 26px; background: transparent; border-radius: 0; }
+.map.depolama .parcel-building { background: #a1887f; color: #000; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.map.tarimHayvancilik .parcel-building { background: #8d6e63; }
+.map.belediye .parcel-building{ inset: 0; background: transparent; display: flex; gap: 14px; align-items: center; justify-content: center; font-size: 28px; opacity: 0; transform: scale(.6); transition: .6s; }
+.map.saglik .parcel-building{ inset: 0; background: transparent; display: flex; gap: 16px; align-items: center; justify-content: center; font-size: 30px; opacity: 0; transform: scale(.6); transition: .6s; }
+.map.sosyal .parcel-building{ inset: 0; background: transparent; display: flex; gap: 16px; align-items: center; justify-content: center; font-size: 30px; opacity: 0; transform: scale(.6); transition: .6s; }
+
+
+ /* Yeşil alan simge konumları */
+.map.yesil .parcel-building:nth-child(1){ top:10%; left:10%; }
+.map.yesil .parcel-building:nth-child(2){ top:10%; left:70%; }
+.map.yesil .parcel-building:nth-child(3){ top:40%; left:30%; }
+.map.yesil .parcel-building:nth-child(4){ top:60%; left:60%; }
+.map.yesil .parcel-building:nth-child(5){ top:75%; left:20%; }
+.map.yesil .parcel-building:nth-child(6){ top:50%; left:80%; }
+
+/* Tarımsal alan simge konumları */
+.map.tarimsal .parcel-building:nth-child(1){ top:10%; left:10%; }
+.map.tarimsal .parcel-building:nth-child(2){ top:10%; left:70%; }
+.map.tarimsal .parcel-building:nth-child(3){ top:40%; left:30%; }
+.map.tarimsal .parcel-building:nth-child(4){ top:60%; left:60%; }
+.map.tarimsal .parcel-building:nth-child(5){ top:75%; left:20%; }
+.map.tarimsal .parcel-building:nth-child(6){ top:50%; left:80%; }
+
+/* ikonlar */
+.cami-icon{ font-size: 38px; }
+.spor-icon{ font-size: 28px; }
+.tarimsal-icon { font-size: 18px !important; }
+.okul-icon { font-size: 38px; }
+.teknik-icon{ font-size: 30px; display: flex; gap: 6px; align-items: center; justify-content: center; }
+
+
+/* ===== ADIM ANİMASYONLARI ===== */
+.map.step1 .area-bg { opacity: 1; }
+.map.step1 .area-label { opacity: 1; }
+
+.map.step2 .area-bg { opacity: 1; }
+.map.step2 .parcels { opacity: 1; }
+.map.step2 .area-label { opacity: 0; }
+.map.step2 .area-bg {
+  background: #efefef !important;       /* beyaz zemin */
+  background-image: none !important; /* tarama/desen kalkar */
+  opacity: 1 !important;             /* görünür */
+}
+.map.step2 .parcel {
+  opacity: 1;             /* görünür */
+}
+
+.map.step3 .area-bg { opacity: 1; }
+.map.step3 .parcels { opacity: 1; }
+.map.step3 .parcel-building { opacity: 1; transform: scale(1); }
+.map.step3 .area-bg {
+  background: #efefef !important;       /* beyaz zemin */
+  background-image: none !important; /* tarama/desen kalkar */
+  opacity: 1 !important;             /* görünür */
+}
+
+/* ===== KONTROLLER ===== */
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* CUSTOM DROPDOWN */
+.custom-dropdown {
+  position: relative;
+  max-width: 180px !important; 
+  flex: 1;
+  font-family: Tahoma;
+  user-select: none;
+  z-index: 100;
+}
+
+.custom-dropdown .selected {
+  padding: 7px 12px;       /* İç boşlukları biraz küçülttük */
+  background: #1b1b1b;
+  color: #fff;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 12px;
+  width: 100%;             /* container genişliğine uysun */
+  box-sizing: border-box;  /* padding dahil genişlik hesapla */
+  text-align: left;        /* yazıyı sola hizala */
+  line-height: 1.5;     /* 👈 satırlar nefes alır */
+  letter-spacing: .2px; /* 👈 harfler sıkışmaz */
+}
+
+.custom-dropdown .options {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  max-height: 120px;
+  overflow-y: auto;
+  background: #1b1b1b;
+  border-radius: 2px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+  display: none;
+}
+/* ===== MOBİL & CHROME / SAFARI ===== */
+.custom-dropdown .options::-webkit-scrollbar {
+  width: 6px;              /* ince */
+}
+
+.custom-dropdown .options::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-dropdown .options::-webkit-scrollbar-thumb {
+  background: rgba(242,201,76,0.85); /* daha opak */
+  border-radius: 10px;
+}
+
+.custom-dropdown .options::-webkit-scrollbar-thumb:hover {
+  background: rgba(242,201,76,0.9);
+}
+
+/* ===== FIREFOX ===== */
+.custom-dropdown .options {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(242,201,76,0.6) transparent;
+}
+
+.custom-dropdown .option {
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.custom-dropdown .option:hover {
+  background: #333;
+}
+
+/* Buttons */
+.controls button {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: none;
+  background: #f2c94c;
+  cursor: pointer;
+  font-family: Tahoma;
+  display: flex;
+  align-items: center;
+  gap: 3px; /* buton metni ile ok arasında boşluk */
+}
+#nextArrow {
+  transition: opacity 0.3s;
+}
+
+/* Geri buton */
+.nizam-btn {
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg,#f2c94c,#fff1a8);
+  color: #111;
+  font-weight: 500;
+  font-family: Tahoma;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 12px;
+}
+.controls button:hover,
+.nizam-btn:hover {
+  background: linear-gradient(135deg,#d4a017,#f2c94c);
+}
+
+@media screen and (max-width: 480px) {
+  .scene { width: 95%; }
+  .reset-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  .reset-btn::after {
+    width: 10px;
+    height: 10px;
+    border-width: 2px;
+    right: -2px;
+  }
+}
+
+
+/* ===== YÜKSEKLİK EŞİTLEME ===== */
+.controls button,
+.custom-dropdown .selected{
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 480px){
+  .controls button,
+  .custom-dropdown .selected{
+    min-height: 38px;
+  }
+}
+
+
+
+/* TARAMAM ÖRNEKLERİ) */
+
+.map.konut .area-bg{ background: #8c541a; }
+.map.konut .parcel{ background: #8c541a; }
+
+.map.ticaret .area-bg{
+  background:
+    repeating-linear-gradient(90deg,#000 0 1px,transparent 1px 15px),
+    repeating-linear-gradient(180deg,#000 0 1px,transparent 1px 15px),
+    #e00021;
+}
+.map.ticaret .parcel{
+  background:
+    repeating-linear-gradient(90deg,#000 0 1px,transparent 1px 15px),
+    repeating-linear-gradient(180deg,#000 0 1px,transparent 1px 15px),
+    #e00021;
+}
+
+.map.sanayi .area-bg{
+  background:
+    repeating-linear-gradient(45deg,#000 0 1px,transparent 1px 15px),
+    repeating-linear-gradient(-45deg,#000 0 1px,transparent 1px 15px),
+    #aa66cd;
+}
+.map.sanayi .parcel{
+  background:
+    repeating-linear-gradient(45deg,#000 0 1px,transparent 1px 15px),
+    repeating-linear-gradient(-45deg,#000 0 1px,transparent 1px 15px),
+    #aa66cd;
+}
+
+.map.egitim .area-bg{
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #008fff;
+  background-size: 20px 20px;
+}
+.map.egitim .parcel{
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #008fff;
+  background-size: 20px 20px;
+}
+
+.map.konutTicaret .area-bg{
+  background:
+    repeating-linear-gradient(90deg,#000 0 1px,transparent 1px 15px),
+    repeating-linear-gradient(180deg,#000 0 1px,transparent 1px 15px),
+    #e3ba45;
+}
+.map.konutTicaret .parcel{
+  background:
+    repeating-linear-gradient(90deg,#000 0 1px,transparent 1px 15px),
+    repeating-linear-gradient(180deg,#000 0 1px,transparent 1px 15px),
+    #e3ba45;
+}
+
+.map.akaryakit .area-bg{
+  background:
+    repeating-linear-gradient(90deg,#000 0 1px,transparent 1px 15px),
+    repeating-linear-gradient(180deg,#000 0 1px,transparent 1px 15px),
+    #ff3800;
+}
+.map.akaryakit .parcel{
+  background:
+    repeating-linear-gradient(90deg,#000 0 1px,transparent 1px 15px),
+    repeating-linear-gradient(180deg,#000 0 1px,transparent 1px 15px),
+    #ff3800;
+}
+
+.map.tarimsal .area-bg {
+  background-color: #e9fabe;
+  background-image: radial-gradient(circle, transparent 6px, #000 7px, transparent 8px);
+  background-size: 50px 50px;
+}
+.map.tarimsal .parcel {
+  background-color: #e9fabe;
+  background-image: radial-gradient(circle, transparent 6px, #000 7px, transparent 8px);
+  background-size: 50px 50px;
+}
+
+.map.depolama .area-bg{
+  background:
+    /* 45° çift çizgi */
+    repeating-linear-gradient(
+      45deg, #000 0px, #000 1px, transparent 1px, transparent 14px ),
+    repeating-linear-gradient(
+      45deg, #000 4px, #000 5px, transparent 5px, transparent 18px ),
+
+    /* -45° çift çizgi */
+    repeating-linear-gradient(
+      -45deg, #000 0px, #000 1px, transparent 1px, transparent 14px ),
+    repeating-linear-gradient(
+      -45deg, #000 4px, #000 5px, transparent 5px, transparent 18px ),
+    #c29ed7;
+}
+.map.depolama .parcel{
+  background:
+    /* 45° çift çizgi */
+    repeating-linear-gradient(
+      45deg, #000 0px, #000 1px, transparent 1px, transparent 14px ),
+    repeating-linear-gradient(
+      45deg, #000 4px, #000 5px, transparent 5px, transparent 18px ),
+
+    /* -45° çift çizgi */
+    repeating-linear-gradient(
+      -45deg, #000 0px, #000 1px, transparent 1px, transparent 14px ),
+    repeating-linear-gradient(
+      -45deg, #000 4px, #000 5px, transparent 5px, transparent 18px ),
+    #c29ed7;
+}
+
+.map.tarimHayvancilik .area-bg{
+  background:
+    /* 90° çift çizgi */
+    repeating-linear-gradient(
+      90deg, #000 0px, #000 1px, transparent 1px, transparent 14px ),
+    repeating-linear-gradient(
+      90deg, #000 4px, #000 5px, transparent 5px, transparent 18px ),
+
+    /* 180° çift çizgi */
+    repeating-linear-gradient(
+      180deg, #000 0px, #000 1px, transparent 1px, transparent 14px ),
+    repeating-linear-gradient(
+      180deg, #000 4px, #000 5px, transparent 5px, transparent 18px ),
+    #e9fabe;
+}
+.map.tarimHayvancilik .parcel{
+  background:
+    /* 90° çift çizgi */
+    repeating-linear-gradient(
+      90deg, #000 0px, #000 1px, transparent 1px, transparent 14px ),
+    repeating-linear-gradient(
+      90deg, #000 4px, #000 5px, transparent 5px, transparent 18px ),
+
+    /* 180° çift çizgi */
+    repeating-linear-gradient(
+      180deg, #000 0px, #000 1px, transparent 1px, transparent 14px ),
+    repeating-linear-gradient(
+      180deg, #000 4px, #000 5px, transparent 5px, transparent 18px ),
+    #e9fabe;
+}
+
+.map.cami .area-bg{
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #73d4ff;
+  background-size: 20px 20px;
+}
+.map.cami .parcel{
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #73d4ff;
+  background-size: 20px 20px;
+}
+
+.map.acikSpor .area-bg{
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #89cd66;
+  background-size: 20px 20px;
+}
+.map.acikSpor .parcel {
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #89cd66;  /* istersen parsel rengi farklı da olabilir */
+  background-size: 20px 20px;
+}
+
+.map.yesil .area-bg { background: #249c22; } 
+.map.yesil .parcel { background: #249c22; }
+
+.map.belediye .area-bg{
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #6699cd;
+  background-size: 20px 20px;
+}
+.map.belediye .parcel {
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #6699cd;  /* istersen parsel rengi farklı da olabilir */
+  background-size: 20px 20px;
+}
+
+.map.saglik .area-bg{
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #00a9e6;
+  background-size: 20px 20px;
+}
+.map.saglik .parcel {
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #00a9e6;  /* istersen parsel rengi farklı da olabilir */
+  background-size: 20px 20px;
+}
+
+.map.sosyal .area-bg{
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #73d4ff;
+  background-size: 20px 20px;
+}
+.map.sosyal .parcel {
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #73d4ff;  /* istersen parsel rengi farklı da olabilir */
+  background-size: 20px 20px;
+}
+
+.map.teknik .area-bg{
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #b2b2b2;
+  background-size: 20px 20px;
+}
+.map.teknik .parcel {
+  background:
+    radial-gradient(#000 2px, transparent 2px),
+    #b2b2b2;  /* istersen parsel rengi farklı da olabilir */
+  background-size: 20px 20px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <div class="title" id="title">İmar Alanı</div>
+  <div class="desc" id="desc">Bir alan seçerek animasyonu başlatın.</div>
+
+  <div class="map" id="map">
+  <div class="area-bg"></div>
+  <div class="area-label" id="areaLabel"></div>
+  <div class="parcels" id="parcels"></div>
+
+  <!-- 👇 BAŞLANGIÇ SVG OVERLAY -->
+  <div id="introLogo" class="intro-logo">
+    <!-- SVG'Yİ AYNEN BURAYA YAPIŞTIR -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900">
+      <defs>
+  <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="7" stdDeviation="10" flood-color="#000" flood-opacity="0.22"/>
+  </filter>
+</defs>
+
+<g transform="translate(0, 260)">
+  <rect width="1000" height="380" fill="transparent"/>
+
+  <!-- Çatı işareti -->
+  <g stroke="#fff" stroke-width="8" fill="none"
+     stroke-linecap="round" stroke-linejoin="round"
+     transform="translate(335, 0)">
+    <polyline points="0,60 85,10 170,60"/>
+    <polyline points="40,60 85,35 130,60"/>
+  </g>
+
+  <!-- en -->
+  <text x="165" y="125"
+        font-family="Georgia"
+        font-size="45"
+        font-style="italic"
+        fill="#fff">en</text>
+
+  <!-- Çember -->
+  <circle cx="190" cy="115"
+          r="38"
+          fill="none"
+          stroke="#fff"
+          stroke-width="2"/>
+
+
+  <!-- NET -->
+  <text x="230" y="225"
+        font-family="Arial Black, Impact"
+        font-size="185"
+        font-weight="900"
+        fill="#fff"
+        letter-spacing="2"
+        filter="url(#softShadow)">NET</text>
+
+  <!-- max -->
+  <text x="640" y="225"
+        font-family="Georgia"
+        font-size="100"
+        font-style="italic"
+        font-weight="700"
+        fill="#fff"
+        letter-spacing="3">max</text>
+
+  <!-- GAYRİMENKUL -->
+  <text x="500" y="350"
+        text-anchor="middle"
+        font-size="58"
+        font-family="Arial"
+        font-weight="800"
+        letter-spacing="2"
+        fill="#fff">GAYRİMENKUL</text>
+</g>
+
+    </svg>
+  </div>
+</div>
+
+
+  <div class="controls">
+    <div class="custom-dropdown">
+      <div class="selected">İmar Alanı Seç</div>
+      <div class="options">                                        			
+		<div class="option" data-value="acikSpor">⚽ Açık Spor Tes Alanı</div>
+		<div class="option" data-value="akaryakit">⛽ Akaryakıt Alanı</div>
+		<div class="option" data-value="belediye">🏛️ Belediye Hizmet Alanı</div>
+		<div class="option" data-value="cami">🕌 Cami Alanı</div>
+		<div class="option" data-value="depolama">📦 Depolama Alanı</div>
+		<div class="option" data-value="egitim">🎓 Eğitim Alanı</div>
+		<div class="option" data-value="konut">🏠 Konut Alanı</div>
+		<div class="option" data-value="konutTicaret">🏢🏠 Konut - Ticaret</div>
+		<div class="option" data-value="saglik">🏥 Sağlık Tesisi Alanı</div>
+		<div class="option" data-value="sanayi">🏭 Sanayi Alanı</div>
+		<div class="option" data-value="sosyal">🧑‍🤝‍🧑 Sosyal Tesis Alanı</div>		
+		<div class="option" data-value="tarimHayvancilik">🌾🐄 Tarım & Hayvancılık</div>
+		<div class="option" data-value="tarimsal">🌾 Tarımsal Nitelikli Alan</div>	
+		<div class="option" data-value="teknik">🛠️ Teknik Altyapı Alanı</div>
+		<div class="option" data-value="ticaret">🏢 Ticaret Alanı</div>	
+		<div class="option" data-value="yesil">🌳 Yeşil Alan</div> 		
+      </div>
+    </div>
+    <button id="nextBtn">İleri <span id="nextArrow">&gt;</span></button>
+    <button id="resetBtn">Reset ⟲</button>
+  </div>
+
+  <div style="display:flex; justify-content:flex-end; margin:20px 0 10px; padding-right:20px;">
+    <a href="index.html" class="nizam-btn back-btn">👈 Geri</a>
+  </div>
+</div>
+
+<script>
+// ---------------- AREALAR ----------------
+const map = document.getElementById("map");
+const title = document.getElementById("title");
+const desc = document.getElementById("desc");
+const label = document.getElementById("areaLabel");
+const parcels = document.getElementById("parcels");
+
+let step = 0;
+let currentArea = "";
+
+const areas = {
+  konut: {
+    t: "Konut Alanı",
+    d: `İmar planına göre yerleşim amaçlı alanlardır. Bu alanlarda meskenler (ev, apartman, site) inşa edilir. 
+		Kat yüksekliği, yapı yoğunluğu ve çekme mesafeleri imar planında belirtilmiştir. 
+		Altyapı ve sosyal donatılar (park, okul, yol) ile birlikte planlanır.
+		Planlama aşamasında, çevre düzenlemesi, yeşil alan ve altyapı hizmetleri ile uyumlu olarak yapılması zorunludur.`,
+    l: "KONUT ALANI",
+    c: 6
+  },
+  ticaret: {
+    t: "Ticaret Alanı",
+    d: `İmar yönetmeliğine göre ticari faaliyetlerin yapılmasına ayrılmış alanlardır. 
+		Bu alanlarda dükkan, mağaza, ofis, alışveriş merkezi gibi yapılar inşa edilir. 
+		Kat yüksekliği, yapı yoğunluğu ve çekme mesafeleri imar planına göre belirlenir. 
+		Ticaret alanları, yol bağlantıları ve müşteri erişimi açısından planlanır ve çevreye uyumlu olmalıdır.`,
+    l: "TİCARET ALANI",
+    c: 4
+  },
+  konutTicaret: {
+    t: "Karma Kullanım Alanı",
+    d: `İmar planına göre alt kat ticaret, üst kat konut (karma kullanım) için ayrılmış alanlardır. 
+		Bu alanlarda dükkan, ofis veya ticari birimler alt katta; konutlar üst katlarda bulunur. 
+		Kat yüksekliği, yapı yoğunluğu ve çekme mesafeleri imar planına göre belirlenmiştir. 
+		Böylece hem ticari faaliyet hem de konut kullanımı sağlanır. Planlama sırasında, 
+		alt katın ticaret işlevi ile üst katın konut işlevi birbirini engellememeli, güvenlik ve konfor koşulları sağlanmalıdır.`,
+    l: "KONUT + TİCARET",
+    c: 4
+  },
+  sanayi: {
+    t: "Sanayi Alanı",
+    d: `Üretim, imalat ve depolama tesislerinin bulunduğu alanlardır. Kat ve yapı yoğunluğu imar planına göre belirlenir. 
+		Sanayi alanları çevresindeki konut alanlarından izole edilerek planlanır ve altyapı (elektrik, su, yol) gereksinimleri özel olarak sağlanır. 
+		Çevresel etki, gürültü ve ulaşım kriterleri göz önünde bulundurulur.`,
+    l: "SANAYİ ALANI",
+    c: 2
+  },
+  yesil: {
+    t: "Yeşil Alan",
+    d: `Park, bahçe, rekreasyon ve peyzaj alanlarıdır. Yapılaşmaya kapalıdır, ağaç ve yeşil alanlar bulunur. 
+		Bu alanlar şehir içinde doğa ve sosyal kullanım dengesi için planlanır. Yürüyüş yolları, spor alanları, 
+		dinlenme alanları gibi sosyal donatılar içerebilir.`,
+    l: "YEŞİL ALAN",
+    c: 6
+  },
+  egitim: {
+    t: "Eğitim Alanı",
+    d: `Okul ve eğitim tesislerinin yer aldığı tek yapıdan oluşan alandır. Kat ve yapı yoğunluğu imar planına göre belirlenir. 
+		Bu alanlar güvenli ve erişilebilir olmalı, çocukların ve öğrencilerin kullanımına uygun şekilde planlanmalıdır. 
+		Sosyal alanlar ve oyun alanlarıyla entegre edilmelidir.`,
+    l: "EĞİTİM ALANI",
+    c: 1
+  },
+  akaryakit: {
+  t: "Akaryakıt Alanı",
+  d: `İmar planına göre akaryakıt istasyonlarının bulunduğu alanlardır. Bu alanlarda benzin/dizel/LPG istasyonları ve ilgili tesisler inşa edilir. 
+	  Kat yüksekliği ve çekme mesafeleri, güvenlik ve çevresel etki kriterlerine göre belirlenir. 
+	  Altyapı ve yol bağlantıları istasyon kullanımına uygun olmalıdır.`,
+  l: "AKARYAKIT ALANI",
+  c: 1
+  },
+  tarimsal: {
+  t: "Tarımsal Nitelikli Alan",
+  d: `İmar planına göre tarımsal faaliyetler için ayrılmış alanlardır. Bu alanlarda tarla, sera, bahçe ve ilgili tesisler bulunur. 
+	  Yapılaşma yoktur, sosyal ve çevresel kullanım tarımsal amaçlıdır.`,
+  l: "TARIMSAL ALAN",
+  c: 6
+  },
+  depolama: {
+  t: "Depolama Alanı",
+  d: `İmar planına göre depo, lojistik ve saklama amaçlı ayrılmış alanlardır. Kat yüksekliği ve yapı yoğunluğu imar planına göre belirlenir. 
+      Bu alanlarda yükleme/boşaltma, lojistik ve benzeri tesisler bulunur. Çevreye uyumlu ve güvenli olacak şekilde planlanmalıdır.`,
+  l: "DEPOLAMA ALANI",
+  c: 3 // 3 adet parsel çizelim
+  },
+  tarimHayvancilik: {
+  t: "Tarım ve Hayvancılık Alanı",
+  d: "Tarımsal üretim ve hayvancılık faaliyetlerine ayrılmış alanlardır. Yapılaşma çok sınırlıdır, üretim ve açık alan kullanımı esastır.",
+  l: "TARIM & HAYVANCILIK",
+  c: 4
+  },
+  cami: {
+  t: "Cami Alanı",
+  d: `İbadet amacıyla kullanılan cami ve mescit alanlarıdır. Bu alanlar toplu ibadet, dini eğitim ve sosyal dayanışma amacıyla planlanır. 
+      Yapılaşma koşulları imar planında belirlenir.`,
+  l: "CAMİ ALANI",
+  c: 1
+  },
+  acikSpor: {
+  t: "Açık Spor Tesis Alanı",
+  d: `İmar planına göre açık spor faaliyetlerine ayrılmış alanlardır. Bu alanlarda futbol sahası, basketbol sahası, 
+	  tenis kortu ve benzeri açık spor tesisleri yer alır. Yapılaşma yoktur, kullanım açık alan spor aktivitelerine yöneliktir.`,
+  l: "AÇIK SPOR TESİS ALANI",
+  c: 1
+  },
+  belediye:{
+  t:"Belediye Hizmet Alanı",
+  d:"Belediyelerin görev ve yetkileri kapsamında kamu hizmeti sunmak amacıyla ayrılan alanlardır. Bu alanlarda belediye hizmet binaları, fen işleri, temizlik işleri, itfaiye ve sosyal hizmet birimleri yer alabilir. Konut ve ticari kullanım yapılamaz.",
+  l:"BELEDİYE HİZMET ALANI",
+  c:1
+  },
+  saglik:{
+  t:"Sağlık Tesisi Alanı",
+  d:"Toplum sağlığını korumak ve sağlık hizmetlerini sunmak amacıyla ayrılan kamu alanlarıdır. Bu alanlarda sağlık ocağı, aile sağlığı merkezi, poliklinik ve hastane gibi tesisler yer alabilir. Konut ve ticari kullanım yapılamaz.",
+  l:"SAĞLIK TESİSİ ALANI",
+  c:1
+  },
+  sosyal:{
+  t:"Sosyal Tesis Alanı",
+  d:"Toplumun sosyal, kültürel ve sportif ihtiyaçlarını karşılamak amacıyla ayrılan kamu ağırlıklı alanlardır. Bu alanlarda kültür merkezi, çok amaçlı salon, spor salonu, yüzme havuzu, gençlik ve aile destek merkezleri gibi sosyal tesisler yer alabilir. Konut ve ana fonksiyon olarak ticari kullanım yapılamaz. Yapılaşma koşulları imar planı ve plan notlarıyla belirlenir.",
+  l:"SOSYAL TESİS ALANI",
+  c:1
+  },
+  teknik: {
+  t: "Teknik Altyapı Alanı",
+  d: "Yerleşmenin elektrik, su, kanalizasyon, doğalgaz, telekomünikasyon, atık yönetimi ve benzeri teknik ihtiyaçlarını karşılamak amacıyla ayrılan kamu yararı niteliğindeki alanlardır. Bu alanlarda trafo merkezleri, su depoları, pompa istasyonları, arıtma tesisleri, doğalgaz regülasyon tesisleri, haberleşme altyapı tesisleri ve benzeri teknik tesisler yer alabilir. Konut, ticaret ve sosyal tesis kullanımı yapılamaz. Yapılaşma koşulları, ilgili kurum görüşleri doğrultusunda imar planı ve plan notları ile belirlenir.",
+  l: "TEKNİK ALTYAPI ALANI",
+  c: 1
+  }
+
+};
+
+// ---------------- PARSELLER ----------------
+function buildParcels(area){
+  parcels.innerHTML = "";
+
+  if(area === "yesil"){
+    // Yeşil alan: 1 parsel, içinde 6 simge
+    let parcelHTML = `<div class="parcel">`;
+    for(let i=0;i<6;i++){
+      parcelHTML += `<div class="parcel-building">🌳</div>`;
+    }
+    parcelHTML += `</div>`;
+    parcels.innerHTML += parcelHTML;
+
+  } else if(area === "tarimsal"){
+    // Tarımsal alan: 1 parsel, içinde 6 simge
+    let parcelHTML = `<div class="parcel">`;
+    for(let i=0;i<6;i++){
+      parcelHTML += `<div class="parcel-building tarimsal-icon">🌾</div>`;
+    }
+    parcelHTML += `</div>`;
+    parcels.innerHTML += parcelHTML;
+
+  } else if(area === "akaryakit"){
+    parcels.innerHTML += `
+      <div class="parcel">
+        <div class="parcel-building">⛽</div>
+      </div>`;
+
+  } else if(area === "cami"){
+    parcels.innerHTML += `
+      <div class="parcel">
+        <div class="parcel-building cami-icon">🕌</div>
+      </div>`;
+
+  } else if(area === "acikSpor"){
+    // Açık spor: 1 parsel, içinde 6 simge
+    let parcelHTML = `<div class="parcel">`;
+    for(let i=0;i<6;i++){
+      parcelHTML += `<div class="parcel-building spor-icon">⚽ 🏀 🎾️</div>`;
+    }
+    parcelHTML += `</div>`;
+    parcels.innerHTML += parcelHTML;
+
+  } else if(area === "egitim"){
+    // Eğitim alanı: tek parsel, okul ikonu
+    parcels.innerHTML += `
+      <div class="parcel">
+        <div class="parcel-building okul-icon">🏫</div>
+      </div>`;
+   } else if(area === "belediye"){
+    // 🏛️ Belediye Hizmet Alanı: tek parsel, hizmet ikonları
+    parcels.innerHTML += `
+      <div class="parcel">
+        <div class="parcel-building">
+          🏛️ 🚜 🚒 🧹
+        </div>
+      </div>`;
+	} else if(area === "saglik"){
+	// 🏥 Sağlık Tesisi Alanı: tek parsel, yapı YOK, sağlık ikonları
+	parcels.innerHTML += `
+		<div class="parcel">
+			<div class="parcel-building">
+				🏥 🩺 🚑
+			</div>
+		</div>`;
+	} else if(area === "sosyal"){
+	// 🏘️ Sosyal Tesis Alanı: tek parsel, ikonlar
+	parcels.innerHTML += `
+    <div class="parcel">
+      <div class="parcel-building">
+        🏟️ 🎭 🏊 🧑‍🤝‍🧑
+      </div>
+    </div>`;
+	} else if(area === "teknik"){
+	// Teknik altyapı alanı: tek parsel, ikonlarla ifade
+	parcels.innerHTML += `
+    <div class="parcel">
+      <div class="parcel-building teknik-icon">
+        ⚡ 💧 📡 🔧
+      </div>
+    </div>`;
+   } else {
+    // Diğer alanlar: belirtilen sayıda yapı
+    for(let i=0;i<areas[area].c;i++){
+      parcels.innerHTML += `
+        <div class="parcel">
+          <div class="parcel-building">YAPI</div>
+        </div>`;
+    }
+  }
+}
+
+
+
+
+
+// ---------------- CUSTOM DROPDOWN ----------------
+const dropdown = document.querySelector('.custom-dropdown');
+const selected = dropdown.querySelector('.selected');
+const options = dropdown.querySelectorAll('.option');
+
+const introLogo = document.getElementById("introLogo"); // 👈 SVG overlay
+
+selected.addEventListener('click', ()=>{
+  const menu = dropdown.querySelector('.options');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+});
+
+options.forEach(opt=>{
+  opt.addEventListener('click', ()=>{
+    selected.textContent = opt.textContent;
+    const value = opt.dataset.value;
+    dropdown.querySelector('.options').style.display = 'none';
+    selectArea(value);
+  });
+});
+
+// ---------------- SEÇİM ----------------
+function selectArea(value){
+  reset(false);
+
+  currentArea = value;
+  if(!currentArea) return;
+
+  // 👇 SVG'yi gizle
+  if(introLogo){
+    introLogo.classList.add("hidden");
+  }
+
+  map.className = "map " + currentArea;
+  title.textContent = areas[currentArea].t;
+  desc.textContent = areas[currentArea].d;
+  label.textContent = areas[currentArea].l;
+  buildParcels(currentArea);
+
+  step = 1;
+  map.classList.add("step1");
+}
+
+// ---------------- İLERİ / RESET ----------------
+const nextBtn = document.getElementById("nextBtn");
+const nextArrow = document.getElementById("nextArrow");
+
+nextBtn.onclick = () => {
+  if(!currentArea || step >= 3) return;
+
+  step++;
+
+  map.classList.remove("step1","step2","step3");
+  map.classList.add("step" + step);
+
+  nextArrow.style.opacity = (step >= 3) ? 0 : 1;
+};
+
+document.getElementById("resetBtn").onclick = ()=> reset(true);
+
+function reset(full){
+  step = 0;
+  currentArea = "";
+  map.className = "map";
+  parcels.innerHTML = "";
+  label.textContent = "";
+
+  if(nextArrow){
+    nextArrow.style.opacity = 1;
+  }
+
+  if(full){
+    title.textContent = "İmar Alanı";
+    desc.textContent = "Bir alan seçerek animasyonu başlatın.";
+    selected.textContent = "İmar Alanı seç";
+
+    // 👇 SVG'yi geri getir
+    if(introLogo){
+      introLogo.classList.remove("hidden");
+    }
+  }
+}
+
+
+</script>
+</body>
+</html>

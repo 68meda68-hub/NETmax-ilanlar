@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İnşaat Nizamları – Ayrık & Bitişik</title>
+<style>
+:root{
+  --bg:#0b0b0b;
+  --panel:#141414;
+  --gold:#d4af37;
+  --line:#3a3a3a;
+  --muted:#777;
+  --white:#fff;
+  --road:#1a1a1a;
+  --neighbor:#0f0f0f;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:#000; font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif; color:#ddd;
+}
+
+/* Kart */
+.wrapper{width:440px;}
+.nizam-card{
+  width:100%; padding:16px; border-radius:14px; margin-bottom:16px;
+  background:linear-gradient(180deg,#151515,#0e0e0e);
+  box-shadow:0 10px 30px rgba(0,0,0,.6);
+}
+.nizam-title{font-size:18px; font-weight:800; color:var(--gold); margin-bottom:6px;}
+.nizam-desc{font-size:13px; line-height:1.5; color:#aaa; margin-bottom:12px;}
+.nizam-btn{
+  padding:6px 16px; border:none; border-radius:999px; font-size:13px; font-weight:700; cursor:pointer;
+  color:#111; background:linear-gradient(135deg,#d4af37,#fff1a8); box-shadow:0 4px 12px rgba(212,175,55,.35);
+  margin-bottom:12px;
+}
+
+/* Sahne */
+.scene{padding:8px; background:#0b0b0b; border-radius:12px;}
+.stage{position:relative; width:100%; height:260px; border-radius:10px;}
+
+/* Komşu parseller & yol */
+.neighbor{
+  position:absolute; background:var(--neighbor); border:1px dashed #222; border-radius:6px; color:#666;
+  font-size:11px; display:flex; align-items:center; justify-content:center;
+}
+.neighbor.top{top:0; left:70px; right:70px; height:36px;}
+.neighbor.left{top:36px; left:0; width:36px; bottom:70px;}
+.neighbor.right{top:36px; right:0; width:36px; bottom:70px;}
+
+.road{
+  position:absolute; left:0; right:0; bottom:0; height:54px;
+  background:repeating-linear-gradient(
+    -45deg, var(--road), var(--road) 10px, #111 10px, #111 20px
+  );
+  border-radius:8px;
+  display:flex; align-items:center; justify-content:center; color:#888; font-size:12px;
+}
+
+/* Parsel */
+.parcel{
+  position:absolute; top:36px; left:36px; right:36px; bottom:54px;
+  border:2px solid var(--line); border-radius:0px; background:#0f0f0f; overflow:hidden;
+}
+.parcel-label{
+  position:absolute; top:8px; left:8px; font-size:12px; color:#aaa; pointer-events:none;
+}
+
+/* Çekme çizgileri (düz) */
+.inner-area{
+  position:absolute;
+  top:0; left:0; width:100%; height:100%;
+  background:transparent; z-index:1;
+  transition: width 1s ease, height 1s ease, top 1s ease, left 1s ease, opacity 1s ease;
+  border:none;
+  //outline:2px solid var(--gold);
+  outline-offset:-2px;
+  opacity:0;
+}
+
+/* Çekme mesafesi yazıları */
+.setback{
+  position:absolute; font-size:12px; color:#fff;
+  background:rgba(0,0,0,.6); padding:2px 6px; border-radius:4px;
+  pointer-events:none; opacity:0; transition:opacity 1s ease; z-index:10;
+}
+/* ÜST: ÖN CEPHE (YOL) */
+.setback.top{top:auto; bottom:25%; left:50%; transform:translateX(-50%);}
+/* ALT: ARKA CEPHE (KOMŞU) */
+.setback.bottom{bottom:auto; top:16%; left:50%; transform:translateX(-50%);}
+.setback.left{top:50%; left:15px; transform:translateY(-50%) rotate(-90deg);}
+.setback.right{top:50%; right:15px; transform:translateY(-50%) rotate(90deg);}
+
+/* Bina */
+.building{
+  position:absolute; top:50%; left:50%; width:0%; height:0%;
+  background:var(--gold); transform:translate(-50%,-50%); opacity:0;
+  transition: width 1.2s ease, height 1.2s ease, opacity 1s ease;
+  display:flex; align-items:center; justify-content:center; border-radius:0px;
+}
+.building-label{
+  font-size:12px; font-weight:700; color:#111; opacity:0; transition:opacity .8s ease; pointer-events:none;
+}
+
+/* Ayrık Nizam: Ön 5 m, Arka 3 m, Yanlar 3-3 */
+#building1.active{
+  width: 76%;   /* Yan: 12 + 12  => 100 - 24 */
+  height: 63%;  /* Ön: 25 + Arka: 12 => 100 - 37 */
+  opacity:1;
+}
+
+/* Bitişik Nizam: Sol 0 m, Sağ 3 m, Ön 5 m, Arka 3 m */
+/* ===================== BİTİŞİK NİZAM – PARSEL KENARINA YASLI ===================== */
+#building2{
+  top:auto;
+  left:0;                 /* 👈 SOL KENAR PARSEL SINIRINA YASLI */
+  transform:none;        /* 👈 ortalamayı iptal */
+}
+
+/* Bitişik Nizam: Sol 0 m, Sağ 3 m, Ön 5 m, Arka 3 m */
+#building2.active{
+  left: 0;               /* parsele yapışık */
+  right: 12%;            /* sağ yan çekme (3 m) */
+  top: 16%;              /* arka çekme (3 m) */
+  bottom: 18%;           /* ön çekme (5 m) */
+  width: auto;
+  height: auto;
+  opacity:1;
+}
+
+#building3.active{
+  width: 82%;   /* Yanlar 3-3 */
+  height: 68%;  /* Ön 5, Arka 4 gibi daha derin */
+  opacity:1;
+}
+
+
+/* BLOK NİZAM – ÇOKLU BİNA */
+.block-area{
+  position:absolute;
+  top:15%;      /* Arka çekme */
+  bottom:25%;   /* Ön çekme */
+  left:12%;     /* Yan çekme */
+  right:12%;    /* Yan çekme */
+
+  display:flex;
+  justify-content:space-between;
+  align-items:stretch;
+
+  /* ❌ İÇERİ KAYMA YOK */
+  padding:0;
+  margin:0;
+  box-sizing:border-box;
+
+  /* 👉 Sadece dış çerçeve */
+  border:2px solid #00c8ff;
+  border-radius:0px;
+
+  opacity:0;
+  transition:opacity 1s ease;
+  z-index:3;
+}
+
+
+/* Her bir bina */
+.block-building{
+  flex:1;              /* Alanı paylaşsınlar */
+  height:100%;        /* ÜST–ALT YAPIŞIK */
+  background:var(--gold);
+  border-radius:0px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:12px;
+  font-weight:700;
+  color:#111;
+}
+
+/* 👉 SADECE BLOKLAR ARASINA BOŞLUK */
+.block-building + .block-building{
+  margin-left:25px;   /* Burayı artır → sadece aralar açılır */
+}
+
+
+/* Animasyon aktif */
+.block-area.active .block-building{
+  transform:scale(1);
+  opacity:1;
+}
+
+/* Bilgi */
+.info{margin-top:10px; font-size:12px; color:#888; text-align:center;}
+
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+}
+
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- ===================== AYRIK NİZAM ===================== -->
+  <div class="nizam-card">
+    <div class="nizam-title">Ayrık Nizam</div>
+    <div class="nizam-desc">
+      Bina, parsel sınırlarından her cephede çekilerek komşu parsellerden bağımsız yerleştirilir.
+    </div>
+
+    <div style="display:flex; gap:8px; margin-bottom:12px;">
+	  <button class="nizam-btn" id="startBtn1">Tıkla (Animasyon)</button>
+	  <button class="nizam-btn" id="resetBtn1">Reset</button>
+	</div>
+
+
+    <div class="scene">
+      <div class="stage">
+        <!-- Komşular -->
+        <div class="neighbor top">Komşu Parsel</div>
+        <div class="neighbor left">Komşu</div>
+        <div class="neighbor right">Komşu</div>
+
+        <!-- Yol -->
+        <div class="road">YOL</div>
+
+        <!-- Parsel -->
+        <div class="parcel">
+          <div class="parcel-label">Parsel</div>
+          <div class="inner-area" id="inner1"></div>
+
+          <!-- Bina -->
+          <div class="building" id="building1">
+            <div class="building-label" id="buildingLabel1">Çekme Alanı</div>
+          </div>
+        </div>
+
+        <!-- Çekme yazıları -->
+        <div class="setback top" id="sbTop1">Ön Çekme</div>
+        <div class="setback bottom" id="sbBottom1">Arka Çekme</div>
+        <div class="setback left" id="sbLeft1">Yan Çekme</div>
+        <div class="setback right" id="sbRight1">Yan Çekme</div>
+      </div>
+    </div>
+
+    <div class="info" id="info1">Henüz animasyon başlatılmadı.</div>
+  </div>
+
+  <!-- ===================== BİTİŞİK NİZAM ===================== -->
+  <div class="nizam-card">
+    <div class="nizam-title">Bitişik Nizam</div>
+    <div class="nizam-desc">
+      Bitişik yapı nizamlarında sadece yol çekmesi yapılır,arka ve yan çekmeleri komşu parsel durumu belirler.
+    </div>
+
+    <div style="display:flex; gap:8px; margin-bottom:12px;">
+	  <button class="nizam-btn" id="startBtn2">Tıkla (Animasyon)</button>
+	  <button class="nizam-btn" id="resetBtn2">Reset</button>
+	</div>
+
+
+    <div class="scene">
+      <div class="stage">
+        <!-- Komşular -->
+        <div class="neighbor top">Komşu Parsel</div>
+        <div class="neighbor left">Komşu</div>
+        <div class="neighbor right">Komşu</div>
+
+        <!-- Yol -->
+        <div class="road">YOL</div>
+
+        <!-- Parsel -->
+        <div class="parcel">
+          <div class="parcel-label">Parsel</div>
+          <div class="inner-area" id="inner2"></div>
+
+          <!-- Bina -->
+          <div class="building" id="building2">
+            <div class="building-label" id="buildingLabel2">İnşaat Alanı</div>
+          </div>
+        </div>
+
+        <!-- Çekme yazıları -->
+        <div class="setback top" id="sbTop2">Ön Çekme</div>
+        <div class="setback bottom" id="sbBottom2">Arka Çekme</div>
+        <div class="setback left" id="sbLeft2">Yan Çekme</div>
+        <div class="setback right" id="sbRight2">Yan Çekme</div>
+      </div>
+    </div>
+
+    <div class="info" id="info2">Henüz animasyon başlatılmadı.</div>
+  </div>
+  
+  <!-- ===================== BLOK NİZAM ===================== -->
+  <div class="nizam-card">
+    <div class="nizam-title">Blok Nizam</div>
+    <div class="nizam-desc">
+      Bina parselin içerisinde, kütle halinde yerleşir. Her cepheden çekme vardır ve yapı blok formunda yükselir.
+    </div>
+
+    <div style="display:flex; gap:8px; margin-bottom:12px;">
+	  <button class="nizam-btn" id="startBtn3">Tıkla (Animasyon)</button>
+	  <button class="nizam-btn" id="resetBtn3">Reset</button>
+	</div>
+
+
+    <div class="scene">
+      <div class="stage">
+        <div class="neighbor top">Komşu Parsel</div>
+        <div class="neighbor left">Komşu</div>
+        <div class="neighbor right">Komşu</div>
+        <div class="road">YOL</div>
+
+        <div class="parcel">
+          <div class="parcel-label">Parsel</div>
+          <div class="inner-area" id="inner3"></div>
+          <div class="block-area" id="blockArea3">
+			  <div class="block-building b1">A Blok</div>
+			  <div class="block-building b2">B Blok</div>
+			  <div class="block-building b3">C Blok</div>
+		</div>
+
+        </div>
+
+        <div class="setback top" id="sbTop3">Ön Çekme</div>
+        <div class="setback bottom" id="sbBottom3">Arka Çekme</div>
+        <div class="setback left" id="sbLeft3">Yan Çekme</div>
+        <div class="setback right" id="sbRight3">Yan Çekme</div>
+      </div>
+    </div>
+
+    <div class="info" id="info3">Henüz animasyon başlatılmadı.</div>
+  </div>
+
+<!-- GERİ BUTONU BURADA -->
+  <div style="display:flex; justify-content:center; margin:20px 0 10px;">
+    <a href="index.html" class="nizam-btn back-btn">👈 Geri</a>
+  </div>
+</div>
+
+<script>
+/* ===== AYRIK ===== */
+const startBtn1 = document.getElementById("startBtn1");
+const resetBtn1 = document.getElementById("resetBtn1");
+
+const building1 = document.getElementById("building1");
+const buildingLabel1 = document.getElementById("buildingLabel1");
+const info1 = document.getElementById("info1");
+const inner1 = document.getElementById("inner1");
+const sbs1 = ["sbTop1","sbBottom1","sbLeft1","sbRight1"].map(id=>document.getElementById(id));
+
+let started1 = false;
+
+/* === OYNAT === */
+startBtn1.addEventListener("click", () => {
+  if(started1) return;
+  started1 = true;
+
+  info1.textContent = "Ayrık nizam: Bina her cepheden çekmeli, ve çekme alanı içerisinde yer almalıdır.";
+  inner1.style.opacity = 1;
+  sbs1.forEach(el => el.style.opacity = 1);
+  building1.classList.add("active");
+
+  setTimeout(()=> buildingLabel1.style.opacity = 1, 700);
+});
+
+/* === RESET === */
+resetBtn1.addEventListener("click", () => {
+  started1 = false;                 // tekrar oynatılabilir olsun
+  inner1.style.opacity = 0;
+  sbs1.forEach(el => el.style.opacity = 0);
+  building1.classList.remove("active");
+  buildingLabel1.style.opacity = 0;
+  info1.textContent = "Henüz animasyon başlatılmadı.";
+});
+
+
+/* ===== BİTİŞİK ===== */
+const startBtn2 = document.getElementById("startBtn2");
+const resetBtn2 = document.getElementById("resetBtn2");
+
+const building2 = document.getElementById("building2");
+const buildingLabel2 = document.getElementById("buildingLabel2");
+const info2 = document.getElementById("info2");
+const inner2 = document.getElementById("inner2");
+const sbs2 = ["sbTop2","sbBottom2","sbLeft2","sbRight2"].map(id=>document.getElementById(id));
+
+let started2 = false;
+
+/* === OYNAT === */
+startBtn2.addEventListener("click", () => {
+  if(started2) return;
+  started2 = true;
+
+  info2.textContent = "Bitişik nizam: Bina ön cephe hariç bir yada diğer cepheler komşu parsele bitişik olarak yerleştirilebilir. ";
+  inner2.style.opacity = 1;
+  sbs2.forEach(el => el.style.opacity = 1);
+  building2.classList.add("active");
+
+  setTimeout(()=> buildingLabel2.style.opacity = 1, 700);
+});
+
+/* === RESET === */
+resetBtn2.addEventListener("click", () => {
+  started2 = false;                 // tekrar oynatılabilir
+  inner2.style.opacity = 0;
+  sbs2.forEach(el => el.style.opacity = 0);
+  building2.classList.remove("active");
+  buildingLabel2.style.opacity = 0;
+  info2.textContent = "Henüz animasyon başlatılmadı.";
+});
+
+
+/* ===== BLOK ===== */
+const startBtn3 = document.getElementById("startBtn3");
+const resetBtn3 = document.getElementById("resetBtn3");
+
+const blockArea3 = document.getElementById("blockArea3");
+const info3 = document.getElementById("info3");
+const inner3 = document.getElementById("inner3");
+const sbs3 = ["sbTop3","sbBottom3","sbLeft3","sbRight3"].map(id=>document.getElementById(id));
+
+let started3 = false;
+
+/* === OYNAT === */
+startBtn3.addEventListener("click", () => {
+  if(started3) return; 
+  started3 = true;
+
+  info3.textContent = "Blok nizam: İnşaat alanı içinde birden fazla bina yer alır, bloklar arasında mesafe bırakılır.";
+  inner3.style.opacity = 1;
+  sbs3.forEach(el => el.style.opacity = 1);
+
+  blockArea3.style.opacity = 1;
+  blockArea3.classList.add("active");
+});
+
+/* === RESET === */
+resetBtn3.addEventListener("click", () => {
+  started3 = false;                // tekrar oynatılabilir
+  inner3.style.opacity = 0;
+  sbs3.forEach(el => el.style.opacity = 0);
+
+  blockArea3.classList.remove("active");
+  blockArea3.style.opacity = 0;
+
+  info3.textContent = "Henüz animasyon başlatılmadı.";
+});
+
+
+
+</script>
+
+</body>
+</html>

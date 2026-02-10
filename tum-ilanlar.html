@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Emlak Popup Harita (Mapbox GL JS - Sidebar Entegre)</title>
+
+<!-- Mapbox GL JS -->
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+
+<style>
+/* =========================
+   GENEL SAYFA STİLLERİ
+   ========================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Tahoma, sans-serif;
+  overflow-x: hidden; /* yatay scroll önleme */
+  overflow-y: auto;   /* düşey scroll gerekiyorsa göster */
+}
+
+#map {
+  width: 100%;
+  height: 100vh; /* body yerine viewport height kullan */
+  position: relative;
+}
+
+
+/* =========================
+   POPUP TASARIMI
+   ========================= */
+.popup-box {
+  padding: 4px 6px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  line-height: 1.5;
+}
+.mapboxgl-popup-content {
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  padding:5px 5px 7px;
+  pointer-events:auto;
+}
+.popup-arsa           { background: #2ecc71; }
+.popup-daire31        { background: #3498db; }
+.popup-tarla          { background: #808080; }
+.popup-dukkan         { background: #e67e22; }
+.popup-ismerkezi      { background: #9b59b6; }
+.popup-fabrika        { background: #e74c3c; }
+.popup-katkarsiligi   { background: #ffa500; }
+.popup-no { display:block; font-size:11px; opacity:0.9; }
+
+/* =========================
+   GERİ BUTONU
+   ========================= */
+.enter-btn {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  padding:6px 16px;
+  border:none;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  color:#111;
+  background: linear-gradient(135deg, #d4af37, #fff1a8);
+  box-shadow:0 4px 12px rgba(212,175,55,0.45);
+  transition: all 0.2s ease;
+}
+.enter-btn:hover {
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow:0 6px 16px rgba(212,175,55,0.65);
+}
+.enter-btn:active { transform: translateX(-50%) scale(0.96); }
+
+/* =========================
+   SIDEBAR & FILTER BOX
+   ========================= */
+#sidebar {
+  position: absolute;
+  top:0;
+  left:-220px;       /* gizli */
+  width:150px;       /* sidebar genişliği */
+  background: linear-gradient(
+    to bottom,
+    rgba(58, 63, 69, 1) 0%,
+    rgba(58, 63, 69, 1) 95%,
+    rgba(58, 63, 69, 1) 100%
+  );
+  color: #fff;
+  z-index:15;
+  padding:0 0 10px 0; /* sadece üst-alt, yan boşluk yok */
+  overflow-y:auto;
+  max-height: 100vh; /* ekranı aşmasın */
+  pointer-events:none;
+  opacity:0;
+  transition:left 1s ease, opacity 1s ease; /* yumuşak geçiş */
+}
+#sidebar.show {
+  left:0;
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* H3 başlığı ve kapatma X */
+#sidebar h3 {
+  margin:0 0 20px 0;  /* h3 ile label arası boşluk */
+  font-size:12px;
+  width:100%;
+  background: linear-gradient(135deg, #d4af37, #fff1a8);
+  color:#fff;
+  padding:6px 10px 6px 30px;  /* top-right-bottom-left */
+  text-align:left;
+  box-sizing:border-box;
+  position:relative;
+  font-weight: 500;
+  font-family: Tahoma;
+}
+#closeBtn {
+  position:absolute;
+  top:50%;
+  right:10px;
+  transform:translateY(-50%);
+  font-size:14px;
+  cursor:pointer;
+  color:#fff;
+  user-select:none;
+}
+#closeBtn:hover {
+  color: red;       /* hover rengi */
+  transform: translateY(-50%) scale(1.2); /* biraz büyüsün */
+}
+
+/* Label düzeni */
+#sidebar label {
+  display:block;
+  margin-bottom:6px;
+  padding:0 10px;
+  cursor:pointer;
+  font-family: Tahoma;
+  font-size: 12px;
+}
+
+/* =========================
+   TOGGLE BUTONU (☰)
+   ========================= */
+#toggleBtn {
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:20;
+  font-size:22px;
+ background: linear-gradient(135deg, #d4af37, #fff1a8);
+  border-radius:10%;
+  cursor:pointer;
+  box-shadow:0 2px 6px rgba(0,0,0,0.3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:4px;
+  line-height:1;
+  user-select:none;
+}
+
+* =========================
+   FİLTER BUTONU 🚫
+   ========================= */
+.filter-btn-wrapper {
+  display: flex;
+}
+
+.filter-btn {
+  padding: 6px 6px;
+  border: none;
+  border-radius: 4px;
+  background: #3a3f45;
+  color: #fff;
+  font-weight: 400;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: Tahoma;
+
+  margin-left: 15px;   /* ⬅ buton soldan 15px içeri kaydı */
+}
+
+.filter-btn:hover {
+  background: red;
+}
+
+
+/* home butonu */
+.home-btn {
+  position: absolute;
+  top: 10px;     /* üstten 10px */
+  right: 3px;    /* sağa iyice yapışık */
+  z-index: 20;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #111;
+  background: linear-gradient(135deg, #d4af37, #fff1a8);
+  box-shadow: 0 4px 12px rgba(212,175,55,0.45);
+  transition: all 0.2s ease;
+}
+
+/* Hover ve active efektleri */
+.home-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(212,175,55,0.65);
+}
+
+.home-btn:active {
+  transform: scale(0.96);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HARITA -->
+<div id="map"></div>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <h3>Filtrele <span id="closeBtn">✖</span></h3>
+  <label><input type="checkbox" value="arsa" checked> Arsa</label>
+  <label><input type="checkbox" value="daire31" checked> Daire 3+1</label>
+  <label><input type="checkbox" value="tarla" checked> Tarla</label>
+  <label><input type="checkbox" value="dukkan" checked> Dükkan</label>
+  <label><input type="checkbox" value="ismerkezi" checked> İş Merkezi</label>
+  <label><input type="checkbox" value="fabrika" checked> Fabrika</label>
+  <label><input type="checkbox" value="katkarsiligi" checked> Kat Karşılığı</label>
+  
+  <div style="height:40px"></div>  
+
+  <!-- WRAPPER EKLENDİ -->
+  <div class="filter-btn-wrapper">
+    <button id="hideAllBtn" class="filter-btn">
+      🚫 Hepsini Kapat
+    </button>
+  </div>
+
+</div>
+
+
+<!-- TOGGLE BUTONU -->
+<div id="toggleBtn">☰</div>
+
+<!-- HOME BUTONU SAĞ ÜSTE -->
+<button id="homeBtn" class="home-btn">🏠</button>
+
+<!-- GERİ BUTONU -->
+<button class="enter-btn" onclick="window.close()">👈 Geri</button>
+
+<script>
+// =========================
+// MAPBOX & MARKER
+// =========================
+mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvZ3JhcGh5cHJvZiIsImEiOiJjanYxb2t1ZG8wNGU1NGFsNXVkcnhzNmFpIn0.M3qCJK8FYa06B-Irc6FD-g';
+const GEOAPIFY_KEY = "6dc7fb95a3b246cfa0f3bcef5ce9ed9a";
+
+const map = new mapboxgl.Map({
+  container:'map',
+  style:{version:8,sources:{},layers:[],glyphs:'https://api.mapbox.com/fonts/v1/mapbox/{fontstack}/{range}.pbf?access_token='+mapboxgl.accessToken},
+  center:[34.019852,38.365887],
+  zoom:12,
+  projection:'globe'
+});
+
+map.on('load',()=>{
+  map.addSource('geoapify-osm', {
+      type: 'raster',
+      tiles: [
+        'https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=' + GEOAPIFY_KEY
+      ],
+      tileSize: 256,
+      maxzoom: 20
+    });
+
+    map.addLayer({
+      id: 'geoapify-osm-layer',
+      type: 'raster',
+      source: 'geoapify-osm'
+    });
+
+  const ilanlar=[
+    { coord:[33.988282,38.378153], id:2, tip:"daire31", text:"Satılık 3+1" },
+    { coord:[33.992221,38.390635], id:3, tip:"arsa", text:"Satılık Arsa" },
+    { coord:[33.972646,38.410651], id:4, tip:"arsa", text:"Satılık Arsa" },
+    { coord:[33.996951,38.368856], id:5, tip:"katkarsiligi", text:"Kat Karşılığı" },
+    { coord:[34.025321,38.387608], id:6, tip:"arsa", text:"Satılık Arsa" },
+    { coord:[34.02303,38.396688], id:7, tip:"daire31", text:"Satılık 3+1" },
+    { coord:[34.02409,38.389057], id:8, tip:"arsa", text:"Satılık Arsa" },
+    { coord:[34.035636,38.362612], id:9, tip:"dukkan", text:"Satılık Dükkan" },
+    { coord:[33.999362,38.394005], id:10, tip:"arsa", text:"Satılık Arsa" },
+    { coord:[33.96367,38.405968], id:11, tip:"arsa", text:"Satılık Arsa" },
+    { coord:[33.992053,38.220267], id:12, tip:"tarla", text:"Satılık Tarla" },
+    { coord:[33.997702,38.218821], id:13, tip:"tarla", text:"Satılık Tarla" },
+    { coord:[34.050107,38.309896], id:14, tip:"tarla", text:"Satılık Tarla" },
+    { coord:[34.043482,38.31219], id:15, tip:"tarla", text:"Satılık Tarla" },
+    { coord:[34.04721,38.288101], id:16, tip:"tarla", text:"Satılık Tarla" },
+    { coord:[34.0576,38.31396], id:17, tip:"arsa", text:"Satılık Arsa" },
+    { coord:[34.057859,38.314056], id:18, tip:"arsa", text:"Satılık Arsa" },
+    { coord:[34.058121,38.314146], id:19, tip:"arsa", text:"Satılık Arsa" },
+    { coord:[34.057841,38.314352], id:20, tip:"arsa", text:"Satılık Arsa" },
+    { coord:[34.057531,38.314246], id:21, tip:"arsa", text:"Satılık Arsa" },
+    { coord:[34.00708,38.369258], id:23, tip:"dukkan", text:"Satılık Dükkan" },
+	{ coord:[34.017955,38.39559], id:24, tip:"daire31", text:"Satılık 3+1" }
+  ];
+
+  const markersByType={};
+
+  ilanlar.forEach(ilan=>{
+    const el=document.createElement("div");
+    el.style.width="12px";
+    el.style.height="12px";
+    el.style.borderRadius="50%";
+    el.style.border="2px solid #fff";
+    el.style.cursor="pointer";
+
+    el.style.backgroundColor=
+      ilan.tip==="arsa"?"#2ecc71":
+      ilan.tip==="daire31"?"#3498db":
+      ilan.tip==="tarla"?"#808080":
+      ilan.tip==="dukkan"?"#e67e22":
+      ilan.tip==="ismerkezi"?"#9b59b6":
+      ilan.tip==="fabrika"?"#e74c3c":
+      ilan.tip==="katkarsiligi"?"#ffa500":"#95a5a6";
+
+    const popup=new mapboxgl.Popup({offset:10,closeButton:false,closeOnClick:false})
+      .setHTML(`<div class="popup-box popup-${ilan.tip}">${ilan.text}<br><span class="popup-id">İlan Id: ${ilan.id}</span></div>`);
+
+    const marker=new mapboxgl.Marker(el)
+      .setLngLat(ilan.coord)
+      .setPopup(popup)
+      .addTo(map);
+
+    popup.addTo(map);
+
+    if(!markersByType[ilan.tip]) markersByType[ilan.tip]=[];
+    markersByType[ilan.tip].push({marker,popup});
+  });
+
+  const bounds=new mapboxgl.LngLatBounds();
+  ilanlar.forEach(ilan=>bounds.extend(ilan.coord));
+  map.fitBounds(bounds,{padding:50});
+
+  // FILTER BOX KONTROLÜ
+  document.querySelectorAll('#sidebar input[type="checkbox"]').forEach(cb=>{
+    cb.addEventListener("change",()=>{
+      const tip=cb.value;
+      if(!markersByType[tip]) return;
+      markersByType[tip].forEach(o=>{
+        if(cb.checked){ o.marker.addTo(map); o.popup.addTo(map);}
+        else{ o.popup.remove(); o.marker.remove();}
+      });
+    });
+  });
+  
+  // FİLTER KAPAT BUTONU 🚫
+  document.getElementById("hideAllBtn").addEventListener("click", () => {
+
+  // tüm checkbox'ları kapat
+  document
+    .querySelectorAll('#sidebar input[type="checkbox"]')
+    .forEach(cb => cb.checked = false);
+
+  // haritadaki tüm marker + popup'ları kaldır
+  Object.values(markersByType).forEach(list => {
+    list.forEach(o => {
+      o.popup.remove();
+      o.marker.remove();
+    });
+  });
+
+});
+
+
+  // =========================
+  // SIDEBAR TOGGLE + X KAPATMA
+  // =========================
+  const sidebar=document.getElementById('sidebar');
+  const toggleBtn=document.getElementById('toggleBtn');
+  const closeBtn=document.getElementById('closeBtn');
+
+  toggleBtn.addEventListener('click',()=>{
+    sidebar.classList.add('show');       // sidebar aç
+    toggleBtn.style.display='none';       // toggle gizle
+  });
+
+  closeBtn.addEventListener('click',()=>{
+    sidebar.classList.remove('show');     // sidebar kapa
+    toggleBtn.style.display='flex';       // toggle tekrar görünür
+  });
+  
+  // HOME BUTONU
+document.getElementById('homeBtn').addEventListener('click', () => {
+    const bounds = new mapboxgl.LngLatBounds();
+    ilanlar.forEach(ilan => bounds.extend(ilan.coord));
+    map.fitBounds(bounds, { padding: 50 });
+});
+
+
+
+
+});
+
+
+</script>
+
+</body>
+</html>
