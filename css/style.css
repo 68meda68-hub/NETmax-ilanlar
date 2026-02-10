@@ -865,14 +865,17 @@ body {
 }
 @media (max-width: 768px) {
   .dropdown {
-    max-height: 160px;
-    padding-bottom: 6px; /* 👈 SON ITEM NEFES ALSIN */
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: auto;
+    bottom: 20px;      /* 👈 ekranın altından 20px */
+    max-height: 60vh;  /* 👈 asla yarım kalmaz */
   }
 
   .dropdown-item {
-    padding: 10px 14px 10px 22px; /* 12 → 10 */
+    padding: 12px 14px 12px 22px;
     font-size: 13px;
-    line-height: 1.2; /* 👈 DİKEY SIKIŞTIRMA */
   }
 }
 
@@ -903,6 +906,7 @@ body {
 .street-btn:hover {
   background: #000;
 }
+
 
 
 
