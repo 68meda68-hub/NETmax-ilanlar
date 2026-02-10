@@ -273,31 +273,42 @@ html, body {
 // MAPBOX & MARKER
 // =========================
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvZ3JhcGh5cHJvZiIsImEiOiJjanYxb2t1ZG8wNGU1NGFsNXVkcnhzNmFpIn0.M3qCJK8FYa06B-Irc6FD-g';
-const GEOAPIFY_KEY = "6dc7fb95a3b246cfa0f3bcef5ce9ed9a";
 
 const map = new mapboxgl.Map({
-  container:'map',
-  style:{version:8,sources:{},layers:[],glyphs:'https://api.mapbox.com/fonts/v1/mapbox/{fontstack}/{range}.pbf?access_token='+mapboxgl.accessToken},
-  center:[34.019852,38.365887],
-  zoom:12,
-  projection:'globe'
+  container: 'map',
+  style: {
+    version: 8,
+    sources: {},
+    layers: [],
+    glyphs:
+      'https://api.mapbox.com/fonts/v1/mapbox/{fontstack}/{range}.pbf?access_token=' +
+      mapboxgl.accessToken
+  },
+  center: [34.019852, 38.365887],
+  zoom: 12,
+  projection: 'globe'
 });
 
-map.on('load',()=>{
-  map.addSource('geoapify-osm', {
-      type: 'raster',
-      tiles: [
-        'https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=' + GEOAPIFY_KEY
-      ],
-      tileSize: 256,
-      maxzoom: 20
-    });
+map.on('load', () => {
 
-    map.addLayer({
-      id: 'geoapify-osm-layer',
-      type: 'raster',
-      source: 'geoapify-osm'
-    });
+  // 🔹 Google Tiles source
+  map.addSource('google-tiles', {
+    type: 'raster',
+    tiles: [
+      'https://mt1.google.com/vt/lyrs=s,h,traffic&x={x}&y={y}&z={z}'
+    ],
+    tileSize: 256,
+    maxzoom: 24
+  });
+
+  // 🔹 Google raster layer
+  map.addLayer({
+    id: 'google-tiles-layer',
+    type: 'raster',
+    source: 'google-tiles',
+    minzoom: 0,
+    maxzoom: 24
+  });
 
   const ilanlar=[
     { coord:[33.988282,38.378153], id:2, tip:"daire31", text:"Satılık 3+1" },
@@ -426,3 +437,4 @@ document.getElementById('homeBtn').addEventListener('click', () => {
 
 </body>
 </html>
+
