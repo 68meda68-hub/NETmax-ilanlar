@@ -840,27 +840,37 @@ playSlogan();
 
 const eduBtn = document.getElementById("eduBtn");
 const eduDropdown = document.getElementById("eduDropdown");
+const eduClose = document.getElementById("eduClose");
 
+/* Aç / kapa */
 eduBtn.addEventListener("click", (e) => {
+  e.preventDefault(); // eduBtn <a> ise sayfa yenilenmesin
+  eduDropdown.classList.toggle("show");
+});
+
+/* X ile kapat */
+eduClose.addEventListener("click", (e) => {
   e.stopPropagation();
-  eduDropdown.classList.toggle("show"); // dropdown aç/kapa
-});
-
-// Liste öğelerine tıklandığında sayfaya git
-eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
-  item.addEventListener("click", () => {
-    window.location.href = item.getAttribute("data-page");
-  });
-});
-
-// Sayfa başka yere tıklayınca dropdown kapanır
-document.addEventListener("click", () => {
   eduDropdown.classList.remove("show");
 });
 
-document.getElementById("eduClose").onclick = function () {
-  document.getElementById("eduDropdown").style.display = "none";
-};
+/* Dışarı tıklanınca kapat (CLICK DEĞİL) */
+document.addEventListener("pointerdown", (e) => {
+  if (
+    !eduDropdown.contains(e.target) &&
+    !eduBtn.contains(e.target)
+  ) {
+    eduDropdown.classList.remove("show");
+  }
+});
+
+/* Listeye tıklanınca yönlen */
+eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
+  item.addEventListener("click", () => {
+    window.location.href = item.dataset.page;
+  });
+});
+
 
 
 
