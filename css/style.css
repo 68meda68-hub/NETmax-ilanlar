@@ -868,17 +868,27 @@ body {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
+    bottom: 20px;
     top: auto;
-    bottom: 20px;      /* 👈 ekranın altından 20px */
-    max-height: 60vh;  /* 👈 asla yarım kalmaz */
+
+    width: 70vw;          /* 🔑 genişliği KİLİTLE */
+    max-width: 320px;     /* 🔑 masaüstüne kaçmasın */
+    box-sizing: border-box;
+
+    max-height: 60vh;
   }
 
   .dropdown-item {
     padding: 12px 14px 12px 22px;
     font-size: 13px;
+    box-sizing: border-box;
+  }
+
+  .dropdown-close {
+    right: 8px;
+    top: 6px;
   }
 }
-
 
 .card-title {
   display: flex;
@@ -907,6 +917,24 @@ body {
   background: #000;
 }
 
+#eduDropdown {
+  position: relative;
+}
+
+.dropdown-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #000;
+  line-height: 1;
+}
+
+.dropdown-close:hover {
+  color: #ff4d4d;
+}
 
 
 
