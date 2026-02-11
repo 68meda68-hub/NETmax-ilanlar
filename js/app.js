@@ -3,32 +3,6 @@
 ========================= */
 const listingsData = [
   {
-    id: 2,
-    title: "3+1 Daire",
-    location: "Tacin Mah / Aksaray",
-    price: 4250000,
-    currency: "TRY",
-    zoning: "-",
-    parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126925/8244/1/1767093819711",
-    images: [
-      "images/kadir_tekin/1.jpg",
-	  "images/kadir_tekin/2.jpg",
-	  "images/kadir_tekin/3.jpg",
-	  "images/kadir_tekin/4.jpg",
-	  "images/kadir_tekin/5.jpg",
-	  "images/kadir_tekin/6.jpg",
-	  "images/kadir_tekin/7.jpg",
-	  "images/kadir_tekin/8.jpg",
-	  "images/kadir_tekin/9.jpg",
-	  "images/kadir_tekin/10.jpg",
-	  "images/kadir_tekin/11.jpg"
-    ],
-    rooms: "3+1",
-    size: "120 m²",
-    floor: "5",
-    age: "1"
-  },
-  {
     id: 3,
     title: "Arsa",
     location: "Çiftlik Mah / Aksaray",
@@ -870,6 +844,7 @@ eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
     window.location.href = item.dataset.page;
   });
 });
+
 
 
 
