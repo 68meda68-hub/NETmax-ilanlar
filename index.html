@@ -4,11 +4,12 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
 	<!-- 📌 Instagram / Social Preview -->
-	<meta property="og:title" content="NETmax | Satılık Daire, Arsa ve Dükkanlar">
-	<meta property="og:description" content="Aksaray satılık emlak ilanları. Daire, arsa ve ticari mülkler. Güncel ve detaylı ilanlar.">
-	<meta property="og:image" content="https://bit.ly/NETmaxilanlar/images/og-cover.jpg">
-	<meta property="og:url" content="https://bit.ly/NETmaxilanlar">
+	<meta property="og:title" content="NETmax Emlak | Satılık Daire, Arsa ve Dükkanlar">
+	<meta property="og:description" content="Aksaray’da satılık arsa, daire ve ticari mülk ilanları. Güncel fiyatlar ve detaylı bilgiler için tıklayın.">
+	<meta property="og:image" content="https://68meda68-hub.github.io/NETmax-ilanlar/images/og-cover.jpg">
+	<meta property="og:url" content="https://68meda68-hub.github.io/NETmax-ilanlar/">
 	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="NETmax Emlak">
   
 	<title>NETmax İlanlar</title>
 	<link rel="stylesheet" href="css/style.css" />
@@ -79,6 +80,7 @@
 	<div class="dropdown-header">
     <span class="dropdown-close" id="eduClose">×</span>
 	</div>
+	
 	  <div class="dropdown-item" data-page="bilgi.html">
 		<span class="icon">📘</span> İmar ve Gayrimenkul
 	  </div>
@@ -132,44 +134,65 @@
 
   <!-- MODAL DETAY -->
   <div class="modal-overlay" id="modalOverlay">
-    <div class="modal">
-      <button class="close-btn" id="closeModal">KAPAT</button>
+  <div class="modal">
+    <!-- Kapat butonu -->
+    <button class="close-btn" id="closeModal">KAPAT</button>
 
-      <div class="slider">
-		<button class="slider-btn left" id="prevBtn">‹</button>
-			<img id="sliderImage" src="" alt="İlan Fotoğrafı" />
-		<button class="slider-btn right" id="nextBtn">›</button>
-	  </div>
+    <!-- Slider -->
+    <div class="slider">
+      <button class="slider-btn left" id="prevBtn">‹</button>
+      <img id="sliderImage" src="" alt="İlan Fotoğrafı" />
+      <button class="slider-btn right" id="nextBtn">›</button>
+    </div>
 
+    <!-- Modal Body -->
+    <div class="modal-body">
+      <h3 id="modalTitle"></h3>
+      <p id="modalLocation"></p>
+      <div class="modal-price" id="modalPrice"></div>
 
-      <div class="modal-body">
-        <h3 id="modalTitle"></h3>
-        <p id="modalLocation"></p>
-        <div class="modal-price" id="modalPrice"></div>
-		  <ul class="features">
-		  <li id="modalRooms"></li>
-		  <li id="modalSize"></li>
-		  <li id="modalFloor"></li>
-		  <li id="modalAge"></li>
-		  <li id="modalZoning"></li>
-		  <li id="modalFeatures"></li>
-		  <li id="modalSwap"></li>
-		  <li id="modalIndoorSize"></li>
-		  <li id="modalHeating"></li>
-		</ul>
-		<div class="modal-actions">
-		  <a href="tel:+905322000401" class="call-btn">📞 Nedim D.</a>
-		  <a href="tel:+905326842803" class="call-btn secondary">📞 Adem Ç.</a>
-		  <a href="#" id="parcelBtn" target="_blank" class="parcel-btn">Parsel Sorgu</a>
-		  <a href="#" id="streetBtn" target="_blank" class="street-btn">👁️ Sokak</a>
+      <!-- Özellikler listesi -->
+      <ul class="features">
+        <li id="modalRooms">Oda Sayısı</li>
+        <li id="modalSize">m2 Brüt</li>
+        <li id="modalArea">Alan</li>
+        <li id="modalBalcony">Balkon</li>
+        <li id="modalFloor">Daire Katı</li>
+        <li id="modalNumberOfFloor">Bina Toplam Katı</li>
+        <li id="modalLift">Asansör</li>
+        <li id="modalAge">Bina Yaşı</li>
+        <li id="modalZoning">İmar Durumu</li>
+        <li id="modalSwap">Takas</li>
+        <li id="modalIndoorSize">Kullanım Alanı</li>
+        <li id="modalHeating">Isıtma</li>
+		<li id="modalUsecase">Kullanım Durumu</li>
+        <li id="modalParking">Otopark</li>
+        <li id="modalSite">Site İçinde mi?</li>
+        <li id="modalFurnished">Eşyalı mı?</li>
+		<li id="modalTitledeedstatus">Tapu Durumu</li>
+		
+		<!-- 🔹 Açıklama butonu, içerik varsa JS ile gösterilecek -->
+		<div class="button-container" style="display:flex; gap:10px; margin-top:10px;">
+			<button id="detailsBtn" style="display:none;">Detaylar</button>
+			<button id="mapsBtn">Google</button>
 		</div>
 
+
+        <!-- 🔹 Açıklamalar için özel li, başlangıçta kapalı -->
+        <li id="modalFeatures" style="display:none; margin-top:10px;"></li>
+      </ul>
+
+      <!-- Modal Actions -->
+      <div class="modal-actions">
+        <a href="tel:+905322000401" class="call-btn">📞Nedim D.</a>
+        <a href="tel:+905326842803" class="call-btn secondary">📞Adem Ç.</a>
+        <a href="#" id="parcelBtn" target="_blank" class="parcel-btn">Parsel Sorgu</a>
       </div>
     </div>
   </div>
+</div>
+
 
   <script src="js/app.js"></script>
 </body>
 </html>
-
-
