@@ -741,8 +741,6 @@ function openListingFromHash() {
   }, 300);
 }
 
-window.addEventListener("load", openListingFromHash);
-
 /* =========================
    MODAL (AYNI – BOZULMAZ)
 ========================= */
@@ -1085,6 +1083,7 @@ eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
     window.location.href = item.dataset.page;
   });
 });
+
 
 
 
