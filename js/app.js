@@ -986,34 +986,6 @@ nextBtn.onclick = e => {
 ========================= */
 renderCategories(); // kategori ekranını oluştur
 
-const openListingFromHashSafe = () => {
-  const hash = window.location.hash.replace("#", "");
-  if (!hash) return;
-
-  const item = listingsData.find(i => i.id.toString() === hash);
-  if (!item) {
-    console.warn("İlan bulunamadı:", hash);
-    return;
-  }
-
-  // Kategori ekranı
-  renderCategoryListings(item.title);
-
-  // Buton DOM hazır olana kadar bekle
-  const tryOpen = () => {
-    const btn = document.querySelector(`.detail-btn[data-id="${hash}"]`);
-    if (btn) {
-      btn.click();
-    } else {
-      setTimeout(tryOpen, 100);
-    }
-  };
-  tryOpen();
-};
-
-setTimeout(openListingFromHashSafe, 300);
-
-
 /* =========================
    MODAL KAPATMA – FIX
 ========================= */
@@ -1119,6 +1091,7 @@ eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
     window.location.href = item.dataset.page;
   });
 });
+
 
 
 
