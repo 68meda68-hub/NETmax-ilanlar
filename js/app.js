@@ -859,101 +859,32 @@ document.addEventListener("click", e => {
   
     // Google Maps butonu (yeni)
   if (item.googlecoord && item.googlecoord.length === 2) {
-    mapsBtn.style.display = "inline-block"; // butonu göster
+    mapsBtn.style.display = "inline-block";
 
-   mapsBtn.onclick = () => {
-  const lat = item.googlecoord[0];
-  const lng = item.googlecoord[1];
+    mapsBtn.onclick = () => {
+        const lat = item.googlecoord[0];
+        const lng = item.googlecoord[1];
 
-  // Modal oluştur
-  const modal = document.createElement("div");
-	modal.style.position = "fixed";
-	modal.style.top = "0";
-	modal.style.left = "0";
-	modal.style.width = "100%";
-	modal.style.height = "100%";
-	modal.style.background = "rgba(0,0,0,0.6)";
-	modal.style.display = "flex";
-	modal.style.alignItems = "center";
-	modal.style.justifyContent = "center";
-	modal.style.zIndex = "99999";
+        // Popup boyutları
+        const popupWidth = 800;
+        const popupHeight = 600;
+        const left = (window.screen.width / 2) - (popupWidth / 2);
+        const top = (window.screen.height / 2) - (popupHeight / 2);
 
-	// İç kutu
-	const content = document.createElement("div");
-	content.style.width = "80%";
-	content.style.maxWidth = "900px";
-	content.style.height = "500px";
-	content.style.background = "#fff";
-	content.style.borderRadius = "10px";
-	content.style.overflow = "hidden";
-	content.style.position = "relative";
+        // Marker ile Google Maps URL
+        const mapUrl = `https://www.google.com/maps?q=${lat},${lng}&z=15`;
 
-	// Kapat butonu
-	const closeBtn = document.createElement("button");
-	closeBtn.innerHTML = "✕";
-	closeBtn.style.position = "absolute";
-	closeBtn.style.top = "10px";
-	closeBtn.style.right = "10px";
-	closeBtn.style.zIndex = "20";
-	closeBtn.style.background = "#fff";
-	closeBtn.style.border = "none";
-	closeBtn.style.fontSize = "18px";
-	closeBtn.style.cursor = "pointer";
+        window.open(
+            mapUrl,
+            "mapPopup",
+            `width=${popupWidth},height=${popupHeight},top=${top},left=${left},resizable=yes`
+        );
+    };
 
-	closeBtn.onclick = () => document.body.removeChild(modal);
-
-	// Street View butonu
-	const streetBtn = document.createElement("button");
-	streetBtn.innerHTML = "Street View";
-	streetBtn.style.position = "absolute";
-	streetBtn.style.bottom = "70px";   // yukarı konum
-	streetBtn.style.left = "10px";
-	streetBtn.style.zIndex = "20";
-	streetBtn.style.padding = "4px 8px";
-	streetBtn.style.background = "#1976d2";   // mavi zemin
-	streetBtn.style.color = "#ffffff";        // beyaz yazı
-	streetBtn.style.border = "none";
-	streetBtn.style.borderRadius = "4px";
-	streetBtn.style.fontSize = "11px";
-	streetBtn.style.cursor = "pointer";
-	streetBtn.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
-
-
-	// Iframe
-	const iframe = document.createElement("iframe");
-
-	// 1️⃣ Önce normal harita
-	iframe.src = `https://www.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
-
-	iframe.style.width = "100%";
-	iframe.style.height = "100%";
-	iframe.style.border = "0";
-
-	// 2️⃣ Butona basınca Street View'a geç
-	streetBtn.onclick = () => {
-
-	  const lat = item.googlecoord[0];
-	  const lng = item.googlecoord[1];
-
-	  const streetUrl =
-		`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lng}&radius=300`;
-
-	  window.open(streetUrl, "_blank");
-	};
-
-	// Birleştir
-	content.appendChild(closeBtn);
-	content.appendChild(streetBtn);
-	content.appendChild(iframe);
-	modal.appendChild(content);
-	document.body.appendChild(modal);
-
-	};
-
-  } else {
-    mapsBtn.style.display = "none"; // koordinat yoksa gizle
+} else {
+    mapsBtn.style.display = "none";
     mapsBtn.onclick = null;
-  }
+}
   modalOverlay.style.display = "flex";
 });
 
@@ -1091,6 +1022,7 @@ eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
     window.location.href = item.dataset.page;
   });
 });
+
 
 
 
