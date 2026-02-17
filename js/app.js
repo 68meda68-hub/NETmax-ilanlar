@@ -985,7 +985,41 @@ nextBtn.onclick = e => {
    BAŞLAT
 ========================= */
 renderCategories();
-openListingFromHash();
+/* =========================
+   BAŞLAT
+========================= */
+renderCategories(); // önce kategori ekranı oluştur
+
+// Hash varsa direkt ilan aç
+const openListingFromHashSafe = () => {
+  const hash = window.location.hash.replace("#", "");
+  if (!hash) return;
+
+  const id = Number(hash);
+  const item = listingsData.find(i => i.id === id);
+  if (!item) {
+    console.warn("İlan bulunamadı:", id);
+    return;
+  }
+
+  // Önce kategori ekranını aç
+  renderCategoryListings(item.title);
+
+  // Modal butonu DOM’a gelene kadar bekle
+  const tryOpen = () => {
+    const btn = document.querySelector(`.detail-btn[data-id="${id}"]`);
+    if (btn) {
+      btn.click();
+    } else {
+      setTimeout(tryOpen, 100);
+    }
+  };
+  tryOpen();
+};
+
+// 300ms sonra çalıştır, kategori ekranı hazır olsun
+setTimeout(openListingFromHashSafe, 300);
+
 
 /* =========================
    MODAL KAPATMA – FIX
@@ -1092,6 +1126,7 @@ eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
     window.location.href = item.dataset.page;
   });
 });
+
 
 
 
