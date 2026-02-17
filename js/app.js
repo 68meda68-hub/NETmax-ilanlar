@@ -984,30 +984,24 @@ nextBtn.onclick = e => {
 /* =========================
    BAŞLAT
 ========================= */
-renderCategories();
-/* =========================
-   BAŞLAT
-========================= */
-renderCategories(); // önce kategori ekranı oluştur
+renderCategories(); // kategori ekranını oluştur
 
-// Hash varsa direkt ilan aç
 const openListingFromHashSafe = () => {
   const hash = window.location.hash.replace("#", "");
   if (!hash) return;
 
-  const id = Number(hash);
-  const item = listingsData.find(i => i.id === id);
+  const item = listingsData.find(i => i.id.toString() === hash);
   if (!item) {
-    console.warn("İlan bulunamadı:", id);
+    console.warn("İlan bulunamadı:", hash);
     return;
   }
 
-  // Önce kategori ekranını aç
+  // Kategori ekranı
   renderCategoryListings(item.title);
 
-  // Modal butonu DOM’a gelene kadar bekle
+  // Buton DOM hazır olana kadar bekle
   const tryOpen = () => {
-    const btn = document.querySelector(`.detail-btn[data-id="${id}"]`);
+    const btn = document.querySelector(`.detail-btn[data-id="${hash}"]`);
     if (btn) {
       btn.click();
     } else {
@@ -1017,7 +1011,6 @@ const openListingFromHashSafe = () => {
   tryOpen();
 };
 
-// 300ms sonra çalıştır, kategori ekranı hazır olsun
 setTimeout(openListingFromHashSafe, 300);
 
 
@@ -1126,6 +1119,7 @@ eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
     window.location.href = item.dataset.page;
   });
 });
+
 
 
 
