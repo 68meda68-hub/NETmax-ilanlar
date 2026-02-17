@@ -8,17 +8,19 @@ const listingsData = [
     location: "Çiftlik Mah / Aksaray",
     price: "180 / m²",
     currency: "EUR",
-    zoning: "Konut Alanı , E=0.90",
+    zoning: "Konut Alanı",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126920/3895/17/1767094781910",
-	coord:[33.992319, 38.390511],
-	cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
+	coord:[33.992319, 38.390511],			    // GOOGLE STREET KOORDİNATLARI
+	googlecoord: [38.390635, 33.992221],	// GOOGLE KOORDİNATLARI
+	cardImage: "images/satilik_arsa_2.png",    // 🔥 SADECE LİSTE
     images: [
-      "images/logo_2.png"                   // 🔥 MODAL
+      "images/logo_2.png"                     // 🔥 MODAL
     ],
     rooms: "-",
-    size: "816.15 m²",
+    area: "816.15 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 4,
@@ -26,16 +28,18 @@ const listingsData = [
     location: "Hassas Mah / Aksaray",
     price: "120 / m²",
     currency: "EUR",
-    zoning: "Konut Alanı , A-3",
+    zoning: "Konut Alanı",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/6920/5/1767095636317",
+	googlecoord: [38.410651, 33.972646],	// GOOGLE KOORDİNATLARI
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "2168.48 m²",
+    area: "2168.48 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu",
   },
   {
     id: 5,
@@ -43,16 +47,18 @@ const listingsData = [
     location: "Tacin Mah / Aksaray",
     price: "% 40",
     currency: "-",
-    zoning: "Ticaret-Konut Alanı,E=2.40",
+    zoning: "Ticaret-Konut",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126925/4553/1/1767096011253",
+	googlecoord: [38.368856, 33.996951],	// GOOGLE KOORDİNATLARI
 	cardImage: "images/kat_karsiligi.png",   // 🔥 SADECE LİSTE
     images: [
       "images/arazi-gelistirme.jpg"
     ],
     rooms: "-",
-    size: "1230.00 m²",
+    area: "1230.00 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 6,
@@ -60,17 +66,19 @@ const listingsData = [
     location: "Şifahane Mah / Aksaray",
     price: "250 / m²",
     currency: "EUR",
-    zoning: "Konut Alanı , A-3",
+    zoning: "Konut Alanı",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4304/8/1767096659685",
 	coord:[34.025409, 38.38774],
+	googlecoord: [38.387608, 34.025321],	// GOOGLE KOORDİNATLARI
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "426.32 m²",
+    area: "426.32 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 7,
@@ -80,6 +88,7 @@ const listingsData = [
     currency: "TRY",
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126926/901/10/1767096913469",
+	googlecoord: [38.396688, 34.02303],	// GOOGLE KOORDİNATLARI
     images: [
       "images/cengiz_iz/1.jpeg",
 	  "images/cengiz_iz/2.jpeg",
@@ -100,17 +109,19 @@ const listingsData = [
     location: "Şifahane Mah / Aksaray",
     price: "250 / m²",
     currency: "EUR",
-    zoning: "Konut Alanı , A-3",
+    zoning: "Konut Alanı",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/4301/8/1767098064916",
 	coord:[34.023949, 38.38894],
+	googlecoord: [38.389057, 34.02409],	// GOOGLE KOORDİNATLARI
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "557.89 m²",
+    area: "557.89 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 9,
@@ -121,13 +132,15 @@ const listingsData = [
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126959/2320/18/1767098938147",
 	coord:[34.035905, 38.362865],
+	googlecoord: [38.362612, 34.035636],	// GOOGLE KOORDİNATLARI
     images: [
       "images/sammaz_ozmel/1.JPG"
     ],
     rooms: "-",
-    size: "500 m²",
+    area: "500 m²",
     floor: "Zemin",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Kat Mülkiyetli",
   },
   {
     id: 10,
@@ -135,17 +148,19 @@ const listingsData = [
     location: "Çiftlik Mah / Aksaray",
     price: "210 / m²",
     currency: "EUR",
-    zoning: "Konut Alanı , E=0.90",
+    zoning: "Konut Alanı",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126924/3833/13/1767099705379",
 	coord:[33.999574, 38.393924],
+	googlecoord: [38.394005, 33.999362],	// GOOGLE KOORDİNATLARI
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "1003.91 m²",
+    area: "1003.91 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 11,
@@ -153,16 +168,18 @@ const listingsData = [
     location: "Hassas Mah / Aksaray",
     price: "70 / m²",
     currency: "EUR",
-    zoning: "Konut Alanı , E=0.20",
+    zoning: "Konut Alanı",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/7280/5/1767371807761",
+	googlecoord: [38.405968, 33.96367],	// GOOGLE KOORDİNATLARI
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "2412.81 m²",
+    area: "2412.81 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 12,
@@ -177,9 +194,10 @@ const listingsData = [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "23254.21 m²",
+    area: "23254.21 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 13,
@@ -194,9 +212,10 @@ const listingsData = [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "32711.42 m²",
+    area: "32711.42 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 14,
@@ -211,9 +230,10 @@ const listingsData = [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "15000 m²",
+    area: "15000 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 15,
@@ -228,9 +248,10 @@ const listingsData = [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "25145 m²",
+    area: "25145 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 16,
@@ -245,9 +266,10 @@ const listingsData = [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "45972.98 m²",
+    area: "45972.98 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 17,
@@ -258,14 +280,16 @@ const listingsData = [
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/6/1767525549081",
 	coord:[34.058325, 38.314204],
+	googlecoord: [38.31396, 34.0576],	// GOOGLE KOORDİNATLARI
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "700 m²",
+    area: "700 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 18,
@@ -276,14 +300,16 @@ const listingsData = [
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/5/1767525843966",
 	coord:[34.058325, 38.314204],
+	googlecoord: [38.314056, 34.057859],	// GOOGLE KOORDİNATLARI
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "700 m²",
+    area: "700 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 19,
@@ -294,14 +320,16 @@ const listingsData = [
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/4/1767525967125",
 	coord:[34.058325, 38.314204],
+	googlecoord: [38.314146, 34.058121],	// GOOGLE KOORDİNATLARI
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "763 m²",
+    area: "763 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 20,
@@ -312,14 +340,16 @@ const listingsData = [
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/3/1767526106535",
 	coord:[34.058021, 38.314425],
+	googlecoord: [38.314352, 34.057841],	// GOOGLE KOORDİNATLARI
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "987 m²",
+    area: "987 m²",
     floor: "-",
-    age: "-"
+    age: "-",
+	titledeedstatus: "Müstakil Tapulu"
   },
   {
     id: 21,
@@ -330,16 +360,18 @@ const listingsData = [
     zoning: "Ticari",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126950/670/2/1767526168481",
 	coord:[34.058021, 38.314425],
+	googlecoord: [38.314246, 34.057531],	// GOOGLE KOORDİNATLARI
     cardImage: "images/satilik_arsa_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "987 m²",
+    area: "987 m²",
     floor: "-",
     age: "-",
-	features: "-"
-  }, 		// ← Yeni ilanlar
+	features: "-",
+	titledeedstatus: "Müstakil Tapulu"
+  }, 		
   {
     id: 22,
     title: "3+1 Daire",
@@ -347,7 +379,8 @@ const listingsData = [
     price: 6000000,
     currency: "TRY",
     zoning: "-",
-    parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/2962/16/1770720594916",
+	parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126916/2962/16/1770720594916",
+	googlecoord: [38.388422, 34.012967],	// GOOGLE KOORDİNATLARI
     cardImage: "images/emin_acar/1.jpeg",   // 🔥 SADECE LİSTE
     images: [
       "images/emin_acar/1.jpeg",                  // 🔥 MODAL
@@ -362,9 +395,15 @@ const listingsData = [
     rooms: "3+1",
     size: "150 m²",
     floor: "3",
+	numberoffloor: "3",
+	balcony: "Var",
     age: "1",
-	features: "Kombili,Cam Balkonlu",
-	swap: "Araç Takaslı"
+	swap: "Araç Takaslı",
+	heating: "Kombi Doğalgaz",
+	description:
+		"Cam Balkonlu\n" +
+		"Kombisi Takılı\n" +
+		"Geniş Balkon ( 21 m² )"
   },
   {
     id: 23,
@@ -374,15 +413,17 @@ const listingsData = [
     currency: "EUR",
     zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/idari/126914/4466/6/1767641262460",
+	googlecoord: [38.369258, 34.00708],	// GOOGLE KOORDİNATLARI
     cardImage: "images/satilik_dukkan_2.png",   // 🔥 SADECE LİSTE
     images: [
       "images/logo_2.png"                   // 🔥 MODAL
     ],
     rooms: "-",
-    size: "400 m²",
+    area: "400 m²",
     floor: "-",
     age: "-",
-	features: "-"
+	features: "-",
+	titledeedstatus: "Kat Mülkiyetli"
   },
   {
     id: 24,
@@ -390,9 +431,9 @@ const listingsData = [
     location: "Şifahane Mah / Aksaray",
     price: 5800000,
     currency: "TRY",
-    zoning: "-",
     parcelUrl: "https://parselsorgu.tkgm.gov.tr/#ara/cografi/38.39538642485814/34.0180116891861",
 	coord:[34.017955,38.39559],
+	googlecoord: [38.39559, 34.017955],	// GOOGLE KOORDİNATLARI
     images: [
       "images/yon_grup/1.jpeg",
 	  "images/yon_grup/2.jpeg",
@@ -415,27 +456,58 @@ const listingsData = [
     rooms: "3+1",
     size: "140 m²",
     floor: "4",
+	numberoffloor: "8",
     age: "6-10",
-	heating: "Merkezi",
-	features: "Kapalı otopark,site güvenliği,havuz,hamam,sauna"
+	heating: "Merkezi Doğalgaz",
+	balcony: "Var",
+	lift: "Var",
+	parking: "Var",
+	site: "Evet",
+	usecase: "Mülk Sahibi",
+	titledeedstatus: "Kat Mülkiyetli",
+	description:
+		"Şifahane Mahallesi merkezi konum\n" +
+		"140 m² geniş ve ferah kullanım alanı\n" +
+		"3+1 fonksiyonel daire planı\n" +
+		"Aydınlık cephe\n" +
+		"4. Kat\n" +
+		"Merkezi Doğalgaz Isıtma\n" +
+		"Site içerisinde havuz ve sauna\n" +
+		"Asansör mevcut\n" +
+		"Otopark mevcut\n" +
+		"Balkon var\n" +
+		"Güvenli site yaşamı\n" +
+		"Mülk sahibinden\n" +
+		"Yüksek yatırım potansiyeli"
+
   }
   
 ];
 
 /* =========================
-title:        "Başlık",
-location:     "Konum",
-price:        "Fiyat",
-currency:     "Para Birimi",
-rooms:        "Oda",
-size:         "Alan",
-floor:        "Kat",
-age:          "Bina Yaşı",
-zoning:       "İmar Durumu",
-features:     "Özellikler",
-swap:         "Takas",
-indoorsize:   "Kapalı Alan",
-heating:      "Isıtma"
+title:           "Başlık",
+location:        "Konum",
+price:           "Fiyat",
+currency:        "Para Birimi",
+rooms:           "Oda Sayısı",
+size:            "m² Brüt",
+area:            "Alan",
+floor:           "Bulunduğu Kat",
+locatedfloor:    "Bulunduğu Kat",
+age:             "Bina Yaşı",
+zoning:          "İmar Durumu",
+features:        "Özellikler",
+swap:            "Takas",
+indoorsize:      "Kapalı Alan",
+heating:         "Isıtma",
+balcony:         "Balkon",
+lift:            "Asansör",
+parking:         "Otopark",
+site:            "Site İçerisinde",
+furnished:       "Eşyalı",
+numberoffloor:   "Kat Sayısı",
+usecase:         "Kullanım Durumu",
+titledeedstatus: "Tapu Durumu"
 ========================= */
 
 /* =========================
@@ -648,19 +720,40 @@ function renderCategoryListings(title) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+// ==========================
+// HASH İLE DİREKT İLAN AÇMA
+// ==========================
+function openListingFromHash() {
+  const hash = window.location.hash.replace("#", "");
+  if (!hash) return;
+
+  const id = Number(hash);
+  const item = listingsData.find(i => i.id === id);
+  if (!item) return;
+
+  // Önce doğru kategoriye git
+  renderCategoryListings(item.title);
+
+  // Küçük gecikme (DOM oluşsun diye)
+  setTimeout(() => {
+    const btn = document.querySelector(`.detail-btn[data-id="${id}"]`);
+    if (btn) btn.click();
+  }, 300);
+}
+
+window.addEventListener("load", openListingFromHash);
 
 /* =========================
    MODAL (AYNI – BOZULMAZ)
 ========================= */
 function setField(el, label, value) {
   if (value && value !== "-") {
-    el.innerHTML = `${label}: <span class="value-colored">${value}</span>`;
+    el.innerHTML = `${label} <span class="value-colored">${value}</span>`;
     el.style.display = "";
   } else {
     el.style.display = "none";
   }
 }
-
 
 document.addEventListener("click", e => {
 
@@ -679,37 +772,184 @@ document.addEventListener("click", e => {
   modalLocation.textContent = item.location;
   modalPrice.textContent = formatPrice(item.price, item.currency);
 
-  setField(modalRooms,    "Oda",      item.rooms);
-  setField(modalSize,     "Alan",     item.size);
-  setField(modalFloor,    "Kat",      item.floor);
-  setField(modalAge,      "Yaş",      item.age);
-  setField(modalZoning,   "İmar",     item.zoning);
-  setField(modalFeatures, "Özellik",  item.features);
-  setField(modalSwap,     "Takas",    item.swap);
-  setField(modalIndoorSize,"Kapalı Alan", item.indoorsize);
-  setField(modalHeating,"Isıtma", item.heating);
+  setField(modalRooms,           "Oda Sayısı", item.rooms);
+  setField(modalSize,            "m² Brüt", item.size);
+  setField(modalArea,            "Alan", item.area);
+  setField(modalFloor,           "Bulunduğu Kat", item.floor);
+  setField(modalBalcony,         "Balkon", item.balcony);
+  setField(modalAge,             "Bina Yaşı", item.age);
+  setField(modalZoning,          "İmar Durumu", item.zoning);
+  setField(modalSwap,            "Takas", item.swap);
+  setField(modalIndoorSize,      "Kapalı Alan", item.indoorsize);
+  setField(modalHeating,         "Isıtma", item.heating);
+  setField(modalLift,      	     "Asansör", item.lift);
+  setField(modalParking,         "Otopark", item.parking);
+  setField(modalSite,            "Site İçerisinde", item.site);
+  setField(modalFurnished,       "Eşyalı", item.furnished);
+  setField(modalNumberOfFloor,   "Kat Sayısı", item.numberoffloor);
+  setField(modalUsecase,         "Kullanım Durumu", item.usecase);
+  setField(modalTitledeedstatus, "Tapu Durumu", item.titledeedstatus);
 
+  // 🔹 Açıklama paneli entegrasyonu
+	if (item.description && item.description.trim() !== "") {
+
+  detailsBtn.style.display = "inline-block";
+  modalFeatures.style.display = "none";
+  modalFeatures.classList.remove("show");
+
+  const lines = item.description.split("\n");
+
+  modalFeatures.innerHTML = lines
+    .map(line => `<div class="feature-line">${line}</div>`)
+    .join("");
+
+  detailsBtn.onclick = () => {
+
+    if (modalFeatures.style.display === "none") {
+
+      modalFeatures.style.display = "block";
+
+      // küçük gecikme ile animasyonu tetikle
+      setTimeout(() => {
+        modalFeatures.classList.add("show");
+      }, 10);
+
+      detailsBtn.textContent = "Kapat";
+
+      modalFeatures.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+    } else {
+
+      modalFeatures.classList.remove("show");
+
+      setTimeout(() => {
+        modalFeatures.style.display = "none";
+      }, 250);
+
+      detailsBtn.textContent = "Detaylar";
+    }
+  };
+
+} else {
+
+  detailsBtn.style.display = "none";
+  modalFeatures.style.display = "none";
+  modalFeatures.innerHTML = "";
+  detailsBtn.onclick = null;
+}
+
+
+  // Parsel butonu
   if (item.parcelUrl) {
     parcelBtn.style.display = "inline-block";
     parcelBtn.href = item.parcelUrl;
   } else {
     parcelBtn.style.display = "none";
   }
+  
+    // Google Maps butonu (yeni)
+  if (item.googlecoord && item.googlecoord.length === 2) {
+    mapsBtn.style.display = "inline-block"; // butonu göster
 
-  // 👁️ Street View
-  if (item.coord && item.coord.length === 2) {
-    const lng = item.coord[0];
-    const lat = item.coord[1];
+   mapsBtn.onclick = () => {
+  const lat = item.googlecoord[0];
+  const lng = item.googlecoord[1];
 
-    streetBtn.style.display = "inline-block";
-    streetBtn.href =
-      `https://www.google.com/maps?q=&layer=c&cbll=${lat},${lng}&cbp=11,0,0,0,0`;
+  // Modal oluştur
+  const modal = document.createElement("div");
+	modal.style.position = "fixed";
+	modal.style.top = "0";
+	modal.style.left = "0";
+	modal.style.width = "100%";
+	modal.style.height = "100%";
+	modal.style.background = "rgba(0,0,0,0.6)";
+	modal.style.display = "flex";
+	modal.style.alignItems = "center";
+	modal.style.justifyContent = "center";
+	modal.style.zIndex = "99999";
+
+	// İç kutu
+	const content = document.createElement("div");
+	content.style.width = "80%";
+	content.style.maxWidth = "900px";
+	content.style.height = "500px";
+	content.style.background = "#fff";
+	content.style.borderRadius = "10px";
+	content.style.overflow = "hidden";
+	content.style.position = "relative";
+
+	// Kapat butonu
+	const closeBtn = document.createElement("button");
+	closeBtn.innerHTML = "✕";
+	closeBtn.style.position = "absolute";
+	closeBtn.style.top = "10px";
+	closeBtn.style.right = "10px";
+	closeBtn.style.zIndex = "20";
+	closeBtn.style.background = "#fff";
+	closeBtn.style.border = "none";
+	closeBtn.style.fontSize = "18px";
+	closeBtn.style.cursor = "pointer";
+
+	closeBtn.onclick = () => document.body.removeChild(modal);
+
+	// Street View butonu
+	const streetBtn = document.createElement("button");
+	streetBtn.innerHTML = "Street View";
+	streetBtn.style.position = "absolute";
+	streetBtn.style.bottom = "70px";   // yukarı konum
+	streetBtn.style.left = "10px";
+	streetBtn.style.zIndex = "20";
+	streetBtn.style.padding = "4px 8px";
+	streetBtn.style.background = "#1976d2";   // mavi zemin
+	streetBtn.style.color = "#ffffff";        // beyaz yazı
+	streetBtn.style.border = "none";
+	streetBtn.style.borderRadius = "4px";
+	streetBtn.style.fontSize = "11px";
+	streetBtn.style.cursor = "pointer";
+	streetBtn.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+
+
+	// Iframe
+	const iframe = document.createElement("iframe");
+
+	// 1️⃣ Önce normal harita
+	iframe.src = `https://www.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
+
+	iframe.style.width = "100%";
+	iframe.style.height = "100%";
+	iframe.style.border = "0";
+
+	// 2️⃣ Butona basınca Street View'a geç
+	streetBtn.onclick = () => {
+
+	  const lat = item.googlecoord[0];
+	  const lng = item.googlecoord[1];
+
+	  const streetUrl =
+		`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lng}&radius=300`;
+
+	  window.open(streetUrl, "_blank");
+	};
+
+	// Birleştir
+	content.appendChild(closeBtn);
+	content.appendChild(streetBtn);
+	content.appendChild(iframe);
+	modal.appendChild(content);
+	document.body.appendChild(modal);
+
+	};
+
   } else {
-    streetBtn.style.display = "none";
+    mapsBtn.style.display = "none"; // koordinat yoksa gizle
+    mapsBtn.onclick = null;
   }
-
   modalOverlay.style.display = "flex";
 });
+
 
 
 
@@ -738,6 +978,7 @@ nextBtn.onclick = e => {
    BAŞLAT
 ========================= */
 renderCategories();
+openListingFromHash();
 
 /* =========================
    MODAL KAPATMA – FIX
@@ -844,6 +1085,8 @@ eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
     window.location.href = item.dataset.page;
   });
 });
+
+
 
 
 
