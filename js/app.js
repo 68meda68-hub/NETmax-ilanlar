@@ -836,7 +836,7 @@ document.addEventListener("click", e => {
         modalFeatures.style.display = "none";
       }, 250);
 
-      detailsBtn.textContent = "Detaylar";
+      detailsBtn.textContent = "Açıklamalar";
     }
   };
 
@@ -1091,6 +1091,7 @@ eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
     window.location.href = item.dataset.page;
   });
 });
+
 
 
 
