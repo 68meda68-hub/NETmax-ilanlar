@@ -729,17 +729,26 @@ function openListingFromHash() {
 
   const id = Number(hash);
   const item = listingsData.find(i => i.id === id);
-  if (!item) return;
+  if (!item) {
+    console.warn("İlan bulunamadı:", id);
+    return;
+  }
 
-  // Önce doğru kategoriye git
+  // Kategori listesi oluştur
   renderCategoryListings(item.title);
 
-  // Küçük gecikme (DOM oluşsun diye)
-  setTimeout(() => {
+  // Modal butonu DOM’a gelene kadar bekle
+  const tryOpen = () => {
     const btn = document.querySelector(`.detail-btn[data-id="${id}"]`);
-    if (btn) btn.click();
-  }, 300);
+    if (btn) {
+      btn.click();
+    } else {
+      setTimeout(tryOpen, 100);
+    }
+  };
+  tryOpen();
 }
+
 
 /* =========================
    MODAL (AYNI – BOZULMAZ)
@@ -1083,6 +1092,7 @@ eduDropdown.querySelectorAll(".dropdown-item").forEach(item => {
     window.location.href = item.dataset.page;
   });
 });
+
 
 
 
