@@ -284,18 +284,85 @@ body {
 
 .features {
   list-style: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 12px;
+  display: block;
   font-size: 12px;
   color: #444;
   margin-bottom: 12px;
+
+  max-height: 140px;
+  overflow-y: auto;
+
+  /* Mobil kayma yumuşatma */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+
+  /* Firefox için */
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
 }
 
 .features li {
-  background: #f5f5f5;
-  padding: 6px 8px;
-  border-radius: 8px;
+  position: relative;       /* span için referans noktası */
+}
+
+/* Değerleri ortadan başlatıp sağa kaydır */
+.features li .value-colored {
+  position: absolute;
+  left: 50%;               /* ortadan başlasın */
+  transform: translateX(0); /* tam ortadan değil, biraz sağa doğru */
+  white-space: nowrap;
+  text-align: left;
+}
+
+
+/* Chrome, Edge, Safari */
+.features::-webkit-scrollbar {
+  width: 6px;
+}
+
+.features::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.features::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.features::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* 📱 Mobil için biraz daha optimize */
+@media (max-width: 768px) {
+  .features {
+    max-height: 160px; /* mobilde biraz daha rahat alan */
+    font-size: 12px;
+  }
+
+  .features::-webkit-scrollbar {
+    width: 4px; /* mobilde daha ince */
+  }
+}
+body.modal-open {
+  overflow: hidden;
+}
+
+body.modal-open .listings {
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.modal,
+.modal-overlay {
+  overscroll-behavior: contain;
+}
+
+.features li {
+  background: #eee;
+  padding: 4px 8px;
+  border-radius: 4px;
+   margin-bottom: 5px;   /* 👈 satırlar arası boşluk */
 }
 
 .modal-actions {
@@ -316,6 +383,12 @@ body {
   white-space: nowrap;
   overflow: hidden;
 }
+@media (max-width: 480px) {
+  .modal-actions a {
+    font-size: 11px;   /* küçük ekran için azaltıldı */
+  }
+}
+
 
 .call-btn {
   background: #2ecc71;
@@ -337,7 +410,7 @@ body {
 .close-btn {
   position: absolute;   /* 🔥 ÖNEMLİ */
   top: 10px;
-  right: 10px;
+  left: 10px;
   padding: 4px 12px;
   background: rgba(0,0,0,0.5);
   color: #fff;
@@ -542,10 +615,11 @@ body {
 .back-btn {
   font-size: 13px;          /* biraz küçük */
   font-style: italic;
-  color: #555;
+  color: blue;
   cursor: pointer;
   transition: all 0.25s ease;
   position: relative;
+  font-weight: 600;
 }
 
 /* Hover (desktop) */
@@ -584,7 +658,7 @@ body {
 
 .value-colored {
   color: blue;   /* senin istediğin renk */
-  font-weight: 600;  /* opsiyonel */
+  font-weight: 400;  /* opsiyonel */
 }
 
 /* =========================
@@ -917,6 +991,8 @@ body {
   background: #000;
 }
 
+
+
 /* Dropdown'a X için üst boşluk aç */
 .dropdown {
   padding-top: 32px;   /* 👈 ASIL BOŞLUK BURADA */
@@ -937,6 +1013,151 @@ body {
 .dropdown-close:hover {
   color: #ff4d4d;
 }
+
+/* =====================================================
+   MODAL FEATURES ALANI
+   ===================================================== */
+
+#modalFeatures {
+
+  display: none;              /* Başlangıçta gizli. JS ile açılıyor */
+
+  max-height: 200px;          /* Sabit yükseklik. Bu değerden sonra scroll başlar */
+  overflow-y: auto;           /* Dikey scroll aktif */
+  overflow-x: hidden;         /* Yatay scroll kapalı */
+
+  width: 100%;                /* Modal genişliği kadar */
+  box-sizing: border-box;     /* Padding genişliğe dahil */
+
+  padding: 10px;              /* İç boşluk */
+  margin-top: 5px;            /* Üst boşluk */
+
+  border: 1px solid #ccc;     /* Çerçeve */
+  border-radius: 6px;         /* Yuvarlak köşe */
+  background: #f9f9f9;        /* Açık gri arka plan */
+
+  font-size: 12px;            /* Yazı boyutu */
+  line-height: 1.2;           /* Satır aralığı */
+
+  word-wrap: break-word;      /* Uzun kelimeler taşmaz, kırılır */
+
+  scrollbar-width: thin;      /* Firefox için ince scrollbar */
+  scrollbar-color: rgba(0,0,0,0.3) transparent; /* Firefox renk */
+}
+
+#modalFeatures {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  transform: translateY(1px);   /* 20px aşağıdan başlasın */
+  opacity: 0;
+}
+
+#modalFeatures.show {
+  transform: translateY(0);      /* Normal konuma gelsin */
+  opacity: 1;
+}
+
+/* =====================================================
+   HER BİR ÖZELLİK SATIRI
+   ===================================================== */
+
+.feature-line {
+  position: relative;         /* İkon için referans */
+  padding-left: 20px;         /* Sol boşluk (ikon alanı) */
+  margin-bottom: 6px;         /* Satırlar arası boşluk */
+}
+
+
+/* ✔ İKONU */
+
+.feature-line::before {
+  content: "✔";               /* Başına tik işareti */
+  position: absolute;
+  left: 0;
+  color: #16a34a;              /* Yeşil renk */
+  font-weight: bold;
+}
+
+
+/* =====================================================
+   DETAY BUTONU
+   ===================================================== */
+
+#detailsBtn {
+  display: none;              /* JS ile gösteriliyor */
+  width: 100%;                /* Modal genişliği kadar */
+  box-sizing: border-box;
+  padding: 4px;
+  margin-top: 0px;
+  font-size: 12px;
+  background-color: #007bff;  /* Mavi arka plan */
+  color: #fff;                /* Beyaz yazı */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;            /* Hover’da el işareti */
+  position: sticky;
+  top: 0;          /* Scroll ederken altta sabit */
+  z-index: 20;
+}
+
+
+/* Hover efekti */
+
+#detailsBtn:hover {
+  background-color: #0056b3;  /* Daha koyu mavi */
+}
+
+
+/* =====================================================
+   SCROLLBAR (Chrome / Edge / Safari)
+   ===================================================== */
+
+#modalFeatures::-webkit-scrollbar {
+  width: 5px;                 /* Scroll genişliği */
+}
+
+#modalFeatures::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.25);
+  border-radius: 20px;
+}
+
+#modalFeatures::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.45);
+}
+
+
+.button-container {
+  display: flex;        /* Butonları yan yana sıralar */
+  gap: 10px;            /* Butonlar arası boşluk */
+  margin-top: 10px;     /* Üstten boşluk */
+  position: sticky;     /* Scroll ederken container üstte sabit */
+  top: 0;               /* Üstten yapışacak */
+  background-color: #fff; /* Sticky olduğunda arka plan */
+  padding: 10px 0;      /* İç boşluk */
+  z-index: 100;         /* Diğer öğelerin üstünde */
+}
+#mapsBtn {
+  width: 100%;                /* Modal genişliği kadar */
+  box-sizing: border-box;
+  padding: 4px;
+  margin-top: 0px;
+  font-size: 12px;
+  background-color: #28a745;  /* Farklı renk: yeşil */
+  color: #fff;                /* Beyaz yazı */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;            /* Hover’da el işareti */
+  position: sticky;
+  top: 0;                     /* Scroll ederken üstte sabit */
+  z-index: 20;
+}
+
+/* Hover efekti */
+
+#mapsBtn:hover {
+  background-color: #218838; /* Hover: daha koyu yeşil */
+}
+
+
 
 
 
